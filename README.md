@@ -21,6 +21,6 @@
 Виртуальная машина - программа, которая создаёт арену для битвы чемпионов.
 
 
-## [Visualisation](https://github.com/Thereodorex/Corewar/tree/master/Visualisition)
+## [Visualisation](https://github.com/Thereodorex/Corewar/tree/master/Visualisation)
 
 Графическое представление необходимо для удобства восприятия процесса игры.

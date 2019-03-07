@@ -6,13 +6,16 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/21 19:04:29 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/02/13 11:38:46 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/02/26 19:29:53 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
 # include <string.h>
 
 void			ft_putchar(char c);
@@ -85,5 +88,16 @@ void			ft_strrev(char *s);
 long long int	ft_atoll (const char *str);
 char			*ft_rejoin(char *s1, char const *s2);
 int				ft_atoi_base(const char *str, int base);
+
+char			*putl(char *line, char *del);
+int				ft_strcm(char *s1, char *s2);
+
+char			**arg_create(char *str, char *del);
+char			**arg_del(char **matrix);
+void			arg_cut(char **arg, char *dst);
+char			**arg_add(char **arg, char *str);
+void			arg_print(char **arg, char *del);
+int				arg_len(char **arg);
+char			**arg_join(char **dst, char **src);
 
 #endif

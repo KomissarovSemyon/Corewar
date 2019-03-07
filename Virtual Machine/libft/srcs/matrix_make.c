@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/25 21:03:36 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/02/27 17:30:18 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/07 03:58:25 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,6 @@ char			**arg_copy(char **arg)
 	new[count] = NULL;
 	i = -1;
 	while (++i < count)
-		new[i] = fr_strdup(arg[i]);
+		new[i] = ft_strdup(arg[i]);
 	return (new);
 }

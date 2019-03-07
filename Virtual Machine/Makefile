@@ -6,18 +6,21 @@
 #    By: thgiraud <thgiraud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/17 17:47:51 by thgiraud          #+#    #+#              #
-#    Updated: 2019/03/05 21:48:07 by jcorwin          ###   ########.fr        #
+#    Updated: 2019/03/07 04:23:25 by jcorwin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 %.c : %.o
 
-NAME	= minishell
+NAME	= corewar
 
 SOURCES	= main.c \
+		  read_champs.c \
+		  usage.c
 
 INCLUDES= libft.h \
-		  VM.h
+		  vm.h \
+		  ft_printf.h
 
 # compiler
 CC		= gcc

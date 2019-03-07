@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 03:05:48 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/07 03:13:07 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/08 01:31:42 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,21 @@
 
 void		usage(void)
 {
-	
+	ft_printf("\n  usage: [-help] | [-a] [-d N | -s N | -vis | -n] ");
+	ft_printf("champ1.cor champ2.cor ...\n\n");
+	exit(0);
 }
 
 void		help(void)
 {
-
+	ft_printf("\n  usage: [-help] | [-a] [-d N | -s N | -vis | -n] ");
+	ft_printf("champ1.cor champ2.cor ...\n");
+	ft_printf("%10s%10s %s\n", "-a", ":  ", "print champ's comment");
+	ft_printf("%12s%8s %s\n", "-d N", ":  ",
+								"dump memory after N cycles then exit");
+	ft_printf("%12s%8s %s\n", "-s N", ":  ",
+						"runs N cycles, dumps memory, pauses, then repeats");
+	ft_printf("%10s%10s %s\n", "-n", ":  ", "ncurses output mode");
+	ft_printf("%12s%8s %s\n\n", "-vis", ":  ", "visual output mode");
+	exit(0);
 }

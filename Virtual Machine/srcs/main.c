@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:47:41 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/07 03:34:16 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/08 02:36:58 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int		get_arg2(char *str, t_param *p)
 	return (0);
 }
 
-static int		get_arg(int *i, char **argv, t_param *p)
+static int		get_arg(int *i, int argc, char **argv, t_param *p)
 {
 	if (!ft_strcmp(argv[*i], "-a"))
 		p->flag.comment = 1;
@@ -66,7 +66,8 @@ static int		get_arg(int *i, char **argv, t_param *p)
 		if (p->flag.step)
 			return (1);
 		p->flag.mode = DUMP_MODE;
-		++(*i);
+		if (++(*i) == argc)
+			usage();
 		p->flag.step = ft_atoi(argv[*i]);
 	}
 	else if (!ft_strcmp(argv[*i], "-s"))
@@ -74,7 +75,8 @@ static int		get_arg(int *i, char **argv, t_param *p)
 		if (p->flag.step)
 			return (1);
 		p->flag.mode = STEP_MODE;
-		++(*i);
+		if (++(*i) == argc)
+			usage();
 		p->flag.step = ft_atoi(argv[*i]);
 	}
 	else
@@ -93,12 +95,14 @@ int				main(int argc, char **argv)
 	while (++i < argc)
 		if ((f = arg_champ(argv[i])))
 			break ;
-		else if ((f = get_arg(&i, argv, &p)))
+		else if ((f = get_arg(&i, argc, argv, &p)))
 			break ;
-	while (++i < argc && f == 2)
-		if ((f = arg_champ(argv[i])))
-			f = get_champ(argv[i], &p);
-	if (i != argc)
+	while (i < argc && f == 2)
+		if ((f = arg_champ(argv[i])) == 2)
+			f = get_champ(argv[i++], &p);
+		else
+			break ;
+	if (i != argc || argc == 1 || f != 2)
 		usage();
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:48:39 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/07 03:18:38 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/07 23:36:08 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "op.h"
 # include "libft.h"
+# include "ft_printf.h"
 # include <stdlib.h>
 
 # define DEFAULT_MODE 0

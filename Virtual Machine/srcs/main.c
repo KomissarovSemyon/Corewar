@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:47:41 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/08 02:36:58 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/13 03:00:59 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,20 @@ int				main(int argc, char **argv)
 			break ;
 	while (i < argc && f == 2)
 		if ((f = arg_champ(argv[i])) == 2)
-			f = get_champ(argv[i++], &p);
+		{
+			f = get_champ(argv[i], &p, i);
+			++i;
+		}
 		else
 			break ;
 	if (i != argc || argc == 1 || f != 2)
 		usage();
+	i = -1;
+	while (p.champs[++i].magic != 0)
+	{
+		ft_putendl(p.champs[i].name);
+		ft_putendl(p.champs[i].comment);
+		print_bytes(p.champs[i].champ, p.champs[i].champ_size);
+	}
 	return (0);
 }

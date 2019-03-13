@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:48:39 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/07 23:36:08 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/13 02:51:55 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include "op.h"
 # include "libft.h"
 # include "ft_printf.h"
+# include <unistd.h>
+# include <fcntl.h>
 # include <stdlib.h>
 
 # define DEFAULT_MODE 0
@@ -26,10 +28,12 @@
 
 typedef struct		s_champ
 {
-	char		name[PROG_NAME_LENGTH + 1];
-	char		comment[COMMENT_LENGTH + 1];
-	int			champ_size;
-	char		champ[CHAMP_MAX_SIZE + 1];
+	unsigned int	magic;
+	char			name[PROG_NAME_LENGTH + 1];
+	char			comment[COMMENT_LENGTH + 1];
+	unsigned int	champ_size;
+	char			champ[CHAMP_MAX_SIZE + 1];
+	char			null_term[4];
 }					t_champ;
 
 typedef	struct		s_flags
@@ -38,6 +42,7 @@ typedef	struct		s_flags
 	int		step;
 	char	verb;
 	char	mode;
+	int		id;
 }					t_flags;
 
 
@@ -49,10 +54,12 @@ typedef struct		s_param
 	t_flags		flag;
 }					t_param;
 
-int					get_champ(char *str, t_param *p);
+int					get_champ(char *str, t_param *p, int id);
 
 void				usage(void);
 void				help(void);
+void				malloc_err(void);
 
+void				print_bytes(char *str, int len);
 
 #endif

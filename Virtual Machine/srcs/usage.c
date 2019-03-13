@@ -6,11 +6,17 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/07 03:05:48 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/08 01:31:42 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/13 01:15:15 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
+
+void		malloc_err(void)
+{
+	ft_printf("Error: Can't allocate memory...");
+	exit(0);
+}
 
 void		usage(void)
 {

@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:48:39 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/13 18:50:59 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/14 17:50:30 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 
 typedef struct		s_champ
 {
+	char			*file;
 	unsigned int	magic;
 	char			name[PROG_NAME_LENGTH + 1];
 	char			comment[COMMENT_LENGTH + 1];
@@ -68,10 +69,11 @@ typedef	struct		s_flags
 
 typedef struct		s_param
 {
-	int			champ_arg;
-	t_champ		champs[MAX_PLAYERS];
-	int			players;
-	t_flags		flag;
+	int				champ_arg;
+	t_champ			champs[MAX_PLAYERS];
+	int				players;
+	t_flags			flag;
+	unsigned char	map[MEM_SIZE + 1];
 }					t_param;
 
 int					get_champ(char *str, t_param *p, int id);
@@ -80,6 +82,8 @@ void				usage(void);
 void				help(void);
 void				malloc_err(void);
 
-void				print_bytes(char *str, int len);
+void				print_bytes(unsigned char *str, int len);
+void				map_init(t_param *p);
+void				map_print(t_param *p);
 
 #endif

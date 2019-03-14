@@ -6,7 +6,7 @@
 #    By: thgiraud <thgiraud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/17 17:47:51 by thgiraud          #+#    #+#              #
-#    Updated: 2019/03/13 02:52:10 by jcorwin          ###   ########.fr        #
+#    Updated: 2019/03/14 17:18:07 by jcorwin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ NAME	= corewar
 SOURCES	= main.c \
 		  read_champs.c \
 		  usage.c \
-		  print.c
+		  map.c
 
 INCLUDES= libft.h \
 		  vm.h \

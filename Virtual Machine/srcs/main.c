@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:47:41 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/13 18:54:01 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/14 17:51:46 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,14 @@ int				main(int argc, char **argv)
 			break ;
 	if (i != argc || argc == 1 || f != 2)
 		usage();
-	i = -1;
-	while (++i < p.players)
-	{
-		ft_putendl(p.champs[i].name);
-		ft_putendl(p.champs[i].comment);
-		print_bytes(p.champs[i].champ, p.champs[i].champ_size);
-	}
+//	i = -1;
+//	while (++i < p.players)
+//	{
+//		ft_putendl(p.champs[i].name);
+//		ft_putendl(p.champs[i].comment);
+//		print_bytes(p.champs[i].champ, p.champs[i].champ_size);
+//	}
+	map_init(&p);
+	map_print(&p);
 	return (0);
 }

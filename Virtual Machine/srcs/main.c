@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:47:41 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/13 03:00:59 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/13 18:54:01 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void		param_init(t_param *p)
 {
 	p->champ_arg = 0;
-	p->champs = NULL;
+	p->players = 0;
 	p->flag.comment = 0;
 	p->flag.step = 0;
 	p->flag.verb = 0;
@@ -108,7 +108,7 @@ int				main(int argc, char **argv)
 	if (i != argc || argc == 1 || f != 2)
 		usage();
 	i = -1;
-	while (p.champs[++i].magic != 0)
+	while (++i < p.players)
 	{
 		ft_putendl(p.champs[i].name);
 		ft_putendl(p.champs[i].comment);

@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 20:18:26 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/07 03:14:41 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/13 18:42:32 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,9 @@
 # define REG_SIZE				4
 # define DIR_SIZE				REG_SIZE
 
-
 # define REG_CODE				1
 # define DIR_CODE				2
 # define IND_CODE				3
-
 
 # define MAX_ARGS_NUMBER		4
 # define MAX_PLAYERS			4
@@ -59,10 +57,10 @@ typedef char					t_arg_type;
 
 typedef struct					s_header
 {
-	unsigned int        magic;
-	char                prog_name[PROG_NAME_LENGTH + 1];
-	unsigned int        prog_size;
-	char                comment[COMMENT_LENGTH + 1];
+	unsigned int		magic;
+	char				prog_name[PROG_NAME_LENGTH + 1];
+	unsigned int		prog_size;
+	char				comment[COMMENT_LENGTH + 1];
 }								t_header;
 
 #endif

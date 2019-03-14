@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:48:39 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/13 02:51:55 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/13 18:50:59 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,28 @@ typedef struct		s_champ
 	unsigned int	champ_size;
 	char			champ[CHAMP_MAX_SIZE + 1];
 	char			null_term[4];
+	int				color;
 }					t_champ;
+
+typedef struct		s_cage
+{
+	char		value;
+	int			color;
+	int			process;
+}					t_cage;
+
+typedef struct		s_process
+{
+	int			id;
+	char		r[REG_NUMBER][REG_SIZE];
+	int			carry;
+	int			pc;
+	int			op;
+	int			optime;
+	int			livin;
+	int			step;
+	int			moved;
+}					t_process;
 
 typedef	struct		s_flags
 {
@@ -45,12 +66,11 @@ typedef	struct		s_flags
 	int		id;
 }					t_flags;
 
-
-
 typedef struct		s_param
 {
 	int			champ_arg;
-	t_champ		*champs;
+	t_champ		champs[MAX_PLAYERS];
+	int			players;
 	t_flags		flag;
 }					t_param;
 

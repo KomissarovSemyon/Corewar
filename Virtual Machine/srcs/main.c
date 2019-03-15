@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:47:41 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/14 17:51:46 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/14 18:01:38 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void		param_init(t_param *p)
 	p->flag.step = 0;
 	p->flag.verb = 0;
 	p->flag.mode = 0;
+	p->process = NULL;
 }
 
 static int		arg_champ(char *str)

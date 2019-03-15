@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:48:39 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/14 17:50:30 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/14 18:03:12 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,16 @@ typedef struct		s_cage
 
 typedef struct		s_process
 {
-	int			id;
-	char		r[REG_NUMBER][REG_SIZE];
-	int			carry;
-	int			pc;
-	int			op;
-	int			optime;
-	int			livin;
-	int			step;
-	int			moved;
+	int					id;
+	char				r[REG_NUMBER][REG_SIZE];
+	int					carry;
+	int					pc;
+	int					op;
+	int					optime;
+	int					livin;
+	int					step;
+	int					moved;
+	struct s_process	*next;
 }					t_process;
 
 typedef	struct		s_flags
@@ -74,6 +75,7 @@ typedef struct		s_param
 	int				players;
 	t_flags			flag;
 	unsigned char	map[MEM_SIZE + 1];
+	t_process		*process;
 }					t_param;
 
 int					get_champ(char *str, t_param *p, int id);

@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:47:41 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/14 18:01:38 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/15 23:17:18 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static void		param_init(t_param *p)
 	p->flag.verb = 0;
 	p->flag.mode = 0;
 	p->process = NULL;
+	p->cycles_to_die = CYCLE_TO_DIE;
+	p->current_cycle = 0;
 }
 
 static int		arg_champ(char *str)
@@ -106,6 +108,7 @@ int				main(int argc, char **argv)
 		}
 		else
 			break ;
+	p.winner = p.players - 1;
 	if (i != argc || argc == 1 || f != 2)
 		usage();
 //	i = -1;

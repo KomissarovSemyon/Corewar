@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: thgiraud <thgiraud@student.42.fr>          +#+  +:+       +#+         #
+#    By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/17 17:47:51 by thgiraud          #+#    #+#              #
-#    Updated: 2019/03/16 02:28:49 by jcorwin          ###   ########.fr        #
+#    Updated: 2019/03/17 00:38:49 by rrhaenys         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ SOURCES	= main.c \
 		  usage.c \
 		  map.c \
 		  command_read.c \
-		  command_do.c
+		  command_do.c \
+		  op_check.c
 
 INCLUDES= libft.h \
 		  vm.h \

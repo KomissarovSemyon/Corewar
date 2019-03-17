@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vm.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:48:39 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/16 02:36:44 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/17 00:37:40 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct		s_process
 	int					id;
 	unsigned char		r[REG_NUMBER][REG_SIZE];
 	int					carry;
+	unsigned char		*map;
 	unsigned char		*pc;
 	int					wait;
 	int					livin;
@@ -122,5 +123,36 @@ void				map_print(t_param *p);
 
 void				op_read(t_process *p);
 void				op_args(t_process *p);
+
+int					op_check(t_process *p);
+int					op_check_live(t_process *p);
+int					op_check_ld(t_process *p);
+int					op_check_st(t_process *p);
+int					op_check_add(t_process *p);
+int					op_check_sub(t_process *p);
+int					op_check_and(t_process *p);
+int					op_check_or(t_process *p);
+int					op_check_xor(t_process *p);
+int					op_check_zjmp(t_process *p);
+int					op_check_ldi(t_process *p);
+int					op_check_sti(t_process *p);
+int					op_check_fork(t_process *p);
+int					op_check_lld(t_process *p);
+int					op_check_lldi(t_process *p);
+int					op_check_lfork(t_process *p);
+int					op_check_aff(t_process *p);
+
+typedef struct		s_funs
+{
+	char	*name;
+	int		nb_params;
+	char	params_type[3];
+	int		id;
+	int		cycles;
+	char	description[50];
+	int		codage;
+	int		label_size;
+	int		(*check_fun)(t_process *p);
+}					t_funs;
 
 #endif

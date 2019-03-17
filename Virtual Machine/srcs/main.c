@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:47:41 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/15 23:17:18 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/17 09:06:22 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,5 +120,6 @@ int				main(int argc, char **argv)
 //	}
 	map_init(&p);
 	map_print(&p);
+	start_game(&p);
 	return (0);
 }

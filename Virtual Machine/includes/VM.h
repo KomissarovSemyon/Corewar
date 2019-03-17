@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:48:39 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/16 02:36:44 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/17 09:06:08 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,7 @@
 # define LFORK 15
 # define AFF 16
 
-# define REG 1
-# define DIR 2
-# define INC 3
-
+/* чемпион */
 typedef struct		s_champ
 {
 	char			*file;
@@ -59,6 +56,7 @@ typedef struct		s_champ
 	int				color;
 }					t_champ;
 
+/*ячейка памяти*/
 typedef struct		s_cage
 {
 	char		value;
@@ -66,6 +64,7 @@ typedef struct		s_cage
 	int			process;
 }					t_cage;
 
+/*операция*/
 typedef struct		s_op
 {
 	unsigned char	*ptr;
@@ -74,11 +73,13 @@ typedef struct		s_op
 	unsigned char	*arg[3];
 }					t_op;
 
+/*каретка*/
 typedef struct		s_process
 {
 	int					id;
 	unsigned char		r[REG_NUMBER][REG_SIZE];
 	int					carry;
+	unsigned char		*map;
 	unsigned char		*pc;
 	int					wait;
 	int					livin;
@@ -88,6 +89,7 @@ typedef struct		s_process
 	struct s_process	*next;
 }					t_process;
 
+/*флаги программы*/
 typedef	struct		s_flags
 {
 	char	comment;
@@ -97,6 +99,7 @@ typedef	struct		s_flags
 	int		id;
 }					t_flags;
 
+/*основные параметры*/
 typedef struct		s_param
 {
 	int				champ_arg;
@@ -122,5 +125,15 @@ void				map_print(t_param *p);
 
 void				op_read(t_process *p);
 void				op_args(t_process *p);
+
+void				process_new(t_param *p, t_process *parent, unsigned char *pc);
+void				process_die(t_param *p, t_process *die);
+
+unsigned char		*get_step(unsigned char *map, unsigned char *ptr, int step);
+long				get_value(unsigned char *ptr, int size);
+void				set_value(unsigned char *dst, long src, int size);
+
+void				do_op(t_param *param, t_process *process);
+void				start_game(t_param *param);
 
 #endif

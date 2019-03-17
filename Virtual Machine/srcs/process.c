@@ -6,26 +6,11 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 17:59:06 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/15 19:07:56 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/17 09:04:22 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
-
-void			process_free(t_param *p)
-{
-	t_process	*prev;
-	t_process	*cur;
-
-	cur = p->process;
-	while (cur)
-	{
-		prev = cur;
-		cur = cur->next;
-		free(prev);
-	}
-	p->process = NULL;
-}
 
 void			process_die(t_param *p, t_process *die)
 {
@@ -46,14 +31,24 @@ void			process_die(t_param *p, t_process *die)
 	}
 }
 
-void			process_new(t_param *p, t_process *parent)
+void			process_new(t_param *p, t_process *parent, unsigned char *pc)
 {
 	t_process	*new;
+	int			i;
 
 	if (!(new = (t_process *)malloc(sizeof(t_process))))
 		malloc_err();
+	i = -1;
+	new->map = p->map;
+	new->pc = pc;
 	new->next = p->process;
 	new->id = p->process ? p->process->id + 1 : 1;
-	ft_memcpy(&new->r[0], &parent->r[0], REG_SIZE);
+	if (parent)
+		ft_memcpy(new->r, parent->r, REG_NUMBER * REG_SIZE);
+	else
+	{
+		ft_bzero(new->r, REG_NUMBER * REG_SIZE);
+		new->r[0][REG_SIZE - 1] = -1 * new->id;
+	}
 	p->process = new;
 }

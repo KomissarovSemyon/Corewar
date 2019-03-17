@@ -6,25 +6,11 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 19:40:27 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/16 02:37:18 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/17 01:00:48 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
-
-static int			get_value(unsigned char *ptr, int size)
-{
-	int			i;
-	int			res;
-
-	i = 0;
-	while (++i < size)
-		++ptr;
-	res = 0;
-	while (i--)
-		res = (res << 8) + *ptr--;
-	return (res);
-}
 
 static void			op_type(t_process *p)
 {
@@ -51,19 +37,22 @@ void				op_args(t_process *p)
 	while (++i < 3)
 		if (p->op.arg_type[i] == 0)
 			break ;
-		else if (p->op.arg_type[i] == REG)
+		else if (p->op.arg_type[i] == REG_CODE)
 		{
 			p->op.arg[i] = &p->r[*p->op.ptr];
 			p->op.ptr++;
 		}
-		else if (p->op.arg_type[i] == DIR)
+		else if (p->op.arg_type[i] == DIR_CODE)
 		{
-			p->op.arg[i] = &p->op.ptr;
+			p->op.arg[i] = p->op.ptr;
 			p->op.ptr += DIR_SIZE;
 		}
 		else
 		{
-			p->op.arg[i] = p->op.ptr + get_value(p->op.ptr, IND_SIZE) % IDX_MOD;
+			if (p->op.type != LLD && p->op.type != LLDI)
+				p->op.arg[i] = p->op.ptr + get_value(p->op.ptr, IND_SIZE) % IDX_MOD;
+			else
+				p->op.arg[i] = p->op.ptr + get_value(p->op.ptr, IND_SIZE);
 			p->op.ptr += IND_SIZE;
 		}
 }

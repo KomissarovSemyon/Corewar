@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:48:39 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/17 09:06:08 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/18 13:58:11 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,10 @@ typedef struct		s_cage
 typedef struct		s_op
 {
 	unsigned char	*ptr;
+	int				id;
 	char			type;
 	unsigned char	arg_type[3];
-	unsigned char	*arg[3];
+	long long int	arg[3];
 }					t_op;
 
 /*каретка*/
@@ -113,6 +114,19 @@ typedef struct		s_param
 	int				winner;
 }					t_param;
 
+typedef struct  s_funs
+{
+	 char *name;
+	  int  nb_params;
+	   char params_type[3];
+	    int  id;
+		 int  cycles;
+		  char description[50];
+		   int  codage;
+		    int  label_size;
+			 void  (*fun)(t_param *par, t_process *p);
+}     t_funs;
+
 int					get_champ(char *str, t_param *p, int id);
 
 void				usage(void);
@@ -130,10 +144,55 @@ void				process_new(t_param *p, t_process *parent, unsigned char *pc);
 void				process_die(t_param *p, t_process *die);
 
 unsigned char		*get_step(unsigned char *map, unsigned char *ptr, int step);
-long				get_value(unsigned char *ptr, int size);
-void				set_value(unsigned char *dst, long src, int size);
+long long			get_value(unsigned char *map, unsigned char *ptr, int size);
+void				set_value(unsigned char *map, unsigned char *dst,
+												long long src, int size);
 
 void				do_op(t_param *param, t_process *process);
 void				start_game(t_param *param);
+
+void				op_live(t_param *param, t_process *process);
+void				op_ld(t_param *param, t_process *process);
+void				op_lld(t_param *param, t_process *process);
+void				op_st(t_param *param, t_process *process);
+void				op_add(t_param *param, t_process *process);
+void				op_sub(t_param *param, t_process *process);
+void				op_and(t_param *param, t_process *process);
+void				op_or(t_param *param, t_process *process);
+void				op_xor(t_param *param, t_process *process);
+void				op_zjmp(t_param *param, t_process *process);
+void				op_sti(t_param *param, t_process *process);
+void				op_ldi(t_param *param, t_process *process);
+void				op_lldi(t_param *param, t_process *process);
+void				op_fork(t_param *param, t_process *process);
+void				op_lfork(t_param *param, t_process *process);
+void				op_aff(t_param *param, t_process *process);
+
+static t_funs    g_op_tab[17] =
+{
+	 {"live", 1, {T_DIR}, 1, 10, "alive", 0, 4, &op_live},
+	  {"ld", 2, {T_DIR | T_IND, T_REG}, 2, 5, "load", 1, 4, &op_ld},
+	   {"st", 2, {T_REG, T_IND | T_REG}, 3, 5, "store", 1, 4, &op_st},
+	    {"add", 3, {T_REG, T_REG, T_REG}, 4, 10, "addition", 1, 4, &op_add},
+		 {"sub", 3, {T_REG, T_REG, T_REG}, 5, 10, "soustraction", 1, 4, &op_sub},
+		  {"and", 3, {T_REG | T_DIR | T_IND, T_REG | T_IND | T_DIR, T_REG}, 6, 6,
+			    "et (and  r1, r2, r3   r1&r2 -> r3", 1, 4, &op_and},
+		   {"or", 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 7, 6,
+			     "ou  (or   r1, r2, r3   r1 | r2 -> r3", 1, 4, &op_or},
+		    {"xor", 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 8, 6,
+				  "ou (xor  r1, r2, r3   r1^r2 -> r3", 1, 4, &op_xor},
+			 {"zjmp", 1, {T_DIR}, 9, 20, "jump if zero", 0, 2, &op_zjmp},
+			  {"ldi", 3, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 10, 25,
+				    "load index", 1, 2, &op_ldi},
+			   {"sti", 3, {T_REG, T_REG | T_DIR | T_IND, T_DIR | T_REG}, 11, 25,
+				     "store index", 1, 2, &op_sti},
+			    {"fork", 1, {T_DIR}, 12, 800, "fork", 0, 2, &op_fork},
+				 {"lld", 2, {T_DIR | T_IND, T_REG}, 13, 10, "long load", 1, 4, &op_lld},
+				  {"lldi", 3, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 14, 50,
+					    "long load index", 1, 2, &op_lldi},
+				   {"lfork", 1, {T_DIR}, 15, 1000, "long fork", 0, 2, &op_lfork},
+				    {"aff", 1, {T_REG}, 16, 2, "aff", 1, 4, &op_aff},
+					 {0, 0, {0}, 0, 0, 0, 0, 0, 0}
+};
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 19:40:27 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/17 01:00:48 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/18 13:14:17 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,22 @@ static void			op_type(t_process *p)
 	else
 		p->op.arg_type[0] = DIR_CODE;
 	++p->op.ptr;
+	p->op.id = 0;
+	while (g_op_tab[p->op.id].id != p->op.type)
+		++p->op.id;
+}
+
+static void			arg_ind(t_process *p, int i)
+{
+	unsigned char	*ptr;
+
+	if (p->op.type != LLD)
+		p->op.arg[i] = (long long)get_step(p->map, p->op.ptr,
+					get_value(p->map, p->op.ptr, IND_SIZE) % IDX_MOD);
+	else
+		p->op.arg[i] = (long long)get_step(p->map, p->op.ptr,
+				get_value(p->map, p->op.ptr, IND_SIZE));
+	p->op.ptr += IND_SIZE;
 }
 
 void				op_args(t_process *p)
@@ -39,20 +55,14 @@ void				op_args(t_process *p)
 			break ;
 		else if (p->op.arg_type[i] == REG_CODE)
 		{
-			p->op.arg[i] = &p->r[*p->op.ptr];
-			p->op.ptr++;
+			p->op.arg[i] = *p->op.ptr;
+			p->op.ptr = get_step(p->op.ptr, p->map, 1);
 		}
 		else if (p->op.arg_type[i] == DIR_CODE)
 		{
-			p->op.arg[i] = p->op.ptr;
-			p->op.ptr += DIR_SIZE;
+			p->op.arg[i] = get_value(p->map, p->op.ptr, g_op_tab[p->op.id].label_size);
+			p->op.ptr += g_op_tab[p->op.id].label_size;
 		}
 		else
-		{
-			if (p->op.type != LLD && p->op.type != LLDI)
-				p->op.arg[i] = p->op.ptr + get_value(p->op.ptr, IND_SIZE) % IDX_MOD;
-			else
-				p->op.arg[i] = p->op.ptr + get_value(p->op.ptr, IND_SIZE);
-			p->op.ptr += IND_SIZE;
-		}
+			arg_ind(p, i);
 }

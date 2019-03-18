@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 17:59:06 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/17 09:04:22 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/18 12:25:45 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void			process_new(t_param *p, t_process *parent, unsigned char *pc)
 	if (!(new = (t_process *)malloc(sizeof(t_process))))
 		malloc_err();
 	i = -1;
+	new->carry = parent ? parent->carry : 1;
 	new->map = p->map;
 	new->pc = pc;
 	new->next = p->process;

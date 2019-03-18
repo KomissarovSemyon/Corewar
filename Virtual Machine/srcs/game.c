@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/17 01:25:13 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/17 09:08:19 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/18 13:28:21 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void		process_move(t_param *param, t_process *process)
 		{
 //			if (op_check(process))
 //			{
+				process->step = 0;
 				op_args(process);
 				do_op(param, process);
 				process->pc = process->op.ptr;
@@ -50,6 +51,7 @@ static void		process_move(t_param *param, t_process *process)
 //			}
 //			else
 //				process->pc = get_step(process->map, process->pc, 1);
+			process->pc = process->op.ptr;
 		}
 		else
 		{
@@ -80,5 +82,6 @@ void			start_game(t_param *param)
 		map_print(param);
 		while (c != '\n')
 			read(0, &c, 1);
+		c = 0;
 	}
 }

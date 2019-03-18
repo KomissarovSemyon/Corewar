@@ -6,11 +6,12 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:47:41 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/17 09:06:22 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/18 13:57:05 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
+
 
 static void		param_init(t_param *p)
 {
@@ -92,6 +93,10 @@ int				main(int argc, char **argv)
 	t_param		p;
 	int			i;
 	int			f;
+
+
+
+
 
 	param_init(&p);
 	i = 0;

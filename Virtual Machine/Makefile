@@ -6,7 +6,7 @@
 #    By: thgiraud <thgiraud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/17 17:47:51 by thgiraud          #+#    #+#              #
-#    Updated: 2019/03/18 13:42:31 by jcorwin          ###   ########.fr        #
+#    Updated: 2019/03/18 19:17:43 by jcorwin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,10 +20,10 @@ SOURCES	= main.c \
 		  map.c \
 		  command_read.c \
 		  commands.c \
-		  command_do.c \
 		  help.c \
 		  process.c \
-		  game.c
+		  game.c \
+		  op_check.c
 
 INCLUDES= libft.h \
 		  vm.h \

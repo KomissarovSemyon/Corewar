@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 19:40:27 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/18 13:14:17 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/18 20:02:09 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,15 @@ static void			op_type(t_process *p)
 	if (p->op.type != LIVE && p->op.type != ZJMP &&
 			p->op.type != FORK && p->op.type != LFORK)
 	{
-		++p->op.ptr;
 		p->op.arg_type[0] = *p->op.ptr >> 6;
-		p->op.arg_type[1] = (*p->op.ptr << 2) >> 6;
-		p->op.arg_type[2] = (*p->op.ptr << 4) >> 6;
+		p->op.arg_type[1] = *p->op.ptr << 2;
+		p->op.arg_type[1] = *p->op.ptr >> 6;
+		p->op.arg_type[2] = *p->op.ptr << 4;
+		p->op.arg_type[2] = *p->op.ptr >> 6;
+		p->op.ptr = get_step(p->map, p->op.ptr, 1);
 	}
 	else
 		p->op.arg_type[0] = DIR_CODE;
-	++p->op.ptr;
 	p->op.id = 0;
 	while (g_op_tab[p->op.id].id != p->op.type)
 		++p->op.id;

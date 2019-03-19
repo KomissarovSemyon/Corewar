@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 10:05:03 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/18 19:58:01 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/19 09:39:06 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,13 @@ void		op_live(t_param *param, t_process *process)
 	process->livin = param->current_cycle;
 	if (process->op.arg[0] < 0 && process->op.arg[0] >= -param->players)
 		param->winner = -1 * process->op.arg[0];
+	++param->live_nbr;
 }
 
 void		op_ld(t_param *param, t_process *process)
 {
-	process_print(process);
-	ft_printf("sha ebanet\n");
+//	process_print(process);
+//	ft_printf("sha ebanet\n");
 	if (process->op.arg_type[0] == DIR_CODE)
 		set_value(NULL, process->r[process->op.arg[1]],
 									process->op.arg[0], REG_SIZE);

@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:47:41 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/18 13:57:05 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/19 09:39:42 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@ static void		param_init(t_param *p)
 	p->process = NULL;
 	p->cycles_to_die = CYCLE_TO_DIE;
 	p->current_cycle = 0;
+	p->last_check = 0;
+	p->live_nbr = 0;
+	p->checks = 0;
+	p->flag.step = 0;
+	p->flag.dump = 0;
 }
 
 static int		arg_champ(char *str)
@@ -65,16 +70,16 @@ static int		get_arg(int *i, int argc, char **argv, t_param *p)
 {
 	if (!ft_strcmp(argv[*i], "-a"))
 		p->flag.comment = 1;
-	else if (!ft_strcmp(argv[*i], "-d"))
+	else if (!ft_strcmp(argv[*i], "-dump"))
 	{
 		if (p->flag.step)
 			return (1);
 		p->flag.mode = DUMP_MODE;
 		if (++(*i) == argc)
 			usage();
-		p->flag.step = ft_atoi(argv[*i]);
+		p->flag.dump = ft_atoi(argv[*i]);
 	}
-	else if (!ft_strcmp(argv[*i], "-s"))
+	else if (!ft_strcmp(argv[*i], "-step"))
 	{
 		if (p->flag.step)
 			return (1);
@@ -124,7 +129,7 @@ int				main(int argc, char **argv)
 //		print_bytes(p.champs[i].champ, p.champs[i].champ_size);
 //	}
 	map_init(&p);
-	map_print(&p);
+//	map_print(&p);
 	start_game(&p);
 	return (0);
 }

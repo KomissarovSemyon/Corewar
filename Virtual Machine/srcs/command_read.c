@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 19:40:27 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/18 20:02:09 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/19 07:23:53 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ static void			op_type(t_process *p)
 	{
 		p->op.arg_type[0] = *p->op.ptr >> 6;
 		p->op.arg_type[1] = *p->op.ptr << 2;
-		p->op.arg_type[1] = *p->op.ptr >> 6;
+		p->op.arg_type[1] = p->op.arg_type[1] >> 6;
 		p->op.arg_type[2] = *p->op.ptr << 4;
-		p->op.arg_type[2] = *p->op.ptr >> 6;
+		p->op.arg_type[2] = p->op.arg_type[2] >> 6;
 		p->op.ptr = get_step(p->map, p->op.ptr, 1);
 	}
 	else

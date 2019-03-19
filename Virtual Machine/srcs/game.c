@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/17 01:25:13 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/18 19:42:16 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/19 09:57:32 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,46 @@ static void		process_act(t_param *param, t_process *process)
 			process->pc = process->op.ptr;
 			process->op.type = 0;
 		}
-		else
+		else 
 		{
 			process->op.id = 0;
-			process->pc = get_step(process->map, process->pc, 1);
 			process->op.type = *process->pc;
-			while (process->op.type != g_op_tab[process->op.id].id)
+			while (process->op.type != g_op_tab[process->op.id].id
+					&&process->op.id < 16)
 				++process->op.id;
 			process->wait = g_op_tab[process->op.id].cycles;
 		}
 	}
+	else if (process->wait == -1)
+	{
+		process->wait = 1;
+		process->pc = get_step(process->map, process->pc, 1);
+	}
 	--process->wait;
+}
+
+static void		check_cycle(t_param *param)
+{
+	t_process	*pr;
+
+	if (++param->current_cycle >= param->last_check + CYCLE_TO_DIE)
+	{
+		param->last_check = param->current_cycle;
+		pr = param->process;
+		while (pr)
+		{
+			if (pr->livin < param->current_cycle - CYCLE_TO_DIE)
+				pr = process_kill(param, pr);
+			else
+				pr = pr->next;
+		}
+		if (++param->checks == MAX_CHECKS || param->live_nbr >= NBR_LIVE)
+		{
+			param->cycles_to_die -= CYCLE_DELTA;
+			param->checks = 0;
+		}
+		param->live_nbr = 0;
+	}
 }
 
 void			start_game(t_param *param)
@@ -44,17 +73,24 @@ void			start_game(t_param *param)
 
 	while (param->process)
 	{
+		check_cycle(param);
 		tmp = param->process;
 		while (tmp)
 		{
 			process_act(param, tmp);
 			tmp = tmp->next;
 		}
-		++param->current_cycle;
 		ft_printf("cycle - %d\n", param->current_cycle);
-		map_print(param);
-		while (c != '\n')
-			read(0, &c, 1);
+//		map_print(param);
+		if (param->flag.step && !(param->current_cycle % param->flag.step))
+			map_print(param);
+		if (param->current_cycle == param->flag.dump)
+		{
+			map_print(param);
+			break ;
+		}
+//		while (c != '\n')
+//			read(0, &c, 1);
 		c = 0;
 	}
 }

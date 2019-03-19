@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 17:59:06 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/18 19:57:13 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/19 09:45:49 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void			process_print(t_process *p)
 		ft_printf("arg[%d]e - %d\n", i, p->op.arg[i]);
 }
 
-void			process_die(t_param *p, t_process *die)
+t_process		*process_kill(t_param *p, t_process *die)
 {
 	t_process	*tmp;
 
@@ -40,14 +40,13 @@ void			process_die(t_param *p, t_process *die)
 	{
 		p->process = p->process->next;
 		free(die);
+		return (p->process);
 	}
-	else
-	{
-		while (tmp->next != die)
-			tmp = tmp->next;
-		tmp->next = die->next;
-		free(die);
-	}
+	while (tmp->next != die)
+		tmp = tmp->next;
+	tmp->next = die->next;
+	free(die);
+	return (tmp);
 }
 
 void			process_new(t_param *p, t_process *parent, unsigned char *pc)
@@ -56,15 +55,12 @@ void			process_new(t_param *p, t_process *parent, unsigned char *pc)
 
 	if (!(new = (t_process *)malloc(sizeof(t_process))))
 		malloc_err();
+	new->livin = p->current_cycle;
 	new->wait = 0;
 	new->carry = parent ? parent->carry : 1;
 	new->map = p->map;
 	new->pc = pc;
-	new->op.type = *pc;
-	new->op.id = 0;
-	while (new->op.type != g_op_tab[new->op.id].id)
-		++new->op.id;
-	new->wait = g_op_tab[new->op.id].cycles;
+	new->op.type = 0;
 	new->next = p->process;
 	new->id = p->process ? p->process->id + 1 : 1;
 	if (parent)

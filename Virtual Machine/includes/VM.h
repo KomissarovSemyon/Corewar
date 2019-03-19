@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:48:39 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/18 19:57:36 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/19 09:39:07 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef	struct		s_flags
 {
 	char	comment;
 	int		step;
+	int		dump;
 	char	verb;
 	char	mode;
 	int		id;
@@ -110,7 +111,10 @@ typedef struct		s_param
 	unsigned char	map[MEM_SIZE + 1];
 	t_process		*process;
 	int				cycles_to_die;
-	unsigned int	current_cycle;
+	int				current_cycle;
+	int				last_check;
+	int				checks;
+	int				live_nbr;
 	int				winner;
 }					t_param;
 
@@ -142,7 +146,8 @@ void				op_read(t_process *p);
 void				op_args(t_process *p);
 
 void				process_new(t_param *p, t_process *parent, unsigned char *pc);
-void				process_die(t_param *p, t_process *die);
+t_process			*process_kill(t_param *p, t_process *die);
+void				process_print(t_process *p);
 
 unsigned char		*get_step(unsigned char *map, unsigned char *ptr, int step);
 long long			get_value(unsigned char *map, unsigned char *ptr, int size);
@@ -151,8 +156,6 @@ void				set_value(unsigned char *map, unsigned char *dst,
 
 void				do_op(t_param *param, t_process *process);
 void				start_game(t_param *param);
-
-void				process_print(t_process *p);
 
 void				op_live(t_param *param, t_process *process);
 void				op_ld(t_param *param, t_process *process);

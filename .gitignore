@@ -4,3 +4,6 @@
 *.o
 *.swm
 *.swm
+*.diff
+corewar*
+asm

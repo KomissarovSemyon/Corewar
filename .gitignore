@@ -2,3 +2,8 @@
 *.swp
 *.swo
 *.o
+*.swm
+*.swm
+*.diff
+corewar*
+asm

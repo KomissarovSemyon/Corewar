@@ -6,7 +6,7 @@
 #    By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/17 17:47:51 by thgiraud          #+#    #+#              #
-#    Updated: 2019/03/17 00:38:49 by rrhaenys         ###   ########.fr        #
+#    Updated: 2019/03/20 16:47:12 by rrhaenys         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,11 +19,15 @@ SOURCES	= main.c \
 		  usage.c \
 		  map.c \
 		  command_read.c \
-		  command_do.c \
+		  commands.c \
+		  help.c \
+		  process.c \
+		  game.c \
 		  op_check.c
 
 INCLUDES= libft.h \
 		  vm.h \
+		  op.h \
 		  ft_printf.h
 
 # compiler

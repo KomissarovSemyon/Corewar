@@ -6,18 +6,20 @@
 #    By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/17 00:42:52 by rrhaenys          #+#    #+#              #
-#    Updated: 2019/03/18 00:27:24 by rrhaenys         ###   ########.fr        #
+#    Updated: 2019/03/20 16:50:28 by rrhaenys         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 COMMAND = gcc
 FLAGS = #-Wall -Wextra -Werror
 NAME = test.out
-SOURCES	= ../Virtual_Machine/srcs/read_champs.c \
+SOURCES	= #../Virtual_Machine/srcs/read_champs.c \
 		  ../Virtual_Machine/srcs/usage.c \
 		  ../Virtual_Machine/srcs/map.c \
 		  ../Virtual_Machine/srcs/command_read.c \
-		  ../Virtual_Machine/srcs/command_do.c \
+		  ../Virtual_Machine/srcs/commands.c \
+		  ../Virtual_Machine/srcs/help.c \
+		  ../Virtual_Machine/srcs/game.c \
 		  ../Virtual_Machine/srcs/op_check.c
 SRCS = $(addprefix  ./srcs/, $(shell ls srcs | grep -E ".+\.c"))
 OBJ	= $(SRCS:.c=.o) $(SOURCES:.c=.o)

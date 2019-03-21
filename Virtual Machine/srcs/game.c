@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/17 01:25:13 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/19 10:32:35 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/21 16:20:55 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,23 +72,20 @@ void			start_game(t_param *param)
 	{
 		check_cycle(param);
 		tmp = param->process;
+		if (param->flag.cycle)
+			ft_printf("cycle - %d\n", param->current_cycle);
 		while (tmp)
 		{
-			ft_printf("%d\n", tmp->pc - tmp->map);
 			process_act(param, tmp);
 			tmp = tmp->next;
 		}
-		ft_printf("cycle - %d\n", param->current_cycle);
-//		map_print(param);
-		if (param->flag.step && !(param->current_cycle % param->flag.step))
-			map_print(param);
 		if (param->current_cycle == param->flag.dump)
 		{
 			map_print(param);
 			break ;
 		}
-//		while (c != '\n')
-//			read(0, &c, 1);
+		if (param->flag.step && !(param->current_cycle % param->flag.step))
+			map_print(param);
 		c = 0;
 	}
 }

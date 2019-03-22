@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 17:08:46 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/21 17:44:00 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/22 18:46:05 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,22 @@ static void		print_color(t_param *p)
 		ft_printf("%d ", p->map_color[i]);
 }
 
+void			vis_print(t_param *p)
+{
+	 t_process	*tmp;
+	 int		magic;
+
+	magic = VIS_MAGIC;
+	write(1, &magic, sizeof(int));
+	write(1, p, sizeof(t_param));
+	tmp = p->process;
+	while (tmp)
+	{
+		write(1, tmp, sizeof(t_process));
+		tmp = tmp->next;
+	}
+}
+
 void			map_print(t_param *p)
 {
 	int			line;
@@ -83,8 +99,6 @@ void			map_print(t_param *p)
 			print_bytes(p, &p->map[line], 32);
 			line += 32;
 		}
-	if (p->flag.vis)
-		print_color(p);
 	tmp = p->process;
 	if (p->flag.process)
 		while (tmp)

@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:47:41 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/21 16:49:24 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/22 18:40:51 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,11 @@ static void		param_init(t_param *p)
 	p->flag.vis = 0;
 	p->flag.help = 0;
 	p->flag.cycle = 0;
-	p->flag.map = 1;
+	p->flag.map = 0;
 	p->flag.param = 0;
 	p->flag.process = 0;
+	p->flag.oper = 0;
+	p->proc_nbr = 0;
 	i = -1;
 	while (++i < MAX_PLAYERS)
 	{

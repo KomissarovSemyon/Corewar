@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 16:51:42 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/21 15:44:54 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/22 17:59:42 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ static int		arg1(int i, t_param *p, int argc, char **argv)
 		p->flag.param = 1;
 	else if (!ft_strcmp(argv[i], "-process"))
 		p->flag.process = 1;
+	else if (!ft_strcmp(argv[i], "-oper"))
+		p->flag.oper = 1;
 	else
 		usage();
 	return (i);

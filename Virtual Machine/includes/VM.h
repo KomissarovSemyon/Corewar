@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:48:39 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/21 16:58:10 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/22 18:47:04 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdlib.h>
+
+# define VIS_MAGIC 0x1377713
 
 # define DEFAULT_MODE 0
 # define DUMP_MODE 1
@@ -89,6 +91,7 @@ typedef	struct		s_flags
 	char	comment;
 	int		help;
 	int		vis;
+	int		oper;
 	int		dump;
 	int		step;
 	int		cycle;
@@ -107,6 +110,7 @@ typedef struct		s_param
 	unsigned char	map[MEM_SIZE];
 	int				map_color[MEM_SIZE];
 	t_process		*process;
+	int				proc_nbr;
 	int				cycles_to_die;
 	int				current_cycle;
 	int				last_check;
@@ -140,6 +144,7 @@ void				malloc_err(void);
 void				set_color(t_param *p, int place, int size, int color);
 void				map_init(t_param *p);
 void				map_print(t_param *p);
+void				vis_print(t_param *p);
 
 void				op_read(t_process *p);
 void				op_args(t_process *p);

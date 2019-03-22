@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 17:59:06 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/21 15:31:46 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/22 18:40:27 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void			process_print(t_process *p)
 	i = -1;
 	while (++i < 3)
 		ft_printf("arg[%d]e - %d\n", i, p->op.arg[i]);
+	ft_printf("\n");
 }
 
 t_process		*process_kill(t_param *p, t_process *die)
@@ -46,6 +47,7 @@ t_process		*process_kill(t_param *p, t_process *die)
 		tmp = tmp->next;
 	tmp->next = die->next;
 	free(die);
+	--p->proc_nbr;
 	return (tmp);
 }
 
@@ -61,6 +63,7 @@ void			process_new(t_param *p, t_process *parent, unsigned char *pc)
 	new->map = p->map;
 	new->pc = pc;
 	new->op.type = 0;
+	new->op.id = 17;
 	new->next = p->process;
 	new->id = p->process ? p->process->id + 1 : 1;
 	if (parent)
@@ -71,4 +74,5 @@ void			process_new(t_param *p, t_process *parent, unsigned char *pc)
 		new->r[0][REG_SIZE - 1] = -1 * new->id;
 	}
 	p->process = new;
+	++p->proc_nbr;
 }

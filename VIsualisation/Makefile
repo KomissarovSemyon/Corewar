@@ -6,15 +6,16 @@
 #    By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/17 00:42:52 by rrhaenys          #+#    #+#              #
-#    Updated: 2019/03/20 16:50:28 by rrhaenys         ###   ########.fr        #
+#    Updated: 2019/03/22 19:21:36 by rrhaenys         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 COMMAND = gcc
 FLAGS = #-Wall -Wextra -Werror
 NAME = test.out
-SOURCES	= #../Virtual_Machine/srcs/read_champs.c \
-		  ../Virtual_Machine/srcs/usage.c \
+SOURCES	= ../Virtual_Machine/srcs/process.c\
+		  ../Virtual_Machine/srcs/usage.c\
+		  #../Virtual_Machine/srcs/read_champs.c \
 		  ../Virtual_Machine/srcs/map.c \
 		  ../Virtual_Machine/srcs/command_read.c \
 		  ../Virtual_Machine/srcs/commands.c \

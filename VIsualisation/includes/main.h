@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/30 19:44:56 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/03/22 14:49:45 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/03/22 20:04:20 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,7 @@ int				key_press(int key, t_data *data);
 int				key_release(int key, t_data *data);
 
 int				ft_close(t_data *data);
+
+char			*ft_rebase(unsigned long long n, int base);
 
 #endif

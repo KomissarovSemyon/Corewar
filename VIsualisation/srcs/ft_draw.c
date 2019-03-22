@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 03:08:31 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/03/18 03:10:46 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/03/22 14:57:07 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,34 +109,30 @@ int			ft_draw(t_data *data)
 {
 	int		index;
 	char	*str;
+	int		size;
 
-	index = 0;
-	draw_cube(data, 1, 2, 1);
-	draw_cube(data, 1, 3, 2);
-	draw_cube(data, 1, 4, 3);
-	draw_cube(data, 1, 5, 4);
-	draw_cube_active(data, 3, 2, 1);
-	draw_cube_active(data, 3, 3, 1);
-	draw_cube(data, 3, 3, 1);
-	while (++index <= 10)
-	{
-		draw_cube_size(data, 2, index, 2, index / 10.0);
-	}
 	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win,
 		data->img->img_ptr, 0, 0);
+	index = -1;
+	size = 64;
+	while (++index < MEM_SIZE)
+		mlx_string_put(data->mlx_ptr, data->mlx_win,
+		13 + 30 * (index % size), 10 + 15 * (index / size),
+		data->mydata->color[data->mydata->arr[index].color],
+		data->mydata->arr[index].str);
 	mlx_string_put(data->mlx_ptr, data->mlx_win,
-	WIN_W - 700, 50, 0xffffff, "Cycles:");
+	WIN_W - 500, 50, 0xffffff, "Cycles:");
 	if (data->mydata->run != 0)
 		++data->mydata->cycles;
 	str = ft_itoa(data->mydata->cycles);
 	mlx_string_put(data->mlx_ptr, data->mlx_win,
-	WIN_W - 630, 50, 0xffffff, str);
+	WIN_W - 430, 50, 0xffffff, str);
 	free(str);
 	if (data->mydata->run == 0)
 		mlx_string_put(data->mlx_ptr, data->mlx_win,
-		WIN_W - 700, 20, 0xff0000, "< STOP >");
+		WIN_W - 500, 20, 0xff0000, "< STOP >");
 	else
 		mlx_string_put(data->mlx_ptr, data->mlx_win,
-		WIN_W - 695, 20, 0x00ff00, "< RUN >");
+		WIN_W - 495, 20, 0x00ff00, "< RUN >");
 	return (1);
 }

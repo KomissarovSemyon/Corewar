@@ -6,45 +6,20 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 07:03:09 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/03/18 02:56:54 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/03/22 14:56:29 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 #include "vm.h"
 
-void
-	ft_first_draw(t_data *data)
-{
-	int		index;
-	int		size;
-	int		pos[2];
-	int		color[5];
-
-	size = MEM_SIZE;
-	index = -1;
-	color[0] = 0xc0c0c0;
-	color[1] = 0x0000ff;
-	color[2] = 0x9932cc;
-	color[3] = 0xff0000;
-	color[4] = 0x00ff00;
-	while (++index < size)
-	{
-		pos[0] = 20 + (index % (int)sqrt(size)) * 20;
-		pos[1] = 20 + (index / (int)sqrt(size)) * 20;
-		ft_draw_square(data, pos, 10, 0x008000);
-		ft_draw_square(data, pos, 9, color[data->mydata->arr[index].color]);
-	}
-	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win,
-		data->img->img_ptr, 0, 0);
-}
-
 t_my_array
-	ft_init_my_arr(int color)
+	ft_init_my_arr(int color, const char *str)
 {
 	t_my_array	res;
 
 	res.color = color;
+	res.str = ft_strdup(str);
 	return (res);
 }
 
@@ -71,6 +46,17 @@ static void
 }
 
 void
+	set_colors(t_data *data)
+{
+	data->mydata->color[0] = 0xc0c0c0;
+	data->mydata->color[1] = 0x0000ff;
+	data->mydata->color[2] = 0x9932cc;
+	data->mydata->color[3] = 0xff0000;
+	data->mydata->color[4] = 0x00ff00;
+	data->mydata->color[5] = 0x00ffff;
+}
+
+void
 	ft_start_game(t_data *data, char *str, int argc, char **argv)
 {
 	int		index;
@@ -83,14 +69,19 @@ void
 	data->mydata->run = 0;
 	index = -1;
 	while (++index < MEM_SIZE)
-		data->mydata->arr[index] = ft_init_my_arr(0);
-	ft_first_draw(data);
+		data->mydata->arr[index] = ft_init_my_arr(0, "9f");
 	init_arr_double(par[0], 8, 8);
-	init_arr_double(par[1], 1291, 1291);
+	init_arr_double(par[1], 1930, 980);
 	draw_cube_empty(data, par, 0xff);
-	init_arr_double(par[0], 1300, 8);
+	init_arr_double(par[0], 1940, 8);
 	init_arr_double(par[1], WIN_W - 8, 1291);
 	draw_cube_empty(data, par, 0xffffff);
+	init_arr_double(par[0], 8, 990);
+	init_arr_double(par[1], 1930, 1291);
+	draw_cube_empty(data, par, 0xffffff);
+	set_colors(data);
+	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win,
+		data->img->img_ptr, 0, 0);
 }
 
 void

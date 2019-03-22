@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/30 19:44:56 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/03/18 03:05:56 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/03/22 14:49:45 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 # define MAIN_H
 
 # include "ft_printf.h"
+# include "libft.h"
 # include <mlx.h>
 # include <math.h>
 # include <stdlib.h>
 
 # define WIN_H 1300
-# define WIN_W (WIN_H * 16 / 10)
+# define WIN_W 2500
 # define WIN_S (WIN_W * WIN_H)
 # define X_P 0
 # define Y_P 1
@@ -58,6 +59,7 @@ typedef struct	s_map
 typedef struct	s_my_array
 {
 	int			color;
+	char		*str;
 }				t_my_array;
 
 typedef struct	s_mydata
@@ -65,6 +67,7 @@ typedef struct	s_mydata
 	t_my_array	*arr;
 	long long	cycles;
 	int			run;
+	int			color[10];
 }				t_mydata;
 
 typedef struct	s_img

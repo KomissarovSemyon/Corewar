@@ -6,7 +6,7 @@
 #    By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/17 17:47:51 by thgiraud          #+#    #+#              #
-#    Updated: 2019/03/20 16:47:12 by rrhaenys         ###   ########.fr        #
+#    Updated: 2019/03/22 15:05:52 by rrhaenys         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ SOURCES	= main.c \
 		  help.c \
 		  process.c \
 		  game.c \
-		  op_check.c
+		  op_check.c \
+		  args.c
 
 INCLUDES= libft.h \
 		  vm.h \

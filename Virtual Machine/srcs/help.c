@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/16 21:15:58 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/18 13:11:16 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/20 23:16:16 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,13 @@ long long			get_value(unsigned char *map, unsigned char *ptr, int size)
 		else
 			res = (res << (8 * i)) + ptr[i];
 	return (res);
+}
+
+void			swap_champ(t_champ c1, t_champ c2)
+{
+	t_champ		c3;
+
+	c3 = c1;
+	c1 = c2;
+	c2 = c3;
 }

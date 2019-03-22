@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:48:39 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/20 16:46:26 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/03/22 15:05:57 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@
 typedef struct		s_champ
 {
 	char			*file;
+	int				n;
 	unsigned int	magic;
 	char			name[PROG_NAME_LENGTH + 1];
 	char			comment[COMMENT_LENGTH + 1];
@@ -55,14 +56,6 @@ typedef struct		s_champ
 	char			null_term[4];
 	int				color;
 }					t_champ;
-
-/*ячейка памяти*/
-typedef struct		s_cage
-{
-	char		value;
-	int			color;
-	int			process;
-}					t_cage;
 
 /*операция*/
 typedef struct		s_op
@@ -94,11 +87,14 @@ typedef struct		s_process
 typedef	struct		s_flags
 {
 	char	comment;
-	int		step;
+	int		help;
+	int		vis;
 	int		dump;
-	char	verb;
-	char	mode;
-	int		id;
+	int		step;
+	int		cycle;
+	int		map;
+	int		param;
+	int		process;
 }					t_flags;
 
 /*основные параметры*/
@@ -108,7 +104,8 @@ typedef struct		s_param
 	t_champ			champs[MAX_PLAYERS];
 	int				players;
 	t_flags			flag;
-	unsigned char	map[MEM_SIZE + 1];
+	unsigned char	map[MEM_SIZE];
+	int				map_color[MEM_SIZE];
 	t_process		*process;
 	int				cycles_to_die;
 	int				current_cycle;
@@ -132,13 +129,15 @@ typedef struct		s_funs
 	void		(*f_do)(t_param *par, t_process *p);
 }					t_funs;
 
-int					get_champ(char *str, t_param *p, int id);
+int					read_args(t_param *p, int argc, char **argv);
+void				get_champ(char *str, t_param *p, int id);
+void				champ_err(int value, int f, char *str, int expect);
 
 void				usage(void);
 void				help(void);
 void				malloc_err(void);
 
-void				print_bytes(unsigned char *str, int len);
+void				set_color(t_param *p, int place, int size, int color);
 void				map_init(t_param *p);
 void				map_print(t_param *p);
 
@@ -151,6 +150,7 @@ unsigned char		*get_step(unsigned char *map, unsigned char *ptr, int step);
 long long			get_value(unsigned char *map, unsigned char *ptr, int size);
 void				set_value(unsigned char *map, unsigned char *dst,
 												long long src, int size);
+void				swap_champ(t_champ c1, t_champ c2);
 
 void				do_op(t_param *param, t_process *process);
 void				start_game(t_param *param);

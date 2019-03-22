@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 10:05:03 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/19 09:39:06 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/21 17:52:07 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,14 @@ void		op_st(t_param *param, t_process *process)
 	ft_memcpy((void *)process->op.arg[1],
 			(const void *)process->op.arg[0], REG_SIZE);
 	if (process->op.arg_type[1] == IND_CODE)
+	{
 		set_value(process->map, (unsigned char *)process->op.arg[1],
 		get_value(NULL, process->r[process->op.arg[0]], REG_SIZE),
 														REG_SIZE);
+		set_color(param, (unsigned char *)process->op.arg[1] -
+			process->map, REG_SIZE,
+			get_value(NULL, process->r[0], REG_SIZE));
+	}
 	else
 		set_value(process->map, process->r[process->op.arg[1]],
 		get_value(NULL, process->r[process->op.arg[0]], REG_SIZE),
@@ -148,8 +153,9 @@ void		op_zjmp(t_param *param, t_process *process)
 
 void		op_sti(t_param *param, t_process *process)
 {
-	long long	l[2];
-	int			i;
+	long long		l[2];
+	int				i;
+	unsigned char	*dst;
 
 	i = -1;
 	while (++i < 2)
@@ -160,9 +166,11 @@ void		op_sti(t_param *param, t_process *process)
 		else
 			l[i] = get_value(process->map,
 				(unsigned char *)process->op.arg[i + 1], DIR_SIZE);
-	set_value(process->map,
-			get_step(process->map, process->pc, (l[0] + l[1]) % IDX_MOD),
+	dst = get_step(process->map, process->pc, (l[0] + l[1]) % IDX_MOD);
+	set_value(process->map, dst,
 			get_value(NULL, process->r[process->op.arg[2]], REG_SIZE), REG_SIZE);
+	set_color(param, dst - process->map, REG_SIZE,
+					get_value(NULL, process->r[0], REG_SIZE));
 }
 
 void		op_ldi(t_param *param, t_process *process)

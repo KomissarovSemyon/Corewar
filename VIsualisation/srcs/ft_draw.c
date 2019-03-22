@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 03:08:31 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/03/22 14:57:07 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/03/22 16:09:34 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,49 @@ void		draw_cube_active(t_data *data, int x, int y, int color)
 	ft_draw_square(data, pos, 8, colors[color]);
 }
 
+void		ft_update_my_arr(t_data *data)
+{
+	char	str[12288 + 1];
+	char	color[8192 + 1];
+	char	**strs;
+	int		index;
+
+	if (read(0, str, 12288) == 12288)
+	{
+		str[12288] = '\0';
+		strs = ft_strsplit(str, ' ');
+		index = -1;
+		if (strs != NULL)
+		{
+			++data->mydata->cycles;
+			while (strs[++index] != NULL)
+			{
+				free(data->mydata->arr[index].str);
+				data->mydata->arr[index].str = ft_strdup(strs[index]);
+				free(strs[index]);
+			}
+			free(strs);
+		}
+		ft_printf("str = %d\n", index);
+	}
+	if (read(0, color, 8192) == 8192)
+	{
+		color[8192] = '\0';
+		strs = ft_strsplit(color, ' ');
+		index = -1;
+		if (strs != NULL)
+		{
+			while (strs[++index] != NULL)
+			{
+				data->mydata->arr[index].color = ft_atoi(strs[index]);
+				free(strs[index]);
+			}
+			free(strs);
+		}
+		ft_printf("color = %d\n", index);
+	}
+}
+
 int			ft_draw(t_data *data)
 {
 	int		index;
@@ -113,6 +156,7 @@ int			ft_draw(t_data *data)
 
 	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win,
 		data->img->img_ptr, 0, 0);
+	ft_update_my_arr(data);
 	index = -1;
 	size = 64;
 	while (++index < MEM_SIZE)
@@ -122,8 +166,6 @@ int			ft_draw(t_data *data)
 		data->mydata->arr[index].str);
 	mlx_string_put(data->mlx_ptr, data->mlx_win,
 	WIN_W - 500, 50, 0xffffff, "Cycles:");
-	if (data->mydata->run != 0)
-		++data->mydata->cycles;
 	str = ft_itoa(data->mydata->cycles);
 	mlx_string_put(data->mlx_ptr, data->mlx_win,
 	WIN_W - 430, 50, 0xffffff, str);

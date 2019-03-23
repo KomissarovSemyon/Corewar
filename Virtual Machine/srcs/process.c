@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 17:59:06 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/22 18:40:27 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/22 22:08:50 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void			process_print(t_process *p)
 	ft_printf("wait - %d\n", p->wait);
 	ft_printf("livin - %d\n", p->livin);
 	ft_printf("op_id - %d\n", p->op.id);
-	ft_printf("op_id - %d\n", p->op.type);
 	i = -1;
 	while (++i < 3)
 		ft_printf("arg[%d].type - %d\n", i, p->op.arg_type[i]);
@@ -51,28 +50,29 @@ t_process		*process_kill(t_param *p, t_process *die)
 	return (tmp);
 }
 
+static void		process_init(t_param *p, t_process *new, unsigned char *pc)
+{
+	new->livin = p->current_cycle;
+	new->wait = -1;
+	new->map = p->map;
+	new->pc = pc;
+	new->op.id = *pc - 1;
+	ft_bzero(new->r, REG_NUMBER * REG_SIZE);
+	new->r[0][REG_SIZE - 1] = -1 * new->id;
+}
+
 void			process_new(t_param *p, t_process *parent, unsigned char *pc)
 {
 	t_process	*new;
 
 	if (!(new = (t_process *)malloc(sizeof(t_process))))
 		malloc_err();
-	new->livin = p->current_cycle;
-	new->wait = -1;
-	new->carry = parent ? parent->carry : 1;
-	new->map = p->map;
-	new->pc = pc;
-	new->op.type = 0;
-	new->op.id = 17;
-	new->next = p->process;
 	new->id = p->process ? p->process->id + 1 : 1;
+	process_init(p, new, pc);
+	new->carry = parent ? parent->carry : 1;
+	new->next = p->process;
 	if (parent)
 		ft_memcpy(new->r, parent->r, REG_NUMBER * REG_SIZE);
-	else
-	{
-		ft_bzero(new->r, REG_NUMBER * REG_SIZE);
-		new->r[0][REG_SIZE - 1] = -1 * new->id;
-	}
 	p->process = new;
 	++p->proc_nbr;
 }

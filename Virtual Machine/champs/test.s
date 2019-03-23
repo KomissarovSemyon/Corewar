@@ -2,4 +2,5 @@
 .comment ""
 
 	ld %255, r2
-	st r2, 5
+#	st r2, r3
+	st r2, -11

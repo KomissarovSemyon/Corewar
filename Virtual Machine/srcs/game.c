@@ -6,37 +6,48 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/17 01:25:13 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/22 18:46:41 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/22 23:55:07 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
+
+static void		do_op(t_param *param, t_process *process)
+{
+	op_args(process);
+	if (param->flag.oper)
+		ft_printf("cycle - %d\n", param->current_cycle);
+	if (op_check(process))
+	{
+		if (param->flag.oper)
+			ft_printf("process %d executing %s\n", process->id,
+												g_op_tab[process->op.id].name);
+		g_op_tab[process->op.id].f_do(param, process);
+	}
+	else if (param->flag.oper)
+		ft_printf("process %d failed %s\n", process->id,
+												g_op_tab[process->op.id].name);
+	if (param->flag.oper)
+		ft_printf("moving to %d\n\n", process->op.ptr - process->map);
+	process->pc = process->op.ptr;
+}
 
 static void		process_act(t_param *param, t_process *process)
 {
 	if (process->wait == 0)
 	{
 		if (process->op.id < 16)
-		{
 			do_op(param, process);
-//			ft_printf("process %d compliting %d", process->id, process->op.id);
-//			op_args(process);
-//			if (g_op_tab[process->op.id].f_check(process))
-//				g_op_tab[process->op.id].f_do(param, process);
-//			process->pc = process->op.ptr;
-//			process->op.type = 0;
-		}
 		else
 			process->pc = get_step(process->map, process->pc, 1);
 	}
 	else if (process->wait == -1)
 	{
-		process->op.id = 0;
-		process->op.type = *process->pc;
-		while (process->op.type != g_op_tab[process->op.id].id
-											&& process->op.id < 16)
-			++process->op.id;
-		process->wait = g_op_tab[process->op.id].cycles;
+		process->op.id = *process->pc - 1;
+		if (process->op.id > 15)
+			process->wait = 1;
+		else
+			process->wait = g_op_tab[process->op.id].cycles;
 	}
 	--process->wait;
 }

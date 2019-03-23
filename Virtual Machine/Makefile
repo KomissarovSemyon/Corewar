@@ -6,7 +6,7 @@
 #    By: thgiraud <thgiraud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/17 17:47:51 by thgiraud          #+#    #+#              #
-#    Updated: 2019/03/22 17:11:47 by jcorwin          ###   ########.fr        #
+#    Updated: 2019/03/22 20:48:15 by jcorwin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,6 @@ SOURCES	= main.c \
 		  usage.c \
 		  map.c \
 		  command_read.c \
-		  command_do.c \
 		  commands.c \
 		  help.c \
 		  process.c \

@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/16 23:23:48 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/03/18 19:18:33 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/22 23:55:26 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,26 +24,17 @@ static int				check_reg(int reg)
 	return (reg > 0 && reg <= REG_NUMBER);
 }
 
-static t_funs			*get_fun_type(char id)
-{
-	int		index;
-
-	index = -1;
-	while (g_op_tab[++index].name != 0)
-	{
-		if (g_op_tab[index].id == id)
-			return (&g_op_tab[index]);
-	}
-	return (NULL);
-}
-
 int						op_check(t_process *p)
 {
 	t_funs		*op;
+	int			codage;
 
-	if ((op = get_fun_type(p->op.type)) == NULL)
+	codage = get_map_pos(p, (p->pc - p->map) + 1);
+	if (codage & 3)
 		return (0);
-	return (op->f_check(p));
+	if (p->op.id > 15)
+		return (0);
+	return (g_op_tab[p->op.id].f_check(p));
 }
 
 int						op_check_live(t_process *p)
@@ -59,10 +50,10 @@ int						op_check_ld(t_process *p)
 	codage = get_map_pos(p, (p->pc - p->map) + 1);
 	if (((codage >> 6) & 3) == 1)
 		return (0);
-	if (((codage >> 6) & 3) == 2)
+	if (((codage >> 6) & 3) == DIR_CODE)
 		reg = get_map_pos(p, (p->pc - p->map) + 2 + g_op_tab[1].label_size);
 	else
-		reg = get_map_pos(p, (p->pc - p->map) + 2 + 2);
+		reg = get_map_pos(p, (p->pc - p->map) + 2 + IND_SIZE);
 	if (!check_reg(reg))
 		return (0);
 	return (1);

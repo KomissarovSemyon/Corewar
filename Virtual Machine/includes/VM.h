@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:48:39 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/22 18:47:04 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/23 03:42:41 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,22 @@
 # define NCURSES_MODE 3
 # define VIS_MODE 4
 
-# define LIVE 1
-# define LD 2
-# define ST 3
-# define ADD 4
-# define SUB 5
-# define AND 6
-# define OR 7
-# define XOR 8
-# define ZJMP 9
-# define LDI 10
-# define STI 11
-# define FORK 12
-# define LLD 13
-# define LLDI 14
-# define LFORK 15
-# define AFF 16
+# define LIVE 0
+# define LD 1
+# define ST 2
+# define ADD 3
+# define SUB 4
+# define AND 5
+# define OR 6
+# define XOR 7
+# define ZJMP 8
+# define LDI 9
+# define STI 10
+# define FORK 11
+# define LLD 12
+# define LLDI 13
+# define LFORK 14
+# define AFF 15
 
 /* чемпион */
 typedef struct		s_champ
@@ -63,8 +63,9 @@ typedef struct		s_champ
 typedef struct		s_op
 {
 	unsigned char	*ptr;
-	int				id;
-	char			type;
+//	int				id;
+//	char			type;
+	unsigned char	id;
 	unsigned char	arg_type[3];
 	long long int	arg[3];
 }					t_op;
@@ -149,7 +150,8 @@ void				vis_print(t_param *p);
 void				op_read(t_process *p);
 void				op_args(t_process *p);
 
-void				process_new(t_param *p, t_process *parent, unsigned char *pc);
+void				process_new(t_param *p, t_process *parent,
+													unsigned char *pc);
 t_process			*process_kill(t_param *p, t_process *die);
 void				process_print(t_process *p);
 
@@ -159,7 +161,6 @@ void				set_value(unsigned char *map, unsigned char *dst,
 												long long src, int size);
 void				swap_champ(t_champ c1, t_champ c2);
 
-void				do_op(t_param *param, t_process *process);
 void				start_game(t_param *param);
 
 void				op_live(t_param *param, t_process *process);

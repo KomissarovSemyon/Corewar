@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 16:51:42 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/22 17:59:42 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/23 04:34:21 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static void		players_id(t_param *p)
 	i = -1;
 	while (++i < MAX_PLAYERS)
 		if (!p->champs[i].n)
-			p->champs[i].n = i;
+			p->champs[i].n = i + 1;
 }
 
 int				read_args(t_param *p, int argc, char **argv)

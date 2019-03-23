@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/16 21:15:58 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/20 23:16:16 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/24 00:56:35 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,9 @@ void				set_value(unsigned char *map, unsigned char *dst,
 	i = -1;
 	while (++i < size)
 		if (!map)
-			dst[i] = (src << (sizeof(long long) - (size - i) * 8)) >>
-				(sizeof(long long) - 8);
+			dst[i] = (src >> (size - i - 1) * 8) & 0xff;
 		else
-			*get_step(map, dst, i) = (src << (sizeof(long long) -
-						(size - i) * 8)) >>
-							 (sizeof(long long) - 8);
+			*get_step(map, dst, i) = (src >> (size - i - 1) * 8) & 0xff;
 }
 
 long long			get_value(unsigned char *map, unsigned char *ptr, int size)

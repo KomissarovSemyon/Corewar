@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:47:41 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/22 18:40:51 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/23 23:08:20 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,17 @@ int				main(int argc, char **argv)
 {
 	t_param		p;
 	int			i;
-
+	char		s[4];
+	
+//	long long	lol = 0;
+//	s[0] = s[1] = s[2] = s[3] = 255;
+//	i = -1;
+//	while (++i < 4)
+//		ft_memcpy((void *)((char*)&lol + i), (const void *)(s + i), 1);
+//	ft_printf("%d\n", (int)lol);
 	param_init(&p);
-	p.winner = p.players - 1;
 	read_args(&p, argc, argv);
+	p.winner = p.players - 1;
 	if (p.flag.vis)
 		param_vis(&p);
 	if (p.players == 0)

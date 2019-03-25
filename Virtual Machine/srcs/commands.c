@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 10:05:03 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/21 17:52:07 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/24 00:54:29 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ void		op_live(t_param *param, t_process *process)
 
 void		op_ld(t_param *param, t_process *process)
 {
-//	process_print(process);
-//	ft_printf("sha ebanet\n");
 	if (process->op.arg_type[0] == DIR_CODE)
 		set_value(NULL, process->r[process->op.arg[1]],
 									process->op.arg[0], REG_SIZE);
@@ -45,21 +43,21 @@ void		op_lld(t_param *param, t_process *process)
 
 void		op_st(t_param *param, t_process *process)
 {
-	ft_memcpy((void *)process->op.arg[1],
-			(const void *)process->op.arg[0], REG_SIZE);
+	long long	reg;
+
+	reg = get_value(NULL, process->r[process->op.arg[0]], REG_SIZE);
+	ft_printf("%d\n", (unsigned char *)process->op.arg[1] - process->map);
 	if (process->op.arg_type[1] == IND_CODE)
 	{
 		set_value(process->map, (unsigned char *)process->op.arg[1],
-		get_value(NULL, process->r[process->op.arg[0]], REG_SIZE),
-														REG_SIZE);
+		reg, REG_SIZE);
 		set_color(param, (unsigned char *)process->op.arg[1] -
 			process->map, REG_SIZE,
 			get_value(NULL, process->r[0], REG_SIZE));
 	}
 	else
-		set_value(process->map, process->r[process->op.arg[1]],
-		get_value(NULL, process->r[process->op.arg[0]], REG_SIZE),
-														REG_SIZE);
+		set_value(NULL, process->r[process->op.arg[1]],
+		reg, REG_SIZE);
 }
 
 void		op_add(t_param *param, t_process *process)

@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 17:08:46 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/22 20:14:55 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/03/25 20:12:21 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void			set_color(t_param *p, int place, int size, int color)
 {
 	while (size--)
 		p->map_color[(place + size) % MEM_SIZE] =
-									color < 4 && color > 0 ? color : 0;;
+									color < 4 && color > 0 ? color : 0;
 }
 
 void			map_init(t_param *p)

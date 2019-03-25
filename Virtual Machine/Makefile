@@ -6,7 +6,7 @@
 #    By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/17 17:47:51 by thgiraud          #+#    #+#              #
-#    Updated: 2019/03/22 19:14:49 by rrhaenys         ###   ########.fr        #
+#    Updated: 2019/03/25 20:11:53 by rrhaenys         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,6 @@ SOURCES	= main.c \
 		  usage.c \
 		  map.c \
 		  command_read.c \
-		  command_do.c \
 		  commands.c \
 		  help.c \
 		  process.c \

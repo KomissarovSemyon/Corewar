@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:48:39 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/23 03:42:41 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/25 21:44:30 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdlib.h>
+
+# define MOD(x) (x > 0 ? x : -x)
 
 # define VIS_MAGIC 0x1377713
 
@@ -63,8 +65,6 @@ typedef struct		s_champ
 typedef struct		s_op
 {
 	unsigned char	*ptr;
-//	int				id;
-//	char			type;
 	unsigned char	id;
 	unsigned char	arg_type[3];
 	long long int	arg[3];
@@ -137,6 +137,8 @@ typedef struct		s_funs
 int					read_args(t_param *p, int argc, char **argv);
 void				get_champ(char *str, t_param *p, int id);
 void				champ_err(int value, int f, char *str, int expect);
+int					champ_check(unsigned char *map,
+								unsigned char *start, int size);
 
 void				usage(void);
 void				help(void);
@@ -156,7 +158,10 @@ t_process			*process_kill(t_param *p, t_process *die);
 void				process_print(t_process *p);
 
 unsigned char		*get_step(unsigned char *map, unsigned char *ptr, int step);
-long long			get_value(unsigned char *map, unsigned char *ptr, int size);
+long long			get_signed_value(unsigned char *map,
+											unsigned char *ptr, int size);
+long long			get_value(unsigned char *map,
+											unsigned char *ptr, int size);
 void				set_value(unsigned char *map, unsigned char *dst,
 												long long src, int size);
 void				swap_champ(t_champ c1, t_champ c2);

@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 19:40:27 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/24 01:54:22 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/24 03:18:28 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,26 +31,14 @@ static void			arg_ind(t_process *p, int i)
 {
 	unsigned char	*ptr;
 	long long		move;
-	int				j;
-	int				sign;
 
-	sign = 0;
-	if (*p->op.ptr & 128)
-		sign = 1;
-	move = 0;
-	j = -1;
-	while (++j < IND_SIZE)
-	{
-		move = (move << 8) + (sign ? 0xff - *p->op.ptr : *p->op.ptr);
-		p->op.ptr = get_step(p->map, p->op.ptr, 1);
-	}
-	if (sign)
-		move = -(move + 1);
+	move = get_signed_value(p->map, p->op.ptr, IND_SIZE);
 	if (p->op.id != LLD)
 		p->op.arg[i] = (long long)get_step(p->map, p->pc,
 														move % IDX_MOD);
 	else
 		p->op.arg[i] = (long long)get_step(p->map, p->pc, move);
+	p->op.ptr = get_step(p->map, p->op.ptr, IND_SIZE);
 }
 
 void				op_args(t_process *p)

@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/17 01:25:13 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/22 23:55:07 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/25 20:54:35 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,11 +99,13 @@ void			start_game(t_param *param)
 			if (param->current_cycle == param->flag.dump)
 			{
 				map_print(param);
-				break ;
+				exit(0);
 			}
 			if (param->flag.step && !(param->current_cycle % param->flag.step))
 				map_print(param);
 		}
 		c = 0;
 	}
+	if (param->current_cycle == param->flag.dump)
+		map_print(param);
 }

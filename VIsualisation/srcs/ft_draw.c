@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 03:08:31 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/03/25 23:03:39 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/03/26 00:31:47 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,8 @@ void		ft_update_my_arr(t_data *data)
 	int			i;
 	char		*str;
 
-	read(0, &magic, sizeof(int));
+	if (read(0, &magic, sizeof(int)) <= 0)
+		return ;
 	++data->mydata->cycles;
 	if (magic != VIS_MAGIC)
 		exit(0);
@@ -188,7 +189,7 @@ void		ft_print_proces(t_data *data, int x, int y, t_process *proc)
 	ft_out_params(data, (t_win_par){x, y + 15, 0xffffff, 0xffffff, "Carry:", proc->carry});
 	ft_out_params(data, (t_win_par){x + 55, y + 38, 0xffffff, 0xffffff, "Wait:", proc->wait});
 	ft_out_params(data, (t_win_par){x + 55, y + 53, 0xffffff, 0xffffff, "Pos:", proc->pc - proc->map});
-	ft_out_params(data, (t_win_par){x + 55, y + 68, 0xffffff, 0xffffff, "Livin:", proc->livin});
+	ft_out_params(data, (t_win_par){x + 55, y + 68, 0xffffff, 0xffffff, "Livin:", data->mydata->cycles - proc->livin});
 	ft_out_params(data, (t_win_par){x + 55, y + 83, 0xffffff, 0xffffff, "Op.id:", proc->op.id});
 	mlx_string_put(data->mlx_ptr, data->mlx_win, x, y + 38, 0xffffff, "Reg:");
 	index = -1;
@@ -218,6 +219,7 @@ int			ft_draw(t_data *data)
 	int		index;
 	int		size;
 	int		pos;
+	int		delta;
 
 	if (!data->mydata->run)
 	{
@@ -234,10 +236,19 @@ int			ft_draw(t_data *data)
 	ft_update_my_arr(data);
 	size = 64;
 	index = data->mydata->first_proces - 1;
+	mlx_string_put(data->mlx_ptr, data->mlx_win,
+	WIN_W - 700, WIN_H - 300, 0xffffff, "Process");
+	ft_out_params(data, (t_win_par){WIN_W - 700, WIN_H - 285, 0xffffff, 0xffffff, "from:", (data->mydata->first_proces + 1)});
+	ft_out_params(data, (t_win_par){WIN_W - 700, WIN_H - 270, 0xffffff, 0xffffff, "count:", data->mydata->process_count});
+	delta = 0;
 	while (++index < data->mydata->process_count && index < data->mydata->first_proces + 10)
-		ft_print_proces(data, 13 + 175 * (index - data->mydata->first_proces), WIN_H - 310, ft_get_process_id(data, index + 1));
+	{
+		while (ft_get_process_id(data, index + 1 + delta) == NULL)
+			++delta;
+		ft_print_proces(data, 13 + 175 * (index - data->mydata->first_proces), WIN_H - 310, ft_get_process_id(data, index + 1 + delta));
+	}
 	index = -1;
-	while (++index <= data->mydata->process_count)
+	while (++index < data->mydata->process_count)
 	{
 		pos = data->mydata->process[index].pc - data->mydata->process[index].map;
 		mlx_string_put(data->mlx_ptr, data->mlx_win,
@@ -252,7 +263,6 @@ int			ft_draw(t_data *data)
 		data->mydata->arr[index].str);
 	}
 	ft_out_params(data, (t_win_par){WIN_W - 500, 50, 0xffffff, 0xffffff, "Cycles:", data->mydata->cycles});
-	ft_out_params(data, (t_win_par){WIN_W - 500, 100, 0xffffff, 0xffffff, "Process count:", data->mydata->process_count});
 	mlx_string_put(data->mlx_ptr, data->mlx_win,
 	WIN_W - 495, 20, 0x00ff00, "< RUN >");
 	return (1);

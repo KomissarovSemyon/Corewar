@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/30 19:44:56 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/03/22 20:04:20 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/03/25 21:15:19 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <mlx.h>
 # include <math.h>
 # include <stdlib.h>
+#include "vm.h"
 
 # define WIN_H 1300
 # define WIN_W 2500
@@ -68,6 +69,8 @@ typedef struct	s_mydata
 	long long	cycles;
 	int			run;
 	int			color[10];
+	t_process	*process;
+	t_process	*process_count;
 }				t_mydata;
 
 typedef struct	s_img
@@ -86,6 +89,16 @@ typedef struct	s_data
 	t_img		*img;
 	t_mydata	*mydata;
 }				t_data;
+
+typedef struct	s_win_par
+{
+	int			x;
+	int			y;
+	int			color_str;
+	int			color_num;
+	char		*str;
+	int			par;
+}				t_win_par;
 
 void			ft_open_win(char *str, int argc, char **argv);
 

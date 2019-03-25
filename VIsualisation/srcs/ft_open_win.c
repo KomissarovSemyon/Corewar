@@ -6,12 +6,11 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 07:03:09 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/03/22 19:26:26 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/03/25 21:15:33 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
-#include "vm.h"
 
 t_my_array
 	ft_init_my_arr(int color, const char *str)
@@ -67,6 +66,8 @@ void
 		ft_close(data);
 	data->mydata->cycles = 0;
 	data->mydata->run = 0;
+	data->mydata->process = NULL;
+	data->mydata->process_count = 0;
 	index = -1;
 	while (++index < MEM_SIZE)
 		data->mydata->arr[index] = ft_init_my_arr(0, "9f");

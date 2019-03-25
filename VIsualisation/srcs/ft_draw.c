@@ -6,12 +6,11 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 03:08:31 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/03/22 20:25:19 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/03/25 21:24:25 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
-#include "vm.h"
 
 void		line_fast(t_data *env, double *p1, double *p2, int color)
 {
@@ -122,7 +121,6 @@ void		ft_update_my_arr(t_data *data)
 	{
 		free(data->mydata->arr[i].str);
 		data->mydata->arr[i].str = ft_rebase(param.map[i], 16);
-		ft_printf("%d\n", param.map[i]);
 		if (ft_strlen(data->mydata->arr[i].str) == 1)
 		{
 			str = ft_strdup("00");
@@ -132,25 +130,52 @@ void		ft_update_my_arr(t_data *data)
 		}
 		data->mydata->arr[i].color = param.map_color[i];
 	}
-	// i = -1;
-	// while (++i < param.proc_nbr)
-	// {
-	// 	process_new(&param, NULL, param.map);
-	// 	read(0, param.process, sizeof(t_process));
-	// }
+	ft_printf("%d\n", param.proc_nbr);
+	if (data->mydata->process != NULL)
+		free(data->mydata->process);
+	data->mydata->process = (t_process *)malloc(sizeof(t_process) *
+	(param.proc_nbr));
+	data->mydata->process_count = param.proc_nbr;
+	i = -1;
+	while (++i < param.proc_nbr)
+	{
+		read(0, &(data->mydata->process[i]), sizeof(t_process));
+	}
+}
+
+void		ft_out_params(t_data *data, t_win_par par)
+{
+	int		width;
+	char	*num;
+
+	mlx_string_put(data->mlx_ptr, data->mlx_win, par.x, par.y,
+	par.color_str, par.str);
+	width = ft_strlen(par.str);
+	num = ft_itoa(par.par);
+	mlx_string_put(data->mlx_ptr, data->mlx_win, par.x + width * 10 + 5, par.y,
+	par.color_num, num);
+	free(num);
 }
 
 int			ft_draw(t_data *data)
 {
 	int		index;
-	char	*str;
 	int		size;
+	int		pos;
 
 	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win,
 		data->img->img_ptr, 0, 0);
 	ft_update_my_arr(data);
-	index = -1;
 	size = 64;
+	index = -1;
+	while (++index < data->mydata->process_count)
+	{
+		pos = data->mydata->process[index].pc - data->mydata->process[index].map;
+		mlx_string_put(data->mlx_ptr, data->mlx_win,
+		13 + 30 * (pos % size), 10 + 15 * (pos / size),
+		0xffffff, "__");
+	}
+	index = -1;
 	while (++index < MEM_SIZE)
 	{
 		mlx_string_put(data->mlx_ptr, data->mlx_win,
@@ -158,12 +183,8 @@ int			ft_draw(t_data *data)
 		data->mydata->color[data->mydata->arr[index].color],
 		data->mydata->arr[index].str);
 	}
-	mlx_string_put(data->mlx_ptr, data->mlx_win,
-	WIN_W - 500, 50, 0xffffff, "Cycles:");
-	str = ft_itoa(data->mydata->cycles);
-	mlx_string_put(data->mlx_ptr, data->mlx_win,
-	WIN_W - 430, 50, 0xffffff, str);
-	free(str);
+	ft_out_params(data, (t_win_par){WIN_W - 500, 50, 0xffffff, 0xffffff, "Cycles:", data->mydata->cycles});
+	ft_out_params(data, (t_win_par){WIN_W - 500, 100, 0xffffff, 0xffffff, "Process count:", data->mydata->process_count});
 	if (data->mydata->run == 0)
 		mlx_string_put(data->mlx_ptr, data->mlx_win,
 		WIN_W - 500, 20, 0xff0000, "< STOP >");

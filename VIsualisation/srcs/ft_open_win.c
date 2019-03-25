@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 07:03:09 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/03/25 21:15:33 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/03/25 22:59:09 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,10 @@ void
 	(t_my_array *)malloc(sizeof(t_my_array) * MEM_SIZE)) == NULL)
 		ft_close(data);
 	data->mydata->cycles = 0;
-	data->mydata->run = 0;
+	data->mydata->run = 1;
 	data->mydata->process = NULL;
 	data->mydata->process_count = 0;
+	data->mydata->first_proces = 0;
 	index = -1;
 	while (++index < MEM_SIZE)
 		data->mydata->arr[index] = ft_init_my_arr(0, "9f");

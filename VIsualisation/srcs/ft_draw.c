@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 03:08:31 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/03/25 21:24:25 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/03/25 23:03:39 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,6 @@ void		ft_update_my_arr(t_data *data)
 		}
 		data->mydata->arr[i].color = param.map_color[i];
 	}
-	ft_printf("%d\n", param.proc_nbr);
 	if (data->mydata->process != NULL)
 		free(data->mydata->process);
 	data->mydata->process = (t_process *)malloc(sizeof(t_process) *
@@ -157,23 +156,92 @@ void		ft_out_params(t_data *data, t_win_par par)
 	free(num);
 }
 
+static long long			ft_get_value(unsigned char *ptr, int size)
+{
+	long long	res;
+	int			i;
+
+	res = 0;
+	i = -1;
+	while (++i < size)
+		res = (res << (8 * i)) + ptr[i];
+	return (res);
+}
+
+int			ft_get_reg(t_process *proc, int reg_num)
+{
+	int		reg;
+
+	reg = ft_get_value(proc->r[reg_num], REG_SIZE);
+	return (reg);
+}
+
+void		ft_print_proces(t_data *data, int x, int y, t_process *proc)
+{
+	char	*str;
+	int		reg;
+	int		index;
+
+	if (proc == NULL)
+		return ;
+	ft_out_params(data, (t_win_par){x, y, 0xffffff, 0xffffff, "ID:", proc->id});
+	ft_out_params(data, (t_win_par){x, y + 15, 0xffffff, 0xffffff, "Carry:", proc->carry});
+	ft_out_params(data, (t_win_par){x + 55, y + 38, 0xffffff, 0xffffff, "Wait:", proc->wait});
+	ft_out_params(data, (t_win_par){x + 55, y + 53, 0xffffff, 0xffffff, "Pos:", proc->pc - proc->map});
+	ft_out_params(data, (t_win_par){x + 55, y + 68, 0xffffff, 0xffffff, "Livin:", proc->livin});
+	ft_out_params(data, (t_win_par){x + 55, y + 83, 0xffffff, 0xffffff, "Op.id:", proc->op.id});
+	mlx_string_put(data->mlx_ptr, data->mlx_win, x, y + 38, 0xffffff, "Reg:");
+	index = -1;
+	while (++index < REG_NUMBER)
+	{
+		reg = ft_get_reg(proc, index);
+		str = ft_itoa(reg);
+		mlx_string_put(data->mlx_ptr, data->mlx_win,
+		x, y + 55 + 15 * (index), 0xffffff, str);
+		free(str);
+	}
+}
+
+t_process	*ft_get_process_id(t_data *data, int id)
+{
+	int		index;
+
+	index = -1;
+	while (++index < data->mydata->process_count)
+		if (data->mydata->process[index].id == id)
+			return (&data->mydata->process[index]);
+	return (NULL);
+}
+
 int			ft_draw(t_data *data)
 {
 	int		index;
 	int		size;
 	int		pos;
 
+	if (!data->mydata->run)
+	{
+		mlx_string_put(data->mlx_ptr, data->mlx_win,
+		WIN_W - 495, 20, 0, "< RUN >");
+		mlx_string_put(data->mlx_ptr, data->mlx_win,
+		WIN_W - 500, 20, 0, "< STOP >");
+		mlx_string_put(data->mlx_ptr, data->mlx_win,
+		WIN_W - 500, 20, 0xff0000, "< STOP >");
+		return (1);
+	}
 	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win,
 		data->img->img_ptr, 0, 0);
 	ft_update_my_arr(data);
 	size = 64;
+	index = data->mydata->first_proces - 1;
+	while (++index < data->mydata->process_count && index < data->mydata->first_proces + 10)
+		ft_print_proces(data, 13 + 175 * (index - data->mydata->first_proces), WIN_H - 310, ft_get_process_id(data, index + 1));
 	index = -1;
-	while (++index < data->mydata->process_count)
+	while (++index <= data->mydata->process_count)
 	{
 		pos = data->mydata->process[index].pc - data->mydata->process[index].map;
 		mlx_string_put(data->mlx_ptr, data->mlx_win,
-		13 + 30 * (pos % size), 10 + 15 * (pos / size),
-		0xffffff, "__");
+		13 + 30 * (pos % size), 10 + 15 * (pos / size), 0xffffff, "__");
 	}
 	index = -1;
 	while (++index < MEM_SIZE)
@@ -185,11 +253,7 @@ int			ft_draw(t_data *data)
 	}
 	ft_out_params(data, (t_win_par){WIN_W - 500, 50, 0xffffff, 0xffffff, "Cycles:", data->mydata->cycles});
 	ft_out_params(data, (t_win_par){WIN_W - 500, 100, 0xffffff, 0xffffff, "Process count:", data->mydata->process_count});
-	if (data->mydata->run == 0)
-		mlx_string_put(data->mlx_ptr, data->mlx_win,
-		WIN_W - 500, 20, 0xff0000, "< STOP >");
-	else
-		mlx_string_put(data->mlx_ptr, data->mlx_win,
-		WIN_W - 495, 20, 0x00ff00, "< RUN >");
+	mlx_string_put(data->mlx_ptr, data->mlx_win,
+	WIN_W - 495, 20, 0x00ff00, "< RUN >");
 	return (1);
 }

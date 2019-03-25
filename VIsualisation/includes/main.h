@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/30 19:44:56 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/03/25 21:15:19 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/03/25 22:58:57 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ typedef struct	s_mydata
 	int			run;
 	int			color[10];
 	t_process	*process;
-	t_process	*process_count;
+	int			process_count;
+	int			first_proces;
 }				t_mydata;
 
 typedef struct	s_img

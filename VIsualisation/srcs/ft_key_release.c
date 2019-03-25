@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 03:25:16 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/03/18 03:05:59 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/03/25 23:05:28 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ int				key_press(int key, t_data *data)
 		data->mydata->run = !data->mydata->run;
 	else if (key == B_ESC)
 		ft_close(data);
+	data->mydata->first_proces +=
+	(key == 24 && data->mydata->first_proces < (data->mydata->process_count - 1)) -
+	(key == 27 && data->mydata->first_proces > 0);
 	ft_printf("key_press=%d\n", key);
 	return (1);
 }

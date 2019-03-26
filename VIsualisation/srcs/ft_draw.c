@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 03:08:31 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/03/26 04:36:59 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/03/26 17:03:43 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,17 +220,21 @@ t_process
 	*ft_get_process_id(t_data *data, int id)
 {
 	if (id < data->mydata->process_count)
-		return (&data->mydata->process[id]);
+		return (&data->mydata->process[data->mydata->process_count - 1 - id]);
 	return (NULL);
 }
 
 void
 	ft_print_champs(t_data *data, int x, int y, t_champ *champs)
 {
-	mlx_string_put(data->mlx_ptr, data->mlx_win, x, y, 0x00ff00, champs->name);
-	mlx_string_put(data->mlx_ptr, data->mlx_win, x, y + 15, 0x00ff00, champs->comment);
-	ft_out_params(data, (t_win_par){x, y + 30, 0xffffff, 0xffffff, "champ_size:", champs->champ_size});
-	ft_out_params(data, (t_win_par){x, y + 45, 0xffffff, 0xffffff, "color:", champs->color});
+	mlx_string_put(data->mlx_ptr, data->mlx_win, x, y, 0xffffff, "Name:");
+	mlx_string_put(data->mlx_ptr, data->mlx_win, x + 80, y, 0x00ff00, champs->name);
+	mlx_string_put(data->mlx_ptr, data->mlx_win, x, y + 15, 0xffffff, "Comment:");
+	mlx_string_put(data->mlx_ptr, data->mlx_win, x + 80, y + 15, 0x00ff00, champs->comment);
+	ft_out_params(data, (t_win_par){x, y + 30, 0xffffff, 0x00ff00, "champ_size:", champs->champ_size});
+	ft_out_params(data, (t_win_par){x, y + 45, 0xffffff, 0x00ff00, "color:", champs->color});
+	ft_out_params(data, (t_win_par){x, y + 60, 0xffffff, 0x00ff00, "n:", champs->n});
+	ft_out_params(data, (t_win_par){x, y + 75, 0xffffff, 0x00ff00, "magic:", champs->magic});
 }
 
 int
@@ -254,8 +258,7 @@ int
 		WIN_W - 495, 20, 0xff0000, "< STOP >");	
 	size = 64;
 	index = data->mydata->first_proces - 1;
-	mlx_string_put(data->mlx_ptr, data->mlx_win,
-	WIN_W - 700, WIN_H - 300, 0xffffff, "Process");
+	mlx_string_put(data->mlx_ptr, data->mlx_win, WIN_W - 700, WIN_H - 300, 0xffffff, "Process");
 	ft_out_params(data, (t_win_par){WIN_W - 700, WIN_H - 285, 0xffffff, 0xffffff, "from:", (data->mydata->first_proces + 1)});
 	ft_out_params(data, (t_win_par){WIN_W - 700, WIN_H - 270, 0xffffff, 0xffffff, "count:", data->mydata->process_count});
 	delta = 0;

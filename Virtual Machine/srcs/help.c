@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/16 21:15:58 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/24 00:56:35 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/24 03:33:09 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,25 @@
 
 unsigned char		*get_step(unsigned char *map, unsigned char *ptr, int step)
 {
-	return (map + (ptr - map + step) % MEM_SIZE);
+	long long		i;
+
+	i = step > 0 ? step : -step;
+	while (i--)
+		if (step > 0)
+		{
+			if (ptr == map + MEM_SIZE - 1)
+				ptr = map;
+			else
+				++ptr;
+		}
+		else
+		{
+			if (ptr == map)
+				ptr = map + MEM_SIZE - 1;
+			else
+				--ptr;
+		}
+	return (ptr);
 }
 
 void				set_value(unsigned char *map, unsigned char *dst,
@@ -30,6 +48,32 @@ void				set_value(unsigned char *map, unsigned char *dst,
 			*get_step(map, dst, i) = (src >> (size - i - 1) * 8) & 0xff;
 }
 
+long long			get_signed_value(unsigned char *map,
+									unsigned char *ptr, int size)
+{
+	long long	res;
+	int			i;
+	int			sign;
+
+	sign = 0;
+	if (*ptr & 0x80)
+		sign = 1;
+	res = 0;
+	i = -1;
+	while (++i < size)
+		if (map)
+		{
+			res = (res << 8) + (sign ? 0xff - *ptr : *ptr);
+			ptr = get_step(map, ptr, 1);
+		}
+		else
+			res = (res << 8) + (sign ? 0xff - ptr[i] : ptr[i]);
+	if (sign)
+		res = -(res + 1);
+	ft_printf("%d\n", res);
+	return (res);
+}
+
 long long			get_value(unsigned char *map, unsigned char *ptr, int size)
 {
 	long long	res;
@@ -39,9 +83,12 @@ long long			get_value(unsigned char *map, unsigned char *ptr, int size)
 	i = -1;
 	while (++i < size)
 		if (map)
-			res = (res << (8 * i)) + *get_step(map, ptr, i);
+		{
+			res = (res << 8) + *ptr;
+			ptr = get_step(map, ptr, 1);
+		}
 		else
-			res = (res << (8 * i)) + ptr[i];
+			res = (res << 8) + ptr[i];
 	return (res);
 }
 

@@ -6,13 +6,14 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 03:08:31 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/03/26 03:02:28 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/03/26 04:36:59 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-void		line_fast(t_data *env, double *p1, double *p2, int color)
+void
+	line_fast(t_data *env, double *p1, double *p2, int color)
 {
 	int i;
 	int x[2];
@@ -39,12 +40,14 @@ void		line_fast(t_data *env, double *p1, double *p2, int color)
 		}
 }
 
-void		ft_draw_px(t_data *data, int x, int y, int color)
+void
+	ft_draw_px(t_data *data, int x, int y, int color)
 {
 	data->img->data[y * WIN_W + x] = color;
 }
 
-void		line_vertical(t_data *data, int x, int *y, int color)
+void
+	line_vertical(t_data *data, int x, int *y, int color)
 {
 	int	ind_y;
 
@@ -53,7 +56,8 @@ void		line_vertical(t_data *data, int x, int *y, int color)
 		data->img->data[ind_y * WIN_H + x] = color;
 }
 
-void		ft_linefast_int(t_data *data, int *p1, int *p2, int color)
+void
+	ft_linefast_int(t_data *data, int *p1, int *p2, int color)
 {
 	double	f1[2];
 	double	f2[2];
@@ -65,7 +69,8 @@ void		ft_linefast_int(t_data *data, int *p1, int *p2, int color)
 	line_fast(data, f1, f2, color);
 }
 
-void		draw_cube_size(t_data *data, int x, int y, int color, double size)
+void
+	draw_cube_size(t_data *data, int x, int y, int color, double size)
 {
 	int		pos[2];
 	int		colors[5];
@@ -83,12 +88,14 @@ void		draw_cube_size(t_data *data, int x, int y, int color, double size)
 	ft_draw_square(data, pos, 9 * size, colors[color]);
 }
 
-void		draw_cube(t_data *data, int x, int y, int color)
+void
+	draw_cube(t_data *data, int x, int y, int color)
 {
 	draw_cube_size(data, x, y, color, 1);
 }
 
-void		draw_cube_active(t_data *data, int x, int y, int color)
+void
+	draw_cube_active(t_data *data, int x, int y, int color)
 {
 	int		pos[2];
 	int		colors[5];
@@ -104,7 +111,8 @@ void		draw_cube_active(t_data *data, int x, int y, int color)
 	ft_draw_square(data, pos, 8, colors[color]);
 }
 
-void		ft_update_my_arr(t_data *data)
+void
+	ft_update_my_arr(t_data *data)
 {
 	int			magic;
 	int			i;
@@ -140,12 +148,11 @@ void		ft_update_my_arr(t_data *data)
 	data->mydata->process_count = data->mydata->param->proc_nbr;
 	i = -1;
 	while (++i < data->mydata->param->proc_nbr)
-	{
 		read(0, &(data->mydata->process[i]), sizeof(t_process));
-	}
 }
 
-void		ft_out_params(t_data *data, t_win_par par)
+void
+	ft_out_params(t_data *data, t_win_par par)
 {
 	int		width;
 	char	*num;
@@ -159,7 +166,8 @@ void		ft_out_params(t_data *data, t_win_par par)
 	free(num);
 }
 
-static long long			ft_get_value(unsigned char *ptr, int size)
+static long long
+	ft_get_value(unsigned char *ptr, int size)
 {
 	long long	res;
 	int			i;
@@ -171,7 +179,8 @@ static long long			ft_get_value(unsigned char *ptr, int size)
 	return (res);
 }
 
-int			ft_get_reg(t_process *proc, int reg_num)
+int
+	ft_get_reg(t_process *proc, int reg_num)
 {
 	int		reg;
 
@@ -179,7 +188,8 @@ int			ft_get_reg(t_process *proc, int reg_num)
 	return (reg);
 }
 
-void		ft_print_proces(t_data *data, int x, int y, t_process *proc)
+void
+	ft_print_proces(t_data *data, int x, int y, t_process *proc)
 {
 	char	*str;
 	int		reg;
@@ -206,14 +216,16 @@ void		ft_print_proces(t_data *data, int x, int y, t_process *proc)
 	}
 }
 
-t_process	*ft_get_process_id(t_data *data, int id)
+t_process
+	*ft_get_process_id(t_data *data, int id)
 {
 	if (id < data->mydata->process_count)
 		return (&data->mydata->process[id]);
 	return (NULL);
 }
 
-void		ft_print_champs(t_data *data, int x, int y, t_champ *champs)
+void
+	ft_print_champs(t_data *data, int x, int y, t_champ *champs)
 {
 	mlx_string_put(data->mlx_ptr, data->mlx_win, x, y, 0x00ff00, champs->name);
 	mlx_string_put(data->mlx_ptr, data->mlx_win, x, y + 15, 0x00ff00, champs->comment);
@@ -221,7 +233,8 @@ void		ft_print_champs(t_data *data, int x, int y, t_champ *champs)
 	ft_out_params(data, (t_win_par){x, y + 45, 0xffffff, 0xffffff, "color:", champs->color});
 }
 
-int			ft_draw(t_data *data)
+int
+	ft_draw(t_data *data)
 {
 	int		index;
 	int		size;

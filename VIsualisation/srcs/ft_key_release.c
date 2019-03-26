@@ -6,20 +6,22 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 03:25:16 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/03/25 23:05:28 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/03/26 04:33:46 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-int				key_release(int key, t_data *data)
+int
+	key_release(int key, t_data *data)
 {
 	if (key == B_SPACE)
 		data->mydata->run = 0;
 	return (1);
 }
 
-int				key_press(int key, t_data *data)
+int
+	key_press(int key, t_data *data)
 {
 	if (key == B_SPACE)
 		data->mydata->run = 1;

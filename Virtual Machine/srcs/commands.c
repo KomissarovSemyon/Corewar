@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 10:05:03 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/24 03:21:16 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/26 17:18:14 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void		op_st(t_param *param, t_process *process)
 	long long	reg;
 
 	reg = get_value(NULL, process->r[process->op.arg[0]], REG_SIZE);
-	ft_printf("%d\n", (unsigned char *)process->op.arg[1] - process->map);
+	// ft_printf("%d\n", (unsigned char *)process->op.arg[1] - process->map);
 	if (process->op.arg_type[1] == IND_CODE)
 	{
 		set_value(process->map, (unsigned char *)process->op.arg[1],

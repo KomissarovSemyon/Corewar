@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   help.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/16 21:15:58 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/24 03:33:09 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/26 17:18:51 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ long long			get_signed_value(unsigned char *map,
 			res = (res << 8) + (sign ? 0xff - ptr[i] : ptr[i]);
 	if (sign)
 		res = -(res + 1);
-	ft_printf("%d\n", res);
+	// ft_printf("%d\n", res);
 	return (res);
 }
 

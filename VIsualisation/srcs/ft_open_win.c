@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 07:03:09 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/03/25 22:59:09 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/03/26 02:52:32 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void
 	data->mydata->cycles = 0;
 	data->mydata->run = 1;
 	data->mydata->process = NULL;
+	data->mydata->param = NULL;
 	data->mydata->process_count = 0;
 	data->mydata->first_proces = 0;
 	index = -1;

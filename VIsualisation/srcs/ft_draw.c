@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 03:08:31 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/03/26 00:31:47 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/03/26 03:02:28 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ void		draw_cube_active(t_data *data, int x, int y, int color)
 void		ft_update_my_arr(t_data *data)
 {
 	int			magic;
-	t_param		param;
 	int			i;
 	char		*str;
 
@@ -116,12 +115,15 @@ void		ft_update_my_arr(t_data *data)
 	++data->mydata->cycles;
 	if (magic != VIS_MAGIC)
 		exit(0);
-	read(0, &param, sizeof(t_param));
+	if (data->mydata->param != NULL)
+		free(data->mydata->param);
+	data->mydata->param = (t_param *)malloc(sizeof(t_param));
+	read(0, data->mydata->param, sizeof(t_param));
 	i = -1;
 	while (++i < MEM_SIZE)
 	{
 		free(data->mydata->arr[i].str);
-		data->mydata->arr[i].str = ft_rebase(param.map[i], 16);
+		data->mydata->arr[i].str = ft_rebase(data->mydata->param->map[i], 16);
 		if (ft_strlen(data->mydata->arr[i].str) == 1)
 		{
 			str = ft_strdup("00");
@@ -129,15 +131,15 @@ void		ft_update_my_arr(t_data *data)
 			free(data->mydata->arr[i].str);
 			data->mydata->arr[i].str = str;
 		}
-		data->mydata->arr[i].color = param.map_color[i];
+		data->mydata->arr[i].color = data->mydata->param->map_color[i];
 	}
 	if (data->mydata->process != NULL)
 		free(data->mydata->process);
 	data->mydata->process = (t_process *)malloc(sizeof(t_process) *
-	(param.proc_nbr));
-	data->mydata->process_count = param.proc_nbr;
+	(data->mydata->param->proc_nbr));
+	data->mydata->process_count = data->mydata->param->proc_nbr;
 	i = -1;
-	while (++i < param.proc_nbr)
+	while (++i < data->mydata->param->proc_nbr)
 	{
 		read(0, &(data->mydata->process[i]), sizeof(t_process));
 	}
@@ -188,9 +190,10 @@ void		ft_print_proces(t_data *data, int x, int y, t_process *proc)
 	ft_out_params(data, (t_win_par){x, y, 0xffffff, 0xffffff, "ID:", proc->id});
 	ft_out_params(data, (t_win_par){x, y + 15, 0xffffff, 0xffffff, "Carry:", proc->carry});
 	ft_out_params(data, (t_win_par){x + 55, y + 38, 0xffffff, 0xffffff, "Wait:", proc->wait});
-	ft_out_params(data, (t_win_par){x + 55, y + 53, 0xffffff, 0xffffff, "Pos:", proc->pc - proc->map});
-	ft_out_params(data, (t_win_par){x + 55, y + 68, 0xffffff, 0xffffff, "Livin:", data->mydata->cycles - proc->livin});
-	ft_out_params(data, (t_win_par){x + 55, y + 83, 0xffffff, 0xffffff, "Op.id:", proc->op.id});
+	ft_out_params(data, (t_win_par){x + 55, y + 53, 0xffffff, 0xffffff, "Pos_y:", (proc->pc - proc->map) / 64});
+	ft_out_params(data, (t_win_par){x + 55, y + 68, 0xffffff, 0xffffff, "Pos_x:", (proc->pc - proc->map) % 64});
+	ft_out_params(data, (t_win_par){x + 55, y + 83, 0xffffff, 0xffffff, "Livin:", data->mydata->cycles - proc->livin});
+	ft_out_params(data, (t_win_par){x + 55, y + 98, 0xffffff, 0xffffff, "Op.id:", proc->op.id});
 	mlx_string_put(data->mlx_ptr, data->mlx_win, x, y + 38, 0xffffff, "Reg:");
 	index = -1;
 	while (++index < REG_NUMBER)
@@ -205,13 +208,17 @@ void		ft_print_proces(t_data *data, int x, int y, t_process *proc)
 
 t_process	*ft_get_process_id(t_data *data, int id)
 {
-	int		index;
-
-	index = -1;
-	while (++index < data->mydata->process_count)
-		if (data->mydata->process[index].id == id)
-			return (&data->mydata->process[index]);
+	if (id < data->mydata->process_count)
+		return (&data->mydata->process[id]);
 	return (NULL);
+}
+
+void		ft_print_champs(t_data *data, int x, int y, t_champ *champs)
+{
+	mlx_string_put(data->mlx_ptr, data->mlx_win, x, y, 0x00ff00, champs->name);
+	mlx_string_put(data->mlx_ptr, data->mlx_win, x, y + 15, 0x00ff00, champs->comment);
+	ft_out_params(data, (t_win_par){x, y + 30, 0xffffff, 0xffffff, "champ_size:", champs->champ_size});
+	ft_out_params(data, (t_win_par){x, y + 45, 0xffffff, 0xffffff, "color:", champs->color});
 }
 
 int			ft_draw(t_data *data)
@@ -221,19 +228,17 @@ int			ft_draw(t_data *data)
 	int		pos;
 	int		delta;
 
-	if (!data->mydata->run)
-	{
-		mlx_string_put(data->mlx_ptr, data->mlx_win,
-		WIN_W - 495, 20, 0, "< RUN >");
-		mlx_string_put(data->mlx_ptr, data->mlx_win,
-		WIN_W - 500, 20, 0, "< STOP >");
-		mlx_string_put(data->mlx_ptr, data->mlx_win,
-		WIN_W - 500, 20, 0xff0000, "< STOP >");
-		return (1);
-	}
 	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win,
 		data->img->img_ptr, 0, 0);
-	ft_update_my_arr(data);
+	if (data->mydata->run)
+	{
+		ft_update_my_arr(data);
+		mlx_string_put(data->mlx_ptr, data->mlx_win,
+		WIN_W - 495, 20, 0x00ff00, "< RUN >");
+	}
+	else
+		mlx_string_put(data->mlx_ptr, data->mlx_win,
+		WIN_W - 495, 20, 0xff0000, "< STOP >");	
 	size = 64;
 	index = data->mydata->first_proces - 1;
 	mlx_string_put(data->mlx_ptr, data->mlx_win,
@@ -243,9 +248,9 @@ int			ft_draw(t_data *data)
 	delta = 0;
 	while (++index < data->mydata->process_count && index < data->mydata->first_proces + 10)
 	{
-		while (ft_get_process_id(data, index + 1 + delta) == NULL)
+		while (ft_get_process_id(data, index + delta) == NULL)
 			++delta;
-		ft_print_proces(data, 13 + 175 * (index - data->mydata->first_proces), WIN_H - 310, ft_get_process_id(data, index + 1 + delta));
+		ft_print_proces(data, 13 + 175 * (index - data->mydata->first_proces), WIN_H - 310, ft_get_process_id(data, index + delta));
 	}
 	index = -1;
 	while (++index < data->mydata->process_count)
@@ -263,7 +268,15 @@ int			ft_draw(t_data *data)
 		data->mydata->arr[index].str);
 	}
 	ft_out_params(data, (t_win_par){WIN_W - 500, 50, 0xffffff, 0xffffff, "Cycles:", data->mydata->cycles});
-	mlx_string_put(data->mlx_ptr, data->mlx_win,
-	WIN_W - 495, 20, 0x00ff00, "< RUN >");
+	ft_out_params(data, (t_win_par){WIN_W - 500, 70, 0xffffff, 0xffffff, "Players:", data->mydata->param->players});
+	ft_out_params(data, (t_win_par){WIN_W - 500, 90, 0xffffff, 0xffffff, "cycles_to_die:", data->mydata->param->cycles_to_die});
+	ft_out_params(data, (t_win_par){WIN_W - 500, 110, 0xffffff, 0xffffff, "current_cycle:", data->mydata->param->current_cycle});
+	ft_out_params(data, (t_win_par){WIN_W - 500, 130, 0xffffff, 0xffffff, "last_check:", data->mydata->param->last_check});
+	ft_out_params(data, (t_win_par){WIN_W - 500, 150, 0xffffff, 0xffffff, "checks:", data->mydata->param->checks});
+	ft_out_params(data, (t_win_par){WIN_W - 500, 170, 0xffffff, 0xffffff, "live_nbr:", data->mydata->param->live_nbr});
+	ft_out_params(data, (t_win_par){WIN_W - 500, 190, 0xffffff, 0xffffff, "winner:", data->mydata->param->winner});
+	index = -1;
+	while (++index < data->mydata->param->players)
+		ft_print_champs(data, WIN_W - 550, 250 + 100 * (index), &(data->mydata->param->champs[index]));
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 10:05:03 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/24 03:21:16 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/26 20:04:32 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void		op_st(t_param *param, t_process *process)
 	long long	reg;
 
 	reg = get_value(NULL, process->r[process->op.arg[0]], REG_SIZE);
-	ft_printf("%d\n", (unsigned char *)process->op.arg[1] - process->map);
 	if (process->op.arg_type[1] == IND_CODE)
 	{
 		set_value(process->map, (unsigned char *)process->op.arg[1],
@@ -144,6 +143,12 @@ void		op_xor(t_param *param, t_process *process)
 
 void		op_zjmp(t_param *param, t_process *process)
 {
+	unsigned char	reg[REG_SIZE];
+	long long		res;
+
+///	set_value(NULL, reg, process->op.arg[0], REG_SIZE);
+//	res = get_signed_value(NULL, reg, REG_SIZE);
+//	ft_printf("%x  %x\n", process->op.arg[0], res);
 	if (process->carry)
 		process->pc = get_step(process->map, process->pc,
 				process->op.arg[0] % IDX_MOD);

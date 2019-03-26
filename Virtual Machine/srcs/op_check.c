@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/16 23:23:48 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/03/22 23:55:26 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/26 18:30:03 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ int						op_check(t_process *p)
 	int			codage;
 
 	codage = get_map_pos(p, (p->pc - p->map) + 1);
+	if (p->op.id == LIVE || p->op.id == ZJMP || p->op.id == FORK ||
+			p->op.id == LFORK)
+		return (1);
 	if (codage & 3)
 		return (0);
 	if (p->op.id > 15)

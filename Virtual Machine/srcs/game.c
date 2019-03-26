@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/17 01:25:13 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/25 20:54:35 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/26 18:27:01 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ static void		do_op(t_param *param, t_process *process)
 												g_op_tab[process->op.id].name);
 	if (param->flag.oper)
 		ft_printf("moving to %d\n\n", process->op.ptr - process->map);
-	process->pc = process->op.ptr;
+	if (!(process->op.id == ZJMP && process->carry && op_check(process)))
+		process->pc = process->op.ptr;
 }
 
 static void		process_act(t_param *param, t_process *process)

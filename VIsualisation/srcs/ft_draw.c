@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 03:08:31 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/02 18:02:27 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/02 18:59:12 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,10 @@ void
 		return ;
 	++data->mydata->cycles;
 	if (magic != VIS_MAGIC)
+	{
+		ft_printf("VIS_MAGIC Error!!!\n");
 		exit(0);
+	}
 	if (data->mydata->param != NULL)
 		free(data->mydata->param);
 	data->mydata->param = (t_param *)malloc(sizeof(t_param));
@@ -198,35 +201,34 @@ void
 	ft_print_proces(t_data *data, int x, int y, t_process *proc)
 {
 	char	*str;
-	int		reg;
 	int		index;
 
 	if (proc == NULL)
 		return ;
 	ft_out_params(data, (t_win_par){x, y, 0xffffff, 0xffffff, "ID:", proc->id});
-	// ft_out_params(data, (t_win_par){x, y + 15, 0xffffff, 0xffffff, "Carry:", proc->carry});
-	// ft_out_params(data, (t_win_par){x + 55, y + 38, 0xffffff, 0xffffff, "Wait:", proc->wait});
-	// ft_out_params(data, (t_win_par){x + 55, y + 53, 0xffffff, 0xffffff, "Pos_y:", (proc->pc - proc->map) / 64});
-	// ft_out_params(data, (t_win_par){x + 55, y + 68, 0xffffff, 0xffffff, "Pos_x:", (proc->pc - proc->map) % 64});
-	// ft_out_params(data, (t_win_par){x + 55, y + 83, 0xffffff, 0xffffff, "Livin:", data->mydata->cycles - proc->livin});
-	// ft_out_params(data, (t_win_par){x + 55, y + 98, 0xffffff, 0xffffff, "Op.id:", proc->op.id});
-	mlx_string_put(data->mlx_ptr, data->mlx_win, x, y + 38, 0xffffff, "Reg:");
-	index = -1;
-	while (++index < REG_NUMBER)
+	ft_out_params(data, (t_win_par){x, y + 15, 0xffffff, 0xffffff, "Carry:", proc->carry});
+	ft_out_params(data, (t_win_par){x, y + 38, 0xffffff, 0xffffff, "Wait:", proc->wait});
+	ft_out_params(data, (t_win_par){x, y + 53, 0xffffff, 0xffffff, "Pos_y:", (proc->pc - proc->map) / 64});
+	ft_out_params(data, (t_win_par){x, y + 68, 0xffffff, 0xffffff, "Pos_x:", (proc->pc - proc->map) % 64});
+	ft_out_params(data, (t_win_par){x, y + 83, 0xffffff, 0xffffff, "Livin:", data->mydata->cycles - proc->livin});
+	ft_out_params(data, (t_win_par){x, y + 98, 0xffffff, 0xffffff, "Op.id:", proc->op.id});
+	mlx_string_put(data->mlx_ptr, data->mlx_win, x, y + 113, 0xffffff, "Reg:");
+	index = data->mydata->first_reg - 1;
+	while (++index < REG_NUMBER && index <= data->mydata->first_reg + 10)
 	{
-		reg = ft_get_reg(proc, index);
+		str = ft_itoa(index);
+		mlx_string_put(data->mlx_ptr, data->mlx_win,
+		x, y + 133 + 15 * (index - data->mydata->first_reg), 0xffffff, str);
+		mlx_string_put(data->mlx_ptr, data->mlx_win,
+		x + 20, y + 133 + 15 * (index - data->mydata->first_reg), 0xffffff, ":");
+		free(str);
 		str = ft_strdup("00000000");
-//		str[0] = proc->r[index][0] + '0';
-//		str[1] = proc->r[index][1] + '0';
-//		str[2] = proc->r[index][2] + '0';
-//		str[3] = proc->r[index][3] + '0';
 		byte_to_str(str, proc->r[index][0]);
 		byte_to_str(&str[2], proc->r[index][1]);
 		byte_to_str(&str[4], proc->r[index][2]);
 		byte_to_str(&str[6], proc->r[index][3]);
 		mlx_string_put(data->mlx_ptr, data->mlx_win,
-		x, y + 55 + 15 * (index), 0xffffff, str);
-		printf("str[%d]= %d %d %d %d\n", index, proc->r[index][0], proc->r[index][1], proc->r[index][2], proc->r[index][3]);
+		x + 30, y + 133 + 15 * (index - data->mydata->first_reg), 0xffffff, str);
 		free(str);
 	}
 }
@@ -278,11 +280,11 @@ int
 	ft_out_params(data, (t_win_par){WIN_W - 700, WIN_H - 285, 0xffffff, 0xffffff, "from:", (data->mydata->first_proces + 1)});
 	ft_out_params(data, (t_win_par){WIN_W - 700, WIN_H - 270, 0xffffff, 0xffffff, "count:", data->mydata->process_count});
 	delta = 0;
-	while (++index < data->mydata->process_count && index < data->mydata->first_proces + 10)
+	while (++index < data->mydata->process_count && index < data->mydata->first_proces + 14)
 	{
 		while (ft_get_process_id(data, index + delta) == NULL)
 			++delta;
-		ft_print_proces(data, 13 + 175 * (index - data->mydata->first_proces), WIN_H - 310, ft_get_process_id(data, index + delta));
+		ft_print_proces(data, 13 + 125 * (index - data->mydata->first_proces), WIN_H - 310, ft_get_process_id(data, index + delta));
 	}
 	index = -1;
 	while (++index < data->mydata->process_count)
@@ -307,7 +309,8 @@ int
 	ft_out_params(data, (t_win_par){WIN_W - 500, 150, 0xffffff, 0xffffff, "checks:", data->mydata->param->checks});
 	ft_out_params(data, (t_win_par){WIN_W - 500, 170, 0xffffff, 0xffffff, "live_nbr:", data->mydata->param->live_nbr});
 	ft_out_params(data, (t_win_par){WIN_W - 500, 190, 0xffffff, 0xffffff, "winner:", data->mydata->param->winner});
-	mlx_string_put(data->mlx_ptr, data->mlx_win, WIN_W - 550, WIN_H - 70, 0xffffff, "use arrows to move process list");
+	mlx_string_put(data->mlx_ptr, data->mlx_win, WIN_W - 550, WIN_H - 90, 0xffffff, "use vertical arrows to move register list");
+	mlx_string_put(data->mlx_ptr, data->mlx_win, WIN_W - 550, WIN_H - 70, 0xffffff, "use horizontal arrows to move process list");
 	mlx_string_put(data->mlx_ptr, data->mlx_win, WIN_W - 550, WIN_H - 50, 0xffffff, "use space to stop or make 1 step");
 	mlx_string_put(data->mlx_ptr, data->mlx_win, WIN_W - 550, WIN_H - 30, 0xffffff, "use command to stop or run programm");
 	index = -1;

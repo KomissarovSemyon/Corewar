@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 07:03:09 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/03/26 04:32:22 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/02 18:24:57 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void
 	data->mydata->param = NULL;
 	data->mydata->process_count = 0;
 	data->mydata->first_proces = 0;
+	data->mydata->first_reg = 0;
 	index = -1;
 	while (++index < MEM_SIZE)
 		data->mydata->arr[index] = ft_init_my_arr(0, "00");

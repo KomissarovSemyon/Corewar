@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/30 19:44:56 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/03/26 00:56:40 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/02 18:24:32 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct	s_mydata
 	t_param		*param;
 	int			process_count;
 	int			first_proces;
+	int			first_reg;
 }				t_mydata;
 
 typedef struct	s_img

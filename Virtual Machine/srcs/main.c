@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:47:41 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/25 20:12:10 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/02 18:08:00 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,24 @@ static void		param_init(t_param *p)
 static void		param_vis(t_param *p)
 {
 //	p->flag.cycle = 1;
-	p->flag.map = 1;
+//	p->flag.map = 1;
 //	p->flag.param = 1;
 //	p->flag.process = 1;
-	p->flag.step = 1;
+//	p->flag.step = 1;
+}
+
+static void		intro(t_param *p)
+{
+	int		i;
+
+	ft_printf("Introducing contestants...\n");
+	i = -1;
+	while (++i < p->players)
+	{
+		ft_printf("* Player %d, weighing ", i + 1);
+		ft_printf("%d bytes, \"%s\" ", p->champs[i].champ_size, p->champs[i].name);
+		ft_printf("(\"%s\") !\n", p->champs[i].comment);
+	}
 }
 
 int				main(int argc, char **argv)
@@ -58,13 +72,7 @@ int				main(int argc, char **argv)
 	t_param		p;
 	int			i;
 	char		s[4];
-	
-//	long long	lol = 0;
-//	s[0] = s[1] = s[2] = s[3] = 255;
-//	i = -1;
-//	while (++i < 4)
-//		ft_memcpy((void *)((char*)&lol + i), (const void *)(s + i), 1);
-//	ft_printf("%d\n", (int)lol);
+
 	param_init(&p);
 	read_args(&p, argc, argv);
 	p.winner = p.players - 1;
@@ -73,6 +81,9 @@ int				main(int argc, char **argv)
 	if (p.players == 0)
 		usage();
 	map_init(&p);
+	if (!p.flag.vis)
+		intro(&p);
 	start_game(&p);
+	ft_printf("Contestant %d, \"%s\", has won !\n", p.winner + 1, p.champs[p.winner].name);
 	return (0);
 }

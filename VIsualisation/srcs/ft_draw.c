@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 03:08:31 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/03/26 17:03:43 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/02 17:38:27 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +209,7 @@ void
 	while (++index < REG_NUMBER)
 	{
 		reg = ft_get_reg(proc, index);
-		str = ft_itoa(reg);
+		str = ft_rebase(reg, 16);
 		mlx_string_put(data->mlx_ptr, data->mlx_win,
 		x, y + 55 + 15 * (index), 0xffffff, str);
 		free(str);
@@ -225,10 +225,10 @@ t_process
 }
 
 void
-	ft_print_champs(t_data *data, int x, int y, t_champ *champs)
+	ft_print_champs(t_data *data, int x, int y, t_champ *champs, int color)
 {
 	mlx_string_put(data->mlx_ptr, data->mlx_win, x, y, 0xffffff, "Name:");
-	mlx_string_put(data->mlx_ptr, data->mlx_win, x + 80, y, 0x00ff00, champs->name);
+	mlx_string_put(data->mlx_ptr, data->mlx_win, x + 80, y, color, champs->name);
 	mlx_string_put(data->mlx_ptr, data->mlx_win, x, y + 15, 0xffffff, "Comment:");
 	mlx_string_put(data->mlx_ptr, data->mlx_win, x + 80, y + 15, 0x00ff00, champs->comment);
 	ft_out_params(data, (t_win_par){x, y + 30, 0xffffff, 0x00ff00, "champ_size:", champs->champ_size});
@@ -252,6 +252,7 @@ int
 		ft_update_my_arr(data);
 		mlx_string_put(data->mlx_ptr, data->mlx_win,
 		WIN_W - 495, 20, 0x00ff00, "< RUN >");
+		data->mydata->run = (data->mydata->run == 1);
 	}
 	else
 		mlx_string_put(data->mlx_ptr, data->mlx_win,
@@ -291,8 +292,11 @@ int
 	ft_out_params(data, (t_win_par){WIN_W - 500, 150, 0xffffff, 0xffffff, "checks:", data->mydata->param->checks});
 	ft_out_params(data, (t_win_par){WIN_W - 500, 170, 0xffffff, 0xffffff, "live_nbr:", data->mydata->param->live_nbr});
 	ft_out_params(data, (t_win_par){WIN_W - 500, 190, 0xffffff, 0xffffff, "winner:", data->mydata->param->winner});
+	mlx_string_put(data->mlx_ptr, data->mlx_win, WIN_W - 550, WIN_H - 70, 0xffffff, "use arrows to move process list");
+	mlx_string_put(data->mlx_ptr, data->mlx_win, WIN_W - 550, WIN_H - 50, 0xffffff, "use space to stop or make 1 step");
+	mlx_string_put(data->mlx_ptr, data->mlx_win, WIN_W - 550, WIN_H - 30, 0xffffff, "use command to stop or run programm");
 	index = -1;
 	while (++index < data->mydata->param->players)
-		ft_print_champs(data, WIN_W - 550, 250 + 100 * (index), &(data->mydata->param->champs[index]));
+		ft_print_champs(data, WIN_W - 550, 250 + 100 * (index), &(data->mydata->param->champs[index]), data->mydata->color[index + 1]);
 	return (1);
 }

@@ -5,5 +5,8 @@
 *.swm
 *.swm
 *.diff
-corewar*
+corewar
 asm
+tmp*
+.DS_Store
+*.a

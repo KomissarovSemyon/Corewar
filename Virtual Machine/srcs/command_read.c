@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 19:40:27 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/26 20:13:29 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/01 17:38:19 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static void			op_type(t_process *p)
 	{
 		p->op.arg_type[0] = DIR_CODE;
 		p->op.arg_type[1] = 0;
+		p->op.arg_type[2] = 0;
 	}
 }
 
@@ -51,16 +52,18 @@ void				op_args(t_process *p)
 	i = -1;
 	op_type(p);
 	while (++i < 3)
+	{
 		if (p->op.arg_type[i] == 0)
 			break ;
-		else if (p->op.arg_type[i] == REG_CODE)
+		if (p->op.arg_type[i] == REG_CODE)
 		{
 			p->op.arg[i] = *p->op.ptr - 1;
 			p->op.ptr = get_step(p->map, p->op.ptr, 1);
 		}
 		else if (p->op.arg_type[i] == DIR_CODE)
 		{
-			if (g_op_tab[p->op.id].codage)
+			if (g_op_tab[p->op.id].codage && p->op.id != LDI &&
+					p->op.id != LLDI && p->op.id != STI)
 				p->op.arg[i] = get_value(p->map, p->op.ptr,
 									g_op_tab[p->op.id].label_size);
 			else
@@ -70,6 +73,7 @@ void				op_args(t_process *p)
 									g_op_tab[p->op.id].label_size);
 
 		}
-		else
+		else if (p->op.arg_type[i] == IND_CODE)
 			arg_ind(p, i);
+	}
 }

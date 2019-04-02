@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/16 21:15:58 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/26 20:14:20 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/29 21:44:41 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ long long			get_signed_value(unsigned char *map,
 	int			sign;
 
 	sign = 0;
+//	if (size == 1)
+//		ft_printf("%hhx  %d\n", *ptr, size);
 	if (*ptr & 0x80)
 		sign = 1;
 	res = 0;
@@ -69,7 +71,9 @@ long long			get_signed_value(unsigned char *map,
 		else
 			res = (res << 8) + (sign ? 0xff - ptr[i] : ptr[i]);
 	if (sign)
-		res = -(res + 1);
+		res = -res - 1;
+//	if (size == 1)
+//		ft_printf("%d\n", res);
 	return (res);
 }
 

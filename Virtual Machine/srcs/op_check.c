@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/16 23:23:48 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/03/26 18:30:03 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/01 17:33:40 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int						op_check(t_process *p)
 	if (p->op.id == LIVE || p->op.id == ZJMP || p->op.id == FORK ||
 			p->op.id == LFORK)
 		return (1);
-	if (codage & 3)
+	if (codage & 2 || codage & 1)
 		return (0);
 	if (p->op.id > 15)
 		return (0);
@@ -51,7 +51,7 @@ int						op_check_ld(t_process *p)
 	int				codage;
 
 	codage = get_map_pos(p, (p->pc - p->map) + 1);
-	if (((codage >> 6) & 3) == 1)
+	if (((codage >> 6) & 3) == 1 || ((codage >> 6) & 3) == 0)
 		return (0);
 	if (((codage >> 6) & 3) == DIR_CODE)
 		reg = get_map_pos(p, (p->pc - p->map) + 2 + g_op_tab[1].label_size);
@@ -73,7 +73,7 @@ int						op_check_st(t_process *p)
 	codage = get_map_pos(p, (p->pc - p->map) + 1);
 	if (((codage >> 6) & 3) != 1)
 		return (0);
-	if (((codage >> 4) & 3) == 2)
+	if (((codage >> 4) & 3) == 2 || ((codage >> 4) & 3) == 0)
 		return (0);
 	if (((codage >> 4) & 3) == 1)
 		if (!check_reg(get_map_pos(p, (p->pc - p->map) + 3)))
@@ -226,7 +226,7 @@ int						op_check_ldi(t_process *p)
 	int				size;
 
 	codage = get_map_pos(p, (p->pc - p->map) + 1);
-	if (((codage >> 4) & 3) == 3)
+	if (((codage >> 4) & 3) == 3 || ((codage >> 4) & 3) == 0)
 		return (0);
 	if (((codage >> 2) & 3) != 1)
 		return (0);
@@ -258,7 +258,7 @@ int						op_check_sti(t_process *p)
 	codage = get_map_pos(p, (p->pc - p->map) + 1);
 	if (((codage >> 6) & 3) != 1)
 		return (0);
-	if (((codage >> 2) & 3) == 3)
+	if (((codage >> 2) & 3) == 3 || ((codage >> 2) & 3) == 0)
 		return (0);
 	if (!check_reg(get_map_pos(p, (p->pc - p->map) + 2)))
 		return (0);
@@ -287,7 +287,7 @@ int						op_check_lld(t_process *p)
 	int				codage;
 
 	codage = get_map_pos(p, (p->pc - p->map) + 1);
-	if (((codage >> 6) & 3) == 1)
+	if (((codage >> 6) & 3) == 1 || ((codage >> 6) & 3) == 0)
 		return (0);
 	if (((codage >> 6) & 3) == 2)
 		reg = get_map_pos(p, (p->pc - p->map) + 2 + g_op_tab[12].label_size);
@@ -305,7 +305,7 @@ int						op_check_lldi(t_process *p)
 	int				size;
 
 	codage = get_map_pos(p, (p->pc - p->map) + 1);
-	if (((codage >> 4) & 3) == 3)
+	if (((codage >> 4) & 3) == 3 || ((codage >> 4) & 3) == 0)
 		return (0);
 	if (((codage >> 2) & 3) != 1)
 		return (0);

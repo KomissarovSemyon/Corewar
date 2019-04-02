@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 17:08:46 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/26 17:21:58 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/03/29 21:44:40 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,11 @@
 void			set_color(t_param *p, int place, int size, int color)
 {
 	while (size--)
+	{
 		p->map_color[(place + size) % MEM_SIZE] =
 									color < 4 && color > 0 ? color : 0;
+//	ft_printf("%d\n", p->map_color[(place + size) % MEM_SIZE]);
+	}
 }
 
 void			map_init(t_param *p)
@@ -96,8 +99,11 @@ void			map_print(t_param *p)
 	if (p->flag.map)
 		while (line < MEM_SIZE)
 		{
-			print_bytes(p, &p->map[line], 32);
-			line += 32;
+			if (line == 0)
+				ft_printf("0x");
+			ft_printf("%#.4x : ", line);
+			print_bytes(p, &p->map[line], 64);
+			line += 64;
 		}
 	tmp = p->process;
 	if (p->flag.process)

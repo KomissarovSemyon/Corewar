@@ -2,7 +2,7 @@ test()
 {
 	RANDOM=$$
 	FAIL=0
-	CHAMPS=$(find . -mindepth 2 -maxdepth 5 -name '*.s' | cut -c 3-)
+	CHAMPS=$(find ./ch -mindepth 1 -maxdepth 5 -name '*.s' | cut -c 3-)
 	for CHAMP1 in $CHAMPS
 	do
 		OUTPUT=$(./asm $CHAMP1 | grep -i 'error\|ошибка')
@@ -15,13 +15,13 @@ test()
 				then
 					DUMP=$RANDOM
 					./corewar_original -d $DUMP ${CHAMP1%.s}.cor ${CHAMP2%.s}.cor > output_original
-					./corewar -d $DUMP ${CHAMP1%.s}.cor ${CHAMP2%.s}.cor > output
+					./corewar -map -dump $DUMP ${CHAMP1%.s}.cor ${CHAMP2%.s}.cor > output
 					DIFF=$(diff output output_original)
 					if [ "$DIFF" ]
 					then
 						FAIL=$((FAIL+1))
 						printf "\e[1;31mKO\e[0m ./corewar -d %s %s %s\n" $DUMP ${CHAMP1%.s}.cor ${CHAMP2%.s}.cor
-						echo "./corewar -d $DUMP ${CHAMP1%.s}.cor ${CHAMP2%.s}.cor" > $FAIL.diff
+						echo "./corewar -map -dump $DUMP ${CHAMP1%.s}.cor ${CHAMP2%.s}.cor" > $FAIL.diff
 						echo "./corewar_original -d $DUMP ${CHAMP1%.s}.cor ${CHAMP2%.s}.cor" >> $FAIL.diff
 						echo $DIFF >> $FAIL.diff
 					fi

@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/16 21:15:58 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/02 18:07:42 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/02 18:09:03 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,13 @@ long long			get_signed_value(unsigned char *map,
 		else
 			res = (res << 8) + (sign ? 0xff - ptr[i] : ptr[i]);
 	if (sign)
-		res = -(res + 1);
-	// ft_printf("%d\n", res);
+		res = -res - 1;
+//	if (size == 1)
+//		ft_printf("%d\n", res);
 	return (res);
 }
 
+long long			get_value(unsigned char *map, unsigned char *ptr, int size)
 {
 	long long	res;
 	int			i;

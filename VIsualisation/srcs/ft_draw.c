@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 03:08:31 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/02 17:38:27 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/02 18:02:27 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,12 @@ int
 	return (reg);
 }
 
+void	byte_to_str(char *str, int ch)
+{
+	str[0] = ((ch / 16) < 10) ? (ch / 16 + '0') : (ch / 16 - 10 + 'a');
+	str[1] = ((ch % 16) < 10) ? (ch % 16 + '0') : (ch % 16 - 10 + 'a');
+}
+
 void
 	ft_print_proces(t_data *data, int x, int y, t_process *proc)
 {
@@ -198,20 +204,29 @@ void
 	if (proc == NULL)
 		return ;
 	ft_out_params(data, (t_win_par){x, y, 0xffffff, 0xffffff, "ID:", proc->id});
-	ft_out_params(data, (t_win_par){x, y + 15, 0xffffff, 0xffffff, "Carry:", proc->carry});
-	ft_out_params(data, (t_win_par){x + 55, y + 38, 0xffffff, 0xffffff, "Wait:", proc->wait});
-	ft_out_params(data, (t_win_par){x + 55, y + 53, 0xffffff, 0xffffff, "Pos_y:", (proc->pc - proc->map) / 64});
-	ft_out_params(data, (t_win_par){x + 55, y + 68, 0xffffff, 0xffffff, "Pos_x:", (proc->pc - proc->map) % 64});
-	ft_out_params(data, (t_win_par){x + 55, y + 83, 0xffffff, 0xffffff, "Livin:", data->mydata->cycles - proc->livin});
-	ft_out_params(data, (t_win_par){x + 55, y + 98, 0xffffff, 0xffffff, "Op.id:", proc->op.id});
+	// ft_out_params(data, (t_win_par){x, y + 15, 0xffffff, 0xffffff, "Carry:", proc->carry});
+	// ft_out_params(data, (t_win_par){x + 55, y + 38, 0xffffff, 0xffffff, "Wait:", proc->wait});
+	// ft_out_params(data, (t_win_par){x + 55, y + 53, 0xffffff, 0xffffff, "Pos_y:", (proc->pc - proc->map) / 64});
+	// ft_out_params(data, (t_win_par){x + 55, y + 68, 0xffffff, 0xffffff, "Pos_x:", (proc->pc - proc->map) % 64});
+	// ft_out_params(data, (t_win_par){x + 55, y + 83, 0xffffff, 0xffffff, "Livin:", data->mydata->cycles - proc->livin});
+	// ft_out_params(data, (t_win_par){x + 55, y + 98, 0xffffff, 0xffffff, "Op.id:", proc->op.id});
 	mlx_string_put(data->mlx_ptr, data->mlx_win, x, y + 38, 0xffffff, "Reg:");
 	index = -1;
 	while (++index < REG_NUMBER)
 	{
 		reg = ft_get_reg(proc, index);
-		str = ft_rebase(reg, 16);
+		str = ft_strdup("00000000");
+//		str[0] = proc->r[index][0] + '0';
+//		str[1] = proc->r[index][1] + '0';
+//		str[2] = proc->r[index][2] + '0';
+//		str[3] = proc->r[index][3] + '0';
+		byte_to_str(str, proc->r[index][0]);
+		byte_to_str(&str[2], proc->r[index][1]);
+		byte_to_str(&str[4], proc->r[index][2]);
+		byte_to_str(&str[6], proc->r[index][3]);
 		mlx_string_put(data->mlx_ptr, data->mlx_win,
 		x, y + 55 + 15 * (index), 0xffffff, str);
+		printf("str[%d]= %d %d %d %d\n", index, proc->r[index][0], proc->r[index][1], proc->r[index][2], proc->r[index][3]);
 		free(str);
 	}
 }

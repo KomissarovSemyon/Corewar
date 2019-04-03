@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:47:41 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/01 13:02:07 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/03 08:12:17 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,6 @@ int				main(int argc, char **argv)
 	if (!p.flag.vis)
 		intro(&p);
 	start_game(&p);
-	ft_printf("Contestant %d, \"%s\", has won !\n", p.winner + 1, p.champs[p.winner].name);
+	ft_printf("Contestant %d, \"%s\", has won !\n", p.winner, p.champs[p.winner - 1].name);
 	return (0);
 }

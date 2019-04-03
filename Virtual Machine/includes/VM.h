@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:48:39 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/29 21:44:16 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/03 11:22:47 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct		s_op
 {
 	unsigned char	*ptr;
 	unsigned char	id;
+	unsigned char	next_id;
 	unsigned char	arg_type[3];
 	long long int	arg[3];
 }					t_op;

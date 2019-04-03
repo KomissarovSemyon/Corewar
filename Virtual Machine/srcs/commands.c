@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 10:05:03 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/01 11:29:19 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/03 08:11:37 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,6 +217,9 @@ void		op_lldi(t_param *param, t_process *process)
 			l[i] = get_value(process->map,
 					(unsigned char *)process->op.arg[i], DIR_SIZE);
 	set_value(NULL, process->r[process->op.arg[2]], (l[0] + l[1]), REG_SIZE);
+	process->carry = 1;
+	if (get_value(NULL, process->r[process->op.arg[2]], REG_SIZE))
+		process->carry = 0;
 }
 
 void		op_fork(t_param *param, t_process *process)
@@ -236,5 +239,5 @@ void		op_aff(t_param *param, t_process *process)
 	char	c;
 
 	c = (char)get_value(NULL, process->r[process->op.arg[0]], REG_SIZE);
-	write(1, &c, 1);
+//	write(1, &c, 1);
 }

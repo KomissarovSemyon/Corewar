@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 17:59:06 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/01 13:51:19 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/03 11:48:50 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ void			process_print(t_process *p)
 	ft_printf("wait - %d\n", p->wait);
 	ft_printf("livin - %d\n", p->livin);
 	ft_printf("op_id - %d\n", p->op.id);
-	ft_printf("op - %s\n", g_op_tab[p->op.id].name);
+	if (p->op.id < 15)
+		ft_printf("op - %s\n", g_op_tab[p->op.id].name);
+	else
+		ft_printf("op - step\n");
 	i = -1;
 	while (++i < 3)
 		ft_printf("arg[%d].type - %d\n", i, p->op.arg_type[i]);
@@ -56,7 +59,8 @@ static void		process_init(t_param *p, t_process *new, unsigned char *pc)
 	new->wait = -1;
 	new->map = p->map;
 	new->pc = pc;
-	new->op.id = *pc - 1;
+	new->op.next_id = *pc - 1;
+	new->op.id = new->op.next_id;
 	ft_bzero(new->r, REG_NUMBER * REG_SIZE);
 	set_value(NULL, new->r[0], -1 * new->id, REG_SIZE);
 //	new->r[0][REG_SIZE - 1] = -1 * new->id;
@@ -70,7 +74,7 @@ void			process_new(t_param *p, t_process *parent, unsigned char *pc)
 		malloc_err();
 	new->id = p->process ? p->process->id + 1 : 1;
 	process_init(p, new, pc);
-	new->carry = parent ? parent->carry : 1;
+	new->carry = parent ? parent->carry : 0;
 	new->livin = parent ? parent->livin : 0;
 	new->next = p->process;
 	if (parent)

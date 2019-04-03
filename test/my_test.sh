@@ -1,7 +1,7 @@
 test()
 {
 	echo $1 '  ' $2
-	for ((i=14000; i < 35000; i++))
+	for ((i=1; i < 35000; i++))
 	do
 		./corewar_original -d $i $1 $2 > output_original
 		./corewar -dump $i $1 $2 > output

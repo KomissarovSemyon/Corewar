@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/16 23:23:48 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/01 17:33:40 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/03 09:02:06 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ int						op_check_st(t_process *p)
 	if (((codage >> 4) & 3) == 1)
 		if (!check_reg(get_map_pos(p, (p->pc - p->map) + 3)))
 			return (0);
+	if (((codage >> 2) & 3))
+		return (0);
 	return (1);
 }
 

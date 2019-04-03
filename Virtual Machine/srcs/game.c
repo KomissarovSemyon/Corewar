@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/17 01:25:13 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/01 17:20:13 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/03 11:50:06 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,10 @@
 static void		do_op(t_param *param, t_process *process)
 {
 	op_args(process);
-//	if (process->id == 84)
-//	{
-//		ft_fprintf(2, "%d\n", process->id);
-//		process_print(process);
-//	}
 	if (param->flag.oper)
 		ft_printf("cycle - %d\n", param->current_cycle);
 	if (op_check(process))
 	{
-//		if (process->id == 84)
-//			ft_fprintf(2, "check - ok\n");
 		if (param->flag.oper)
 			ft_printf("process %d executing %s\n", process->id,
 												g_op_tab[process->op.id].name);
@@ -67,7 +60,7 @@ static int		check_cycle(t_param *param)
 {
 	t_process	*pr;
 
-	if (++param->current_cycle > param->last_check + CYCLE_TO_DIE)
+	if (++param->current_cycle >= param->last_check + CYCLE_TO_DIE)
 	{
 		param->last_check = param->current_cycle;
 		pr = param->process;
@@ -105,7 +98,7 @@ void			start_game(t_param *param)
 			process_act(param, tmp);
 			tmp = tmp->next;
 		}
-		if (param->flag.vis && (param->current_cycle > 14000))
+		if (param->flag.vis && (param->current_cycle > 0))
 			vis_print(param);
 		else
 		{

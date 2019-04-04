@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/30 19:44:56 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/02 18:24:32 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/04 21:04:22 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,13 @@ typedef struct	s_my_array
 typedef struct	s_mydata
 {
 	t_my_array	*arr;
-	long long	cycles;
 	int			run;
 	int			color[10];
 	t_process	*process;
 	t_param		*param;
 	int			process_count;
+	int			active_proces_line;
+	int			active_proces;
 	int			first_proces;
 	int			first_reg;
 }				t_mydata;
@@ -114,6 +115,8 @@ void			ft_clearwin(t_data *data);
 
 int				key_press(int key, t_data *data);
 int				key_release(int key, t_data *data);
+
+int				mouse_move(int x, int y, t_data *data);
 
 int				ft_close(t_data *data);
 

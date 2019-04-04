@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 07:03:09 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/04 15:13:17 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/04 21:04:28 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,13 @@ void
 	if ((data->mydata->arr =
 	(t_my_array *)malloc(sizeof(t_my_array) * MEM_SIZE)) == NULL)
 		ft_close(data);
-	data->mydata->cycles = 0;
 	data->mydata->run = 2;
 	data->mydata->process = NULL;
 	data->mydata->param = NULL;
 	data->mydata->process_count = 0;
 	data->mydata->first_proces = 0;
+	data->mydata->active_proces_line = -1;
+	data->mydata->active_proces = -1;
 	data->mydata->first_reg = 0;
 	index = -1;
 	while (++index < MEM_SIZE)
@@ -104,6 +105,7 @@ void
 	mlx_hook(data.mlx_win, 2, 1L << 2, key_press, &data);
 	mlx_hook(data.mlx_win, 3, 1L << 3, key_release, &data);
 	mlx_hook(data.mlx_win, 17, 1L << 17, ft_close, &data);
+	mlx_hook(data.mlx_win, 6, 1L << 6, mouse_move, &data);
 	data.img->img_ptr = mlx_new_image(data.mlx_ptr, WIN_W, WIN_H);
 	data.img->data = (int *)mlx_get_data_addr(data.img->img_ptr,
 		&data.img->bpp, &data.img->size_l, &data.img->endian);

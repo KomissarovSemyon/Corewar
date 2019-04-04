@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 03:08:31 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/02 18:59:12 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/04 15:49:01 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,7 +211,11 @@ void
 	ft_out_params(data, (t_win_par){x, y + 53, 0xffffff, 0xffffff, "Pos_y:", (proc->pc - proc->map) / 64});
 	ft_out_params(data, (t_win_par){x, y + 68, 0xffffff, 0xffffff, "Pos_x:", (proc->pc - proc->map) % 64});
 	ft_out_params(data, (t_win_par){x, y + 83, 0xffffff, 0xffffff, "Livin:", data->mydata->cycles - proc->livin});
-	ft_out_params(data, (t_win_par){x, y + 98, 0xffffff, 0xffffff, "Op.id:", proc->op.id});
+	mlx_string_put(data->mlx_ptr, data->mlx_win, x, y + 98, 0xffffff, "Comm:");
+	if (proc->op.id == 255)
+		mlx_string_put(data->mlx_ptr, data->mlx_win, x + 50, y + 98, 0xffffff, "none");
+	else
+		mlx_string_put(data->mlx_ptr, data->mlx_win, x + 50, y + 98, 0xffffff, g_op_tab[proc->op.id].name);
 	mlx_string_put(data->mlx_ptr, data->mlx_win, x, y + 113, 0xffffff, "Reg:");
 	index = data->mydata->first_reg - 1;
 	while (++index < REG_NUMBER && index <= data->mydata->first_reg + 10)

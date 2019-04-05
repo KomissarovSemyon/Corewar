@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 10:05:03 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/03 08:11:37 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/05 08:52:37 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 
 void		op_live(t_param *param, t_process *process)
 {
+	long long	val;
+
+	val = process->op.arg[0];
 	process->livin = param->current_cycle;
-	if (process->op.arg[0] < 0 && process->op.arg[0] >= -param->players)
-		param->winner = -1 * process->op.arg[0];
+	if (val < 0 && val >= -param->players)
+		param->winner = -1 * val;
 	++param->live_nbr;
 }
 

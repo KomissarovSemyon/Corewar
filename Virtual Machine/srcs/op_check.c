@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/16 23:23:48 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/03 09:02:06 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/05 08:26:47 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ int						op_check_ld(t_process *p)
 	int				codage;
 
 	codage = get_map_pos(p, (p->pc - p->map) + 1);
+	if (((codage >> 4) & 3) != REG_CODE)
+		return (0);
 	if (((codage >> 6) & 3) == 1 || ((codage >> 6) & 3) == 0)
 		return (0);
 	if (((codage >> 6) & 3) == DIR_CODE)
@@ -130,6 +132,8 @@ int						op_check_and(t_process *p)
 	int				size;
 
 	codage = get_map_pos(p, (p->pc - p->map) + 1);
+	if (!((codage >> 2) & 3) || !((codage >> 4) & 3) || !((codage >> 6) & 3))
+		return (0);
 	if (((codage >> 2) & 3) != 1)
 		return (0);
 	if (((codage >> 6) & 3) == 1)
@@ -161,6 +165,8 @@ int						op_check_or(t_process *p)
 	int				size;
 
 	codage = get_map_pos(p, (p->pc - p->map) + 1);
+	if (!((codage >> 2) & 3) || !((codage >> 4) & 3) || !((codage >> 6) & 3))
+		return (0);
 	if (((codage >> 2) & 3) != 1)
 		return (0);
 	if (((codage >> 6) & 3) == 1)
@@ -192,6 +198,8 @@ int						op_check_xor(t_process *p)
 	int				size;
 
 	codage = get_map_pos(p, (p->pc - p->map) + 1);
+	if (!((codage >> 2) & 3) || !((codage >> 4) & 3) || !((codage >> 6) & 3))
+		return (0);
 	if (((codage >> 2) & 3) != 1)
 		return (0);
 	if (((codage >> 6) & 3) == 1)
@@ -289,6 +297,8 @@ int						op_check_lld(t_process *p)
 	int				codage;
 
 	codage = get_map_pos(p, (p->pc - p->map) + 1);
+	if (((codage >> 4) & 3) != 1|| ((codage >> 2) & 3))
+		return (0);
 	if (((codage >> 6) & 3) == 1 || ((codage >> 6) & 3) == 0)
 		return (0);
 	if (((codage >> 6) & 3) == 2)

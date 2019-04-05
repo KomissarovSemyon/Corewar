@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:48:39 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/03 11:22:47 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/05 08:15:37 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ typedef	struct		s_flags
 	int		map;
 	int		param;
 	int		process;
+	int		check;
 }					t_flags;
 
 /*основные параметры*/

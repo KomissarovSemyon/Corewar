@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 19:40:27 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/01 17:38:19 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/05 02:11:07 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void			op_type(t_process *p)
 	}
 	else
 	{
+//		ft_printf("%d\n", p->op.arg_type[0]);
 		p->op.arg_type[0] = DIR_CODE;
 		p->op.arg_type[1] = 0;
 		p->op.arg_type[2] = 0;
@@ -53,7 +54,7 @@ void				op_args(t_process *p)
 	op_type(p);
 	while (++i < 3)
 	{
-		if (p->op.arg_type[i] == 0)
+		if (g_op_tab[p->op.id].params_type[i] == 0)
 			break ;
 		if (p->op.arg_type[i] == REG_CODE)
 		{

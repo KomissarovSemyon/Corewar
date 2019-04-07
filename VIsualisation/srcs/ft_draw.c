@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 03:08:31 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/04 21:20:02 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/07 14:10:18 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -312,11 +312,11 @@ int
 	ft_out_params(data, (t_win_par){WIN_W - 500, 50, 0xffffff, 0xffffff, "Cycles:", data->mydata->param->current_cycle});
 	ft_out_params(data, (t_win_par){WIN_W - 500, 70, 0xffffff, 0xffffff, "Players:", data->mydata->param->players});
 	ft_out_params(data, (t_win_par){WIN_W - 500, 90, 0xffffff, 0xffffff, "cycles_to_die:", data->mydata->param->cycles_to_die});
-	ft_out_params(data, (t_win_par){WIN_W - 500, 110, 0xffffff, 0xffffff, "current_cycle:", data->mydata->param->current_cycle});
 	ft_out_params(data, (t_win_par){WIN_W - 500, 110, 0xffffff, 0xffffff, "last_check:", data->mydata->param->last_check});
 	ft_out_params(data, (t_win_par){WIN_W - 500, 130, 0xffffff, 0xffffff, "checks:", data->mydata->param->checks});
 	ft_out_params(data, (t_win_par){WIN_W - 500, 150, 0xffffff, 0xffffff, "live_nbr:", data->mydata->param->live_nbr});
 	ft_out_params(data, (t_win_par){WIN_W - 500, 170, 0xffffff, 0xffffff, "winner:", data->mydata->param->winner});
+
 	mlx_string_put(data->mlx_ptr, data->mlx_win, WIN_W - 550, WIN_H - 90, 0xffffff, "use vertical arrows to move register list");
 	mlx_string_put(data->mlx_ptr, data->mlx_win, WIN_W - 550, WIN_H - 70, 0xffffff, "use horizontal arrows to move process list");
 	mlx_string_put(data->mlx_ptr, data->mlx_win, WIN_W - 550, WIN_H - 50, 0xffffff, "use space to stop or make 1 step");
@@ -324,5 +324,8 @@ int
 	index = -1;
 	while (++index < data->mydata->param->players)
 		ft_print_champs(data, WIN_W - 550, 250 + 100 * (index), &(data->mydata->param->champs[index]), data->mydata->color[index + 1]);
+	ft_draw_str_big(data, WIN_W - 550, WIN_H - 850, "ABCDEFGHI");
+	ft_draw_str_big(data, WIN_W - 550, WIN_H - 725, "JKLMNOPQR");
+	ft_draw_str_big(data, WIN_W - 550, WIN_H - 600, "STUVWXYZ");
 	return (1);
 }

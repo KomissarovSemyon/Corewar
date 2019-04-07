@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/30 19:44:56 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/04 21:04:22 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/07 13:24:30 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ void			line_fast(t_data *env, double *p1, double *p2, int color);
 void			ft_linefast_int(t_data *data, int *p1, int *p2, int color);
 void			ft_draw_square(t_data *data, int *pos, int rad, int color);
 void			ft_clearwin(t_data *data);
+void			ft_draw_str_big(t_data *data, int x, int y, char *str);
 
 int				key_press(int key, t_data *data);
 int				key_release(int key, t_data *data);

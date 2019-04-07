@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 03:08:31 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/07 14:10:18 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/07 21:07:24 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,10 +117,11 @@ void
 	int			magic;
 	int			i;
 	char		*str;
+	int			rd;
 
-	if (read(0, &magic, sizeof(int)) <= 0)
+	if ((rd = read(0, &magic, sizeof(int))) < sizeof(int))
 		return ;
-	if (magic != VIS_MAGIC)
+	if (magic != VIS_MAGIC && magic != VIS_STOP)
 	{
 		ft_printf("VIS_MAGIC Error!!!\n");
 		exit(0);
@@ -128,7 +129,8 @@ void
 	if (data->mydata->param != NULL)
 		free(data->mydata->param);
 	data->mydata->param = (t_param *)malloc(sizeof(t_param));
-	read(0, data->mydata->param, sizeof(t_param));
+	if (read(0, data->mydata->param, sizeof(t_param)) < sizeof(t_param))
+		return ;
 	i = -1;
 	while (++i < MEM_SIZE)
 	{
@@ -324,8 +326,6 @@ int
 	index = -1;
 	while (++index < data->mydata->param->players)
 		ft_print_champs(data, WIN_W - 550, 250 + 100 * (index), &(data->mydata->param->champs[index]), data->mydata->color[index + 1]);
-	ft_draw_str_big(data, WIN_W - 550, WIN_H - 850, "ABCDEFGHI");
-	ft_draw_str_big(data, WIN_W - 550, WIN_H - 725, "JKLMNOPQR");
-	ft_draw_str_big(data, WIN_W - 550, WIN_H - 600, "STUVWXYZ");
+	ft_draw_str_big(data, 100, WIN_H - 150, data->mydata->param->champs[0].name);
 	return (1);
 }

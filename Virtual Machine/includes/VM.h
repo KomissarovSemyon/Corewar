@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   VM.h                                               :+:      :+:    :+:   */
+/*   vm.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:48:39 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/02 18:06:46 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/07 16:54:27 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define MOD(x) (x > 0 ? x : -x)
 
 # define VIS_MAGIC 0x1377713
+# define VIS_STOP 0x36663
 
 # define DEFAULT_MODE 0
 # define DUMP_MODE 1
@@ -66,6 +67,7 @@ typedef struct		s_op
 {
 	unsigned char	*ptr;
 	unsigned char	id;
+	unsigned char	next_id;
 	unsigned char	arg_type[3];
 	long long int	arg[3];
 }					t_op;
@@ -99,6 +101,7 @@ typedef	struct		s_flags
 	int		map;
 	int		param;
 	int		process;
+	int		check;
 }					t_flags;
 
 /*основные параметры*/
@@ -107,9 +110,11 @@ typedef struct		s_param
 	int				champ_arg;
 	t_champ			champs[MAX_PLAYERS];
 	int				players;
+	int				player_proc_nbr[4];
 	t_flags			flag;
 	unsigned char	map[MEM_SIZE];
 	int				map_color[MEM_SIZE];
+	int				map_color_cycle[MEM_SIZE];
 	t_process		*process;
 	int				proc_nbr;
 	int				cycles_to_die;
@@ -155,6 +160,8 @@ void				op_args(t_process *p);
 void				process_new(t_param *p, t_process *parent,
 													unsigned char *pc);
 t_process			*process_kill(t_param *p, t_process *die);
+void				process_print(t_process *p);
+
 unsigned char		*get_step(unsigned char *map, unsigned char *ptr, int step);
 long long			get_signed_value(unsigned char *map,
 											unsigned char *ptr, int size);

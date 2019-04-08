@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 17:08:46 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/05 03:17:42 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/07 17:03:57 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,13 @@ void			set_color(t_param *p, int place, int size, int color)
 {
 	while (size--)
 	{
-		p->map_color[(place + size) % MEM_SIZE] =
-									color < 4 && color > 0 ? color : 0;
-//	ft_printf("%d\n", p->map_color[(place + size) % MEM_SIZE]);
+		if (color <= p->players && color > 0)
+		{
+			p->map_color[(place + size) % MEM_SIZE] = color + 4;
+			p->map_color_cycle[(place + size) % MEM_SIZE] = 10;
+		}
+		else
+			p->map_color[(place + size) % MEM_SIZE] = 0;
 	}
 }
 
@@ -71,9 +75,20 @@ void			vis_print(t_param *p)
 {
 	 t_process	*tmp;
 	 int		magic;
+	 int		i;
+	 long long	val;
 
 	magic = VIS_MAGIC;
 	write(1, &magic, sizeof(int));
+	tmp = p->process;
+	ft_bzero(&p->player_proc_nbr, sizeof(int) * 4);
+	while (tmp)
+	{
+		val = get_signed_value(NULL, tmp->r[0], REG_SIZE);
+		if (val && val >= -p->players)
+			p->player_proc_nbr[-val - 1] += 1;
+		tmp = tmp->next;
+	}
 	write(1, p, sizeof(t_param));
 	tmp = p->process;
 	while (tmp)
@@ -81,6 +96,11 @@ void			vis_print(t_param *p)
 		write(1, tmp, sizeof(t_process));
 		tmp = tmp->next;
 	}
+	i = -1;
+	while (++i < MEM_SIZE)
+		if (p->map_color[i] > 4 && p->map_color[i] < 9)
+			if (!(--p->map_color_cycle[i]))
+				p->map_color[i] -= 4;
 }
 
 void			map_print(t_param *p)

@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 17:59:06 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/05 06:10:14 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/07 16:08:47 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ static void		process_init(t_param *p, t_process *new, unsigned char *pc)
 	new->op.id = new->op.next_id;
 	ft_bzero(new->r, REG_NUMBER * REG_SIZE);
 	set_value(NULL, new->r[0], -1 * new->id, REG_SIZE);
-//	new->r[0][REG_SIZE - 1] = -1 * new->id;
 }
 
 void			process_new(t_param *p, t_process *parent, unsigned char *pc)

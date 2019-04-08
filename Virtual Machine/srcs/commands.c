@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 10:05:03 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/05 08:52:37 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/06 02:24:31 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,10 +198,6 @@ void		op_ldi(t_param *param, t_process *process)
 					(unsigned char *)process->op.arg[i], DIR_SIZE);
 	ptr = get_step(process->map, process->pc, (l[0] + l[1]) % IDX_MOD);
 	value = get_value(process->map, ptr, REG_SIZE);
-//	ft_fprintf(2, "%d  ", l[0]);
-//	ft_fprintf(2, "%d  ", l[1]);
-//	ft_fprintf(2, "%d  ", ptr - process->map);
-//	ft_fprintf(2, "%#x\n", value);
 	set_value(NULL, process->r[process->op.arg[2]], value, REG_SIZE);
 }
 

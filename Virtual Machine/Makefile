@@ -6,7 +6,7 @@
 #    By: thgiraud <thgiraud@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/17 17:47:51 by thgiraud          #+#    #+#              #
-#    Updated: 2019/03/22 20:48:15 by jcorwin          ###   ########.fr        #
+#    Updated: 2019/04/07 22:04:43 by jcorwin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SOURCES	= main.c \
 		  process.c \
 		  game.c \
 		  op_check.c \
-		  args.c
+		  args.c \
 
 INCLUDES= libft.h \
 		  vm.h \

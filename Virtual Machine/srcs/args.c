@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 16:51:42 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/05 02:27:39 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/08 09:29:33 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,29 +63,46 @@ static int		arg1(int i, t_param *p, int argc, char **argv)
 	return (i);
 }
 
+static void		players_shift(t_param *p)
+{
+	int		i;
+	int		j;
+
+	j = (MAX_PLAYERS - p->players) * -2;
+	while (j != (MAX_PLAYERS - p->players) * -2)
+	{
+		j = 0;
+		i = p->players - 2;
+		while (++i < MAX_PLAYERS)
+			j -= 2;
+		i = -1;
+		while (++i < p->players)
+			if (p->champs[i].n == -2)
+				swap_champ(&p->champs[i],  &p->champs[i + 1]);
+	}
+}
+
 static void		players_id(t_param *p)
 {
 	int		i;
-	int		emp[MAX_PLAYERS];
 
 	i = 0;
-	while (i < MAX_PLAYERS)
-	{
-		if (p->champs[i].n)
+	while (i < p->players)
+		if (p->champs[i].n > -1 && p->champs[i].n != i)
 		{
-			if (p->champs[i].n > p->players)
-				champ_err(p->players, 3, 0, 0);
-			else if (p->champs[p->champs[i].n].n == p->champs[i].n)
-				champ_err(0, 4, 0, 0);
-			swap_champ(p->champs[i],  p->champs[p->champs[i].n]);
+			if (p->champs[i].n >= p->players)
+				champ_err(1, 3, p->champs[i].name, 0);
+			if (p->champs[p->champs[i].n].n == p->champs[i].n)
+				champ_err(p->champs[i].n + 1, 4, 0, 0);
+			swap_champ(&p->champs[i],  &p->champs[p->champs[i].n]);
 		}
 		else
 			++i;
-	}
 	i = -1;
 	while (++i < MAX_PLAYERS)
-		if (!p->champs[i].n)
-			p->champs[i].n = i + 1;
+		if (p->champs[i].n == -1)
+			p->champs[i].n = i;
+
 }
 
 int				read_args(t_param *p, int argc, char **argv)
@@ -99,20 +116,24 @@ int				read_args(t_param *p, int argc, char **argv)
 		{
 			if (i + 3 > argc)
 				usage();
-			p->champs[p->players].n = ft_atoi(argv[++i]);
+			p->champs[p->players].n = ft_atoi(argv[++i]) - 1;
 			if (arg_champ(argv[++i]) != 2)
 				usage();
 			get_champ(argv[i], p, p->players++);
-			if (p->champs[p->players].n < 0 ||
-					p->champs[p->players].n > MAX_PLAYERS)
+			if (p->champs[p->players - 1].n < 0 ||
+					p->champs[p->players - 1].n >= MAX_PLAYERS)
 				help();
 		}
 		else if (arg_champ(argv[i]) == 2)
+		{
+			p->champs[p->players].n = -1;
 			get_champ(argv[i], p, p->players++);
+		}
 		else
 			i = arg1(i, p, argc, argv);
-		if (p->players > MAX_PLAYERS)
+		if (p->players >= MAX_PLAYERS)
 			help();
 	}
+	players_id(p);
 	return (0);
 }

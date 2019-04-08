@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/16 23:23:48 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/05 08:26:47 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/07 21:59:47 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ int						op_check(t_process *p)
 	if (p->op.id == LIVE || p->op.id == ZJMP || p->op.id == FORK ||
 			p->op.id == LFORK)
 		return (1);
-	if (codage & 2 || codage & 1)
-		return (0);
+//	if (codage & 2 || codage & 1)
+//		return (0);
 	if (p->op.id > 15)
 		return (0);
 	return (g_op_tab[p->op.id].f_check(p));
@@ -335,7 +335,7 @@ int						op_check_lldi(t_process *p)
 	size += 1;
 	if (((codage >> 4) & 3) == 2)
 		size += g_op_tab[13].label_size - 1;
-	ft_printf("op_check_lldi %d\n", size);
+//	ft_printf("op_check_lldi %d\n", size);
 	if (!check_reg(get_map_pos(p, (p->pc - p->map) + 2 + size)))
 		return (0);
 	return (1);

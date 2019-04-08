@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:47:41 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/05 03:20:24 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/07 16:09:08 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static void		param_init(t_param *p)
 	p->flag.oper = 0;
 	p->flag.check = 0;
 	p->proc_nbr = 0;
+	p->winner = 1;
 	i = -1;
 	while (++i < MAX_PLAYERS)
 	{
@@ -71,7 +72,7 @@ static void		intro(t_param *p)
 int				main(int argc, char **argv)
 {
 	t_param		p;
-	int			i;
+	int			magic;
 	char		s[4];
 
 	param_init(&p);
@@ -85,6 +86,11 @@ int				main(int argc, char **argv)
 	if (!p.flag.vis)
 		intro(&p);
 	start_game(&p);
+	if (p.flag.vis)
+	{
+		magic = VIS_STOP;
+		write(1, &magic, sizeof(int));;
+	}
 	ft_printf("Contestant %d, \"%s\", has won !\n", p.winner, p.champs[p.winner - 1].name);
 	return (0);
 }

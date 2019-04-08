@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 03:08:31 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/08 14:45:14 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/08 15:11:07 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -332,6 +332,6 @@ int
 	}
 
 	if (data->mydata->win >= 0)
-		ft_draw_str_big(data, 50, WIN_H - 450, data->mydata->param->champs[data->mydata->win].name);
+		ft_draw_str_big(data, 50, WIN_H - 450, data->mydata->param->champs[data->mydata->param->winner - 1].name);
 	return (1);
 }

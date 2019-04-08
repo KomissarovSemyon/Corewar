@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 03:25:16 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/04 21:03:42 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/08 14:11:01 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,7 @@ int				mouse_move(int x, int y, t_data *data)
 	int		dx;
 
 	if (x >= 8 && x <= 1930 && y >= 990 && y<= 1291)
-	{
-		dx = (x - 13) / 125;
-		data->mydata->active_proces_line = dx;
-		printf("%d %d -> %d\n", x, y, dx);
-	}
+		data->mydata->active_proces_line = (x - 13) / 125;
 	else
 		data->mydata->active_proces_line = -1;
 	return (0);

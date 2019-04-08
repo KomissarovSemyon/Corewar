@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 03:08:31 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/07 21:07:24 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/08 14:45:14 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,8 @@ void
 		ft_printf("VIS_MAGIC Error!!!\n");
 		exit(0);
 	}
+	if (magic == VIS_STOP && data->mydata->win == -1)
+		data->mydata->win = 0;
 	if (data->mydata->param != NULL)
 		free(data->mydata->param);
 	data->mydata->param = (t_param *)malloc(sizeof(t_param));
@@ -254,9 +256,6 @@ void
 	mlx_string_put(data->mlx_ptr, data->mlx_win, x, y + 15, 0xffffff, "Comment:");
 	mlx_string_put(data->mlx_ptr, data->mlx_win, x + 80, y + 15, 0x00ff00, champs->comment);
 	ft_out_params(data, (t_win_par){x, y + 30, 0xffffff, 0x00ff00, "champ_size:", champs->champ_size});
-	ft_out_params(data, (t_win_par){x, y + 45, 0xffffff, 0x00ff00, "color:", champs->color});
-	ft_out_params(data, (t_win_par){x, y + 60, 0xffffff, 0x00ff00, "n:", champs->n});
-	ft_out_params(data, (t_win_par){x, y + 75, 0xffffff, 0x00ff00, "magic:", champs->magic});
 }
 
 int
@@ -295,22 +294,24 @@ int
 			data->mydata->active_proces = data->mydata->process_count - 1 - index + delta;
 	}
 	index = -1;
-	while (++index < data->mydata->process_count)
-	{
-		pos = data->mydata->process[index].pc - data->mydata->process[index].map;
-		if (data->mydata->active_proces == index)
-			mlx_string_put(data->mlx_ptr, data->mlx_win, 13 + 30 * (pos % size), 10 + 15 * (pos / size), 0xff0000, "__");
-		else
-			mlx_string_put(data->mlx_ptr, data->mlx_win, 13 + 30 * (pos % size), 10 + 15 * (pos / size), 0xffffff, "__");
-	}
+	if (data->mydata->win < 0)
+		while (++index < data->mydata->process_count)
+		{
+			pos = data->mydata->process[index].pc - data->mydata->process[index].map;
+			if (data->mydata->active_proces == index)
+				mlx_string_put(data->mlx_ptr, data->mlx_win, 13 + 30 * (pos % size), 10 + 15 * (pos / size), 0xff0000, "__");
+			else
+				mlx_string_put(data->mlx_ptr, data->mlx_win, 13 + 30 * (pos % size), 10 + 15 * (pos / size), 0xffffff, "__");
+		}
 	index = -1;
-	while (++index < MEM_SIZE)
-	{
-		mlx_string_put(data->mlx_ptr, data->mlx_win,
-		13 + 30 * (index % size), 10 + 15 * (index / size),
-		data->mydata->color[data->mydata->arr[index].color],
-		data->mydata->arr[index].str);
-	}
+	if (data->mydata->win < 0)
+		while (++index < MEM_SIZE)
+		{
+			mlx_string_put(data->mlx_ptr, data->mlx_win,
+			13 + 30 * (index % size), 10 + 15 * (index / size),
+			data->mydata->color[data->mydata->arr[index].color],
+			data->mydata->arr[index].str);
+		}
 	ft_out_params(data, (t_win_par){WIN_W - 500, 50, 0xffffff, 0xffffff, "Cycles:", data->mydata->param->current_cycle});
 	ft_out_params(data, (t_win_par){WIN_W - 500, 70, 0xffffff, 0xffffff, "Players:", data->mydata->param->players});
 	ft_out_params(data, (t_win_par){WIN_W - 500, 90, 0xffffff, 0xffffff, "cycles_to_die:", data->mydata->param->cycles_to_die});
@@ -325,7 +326,12 @@ int
 	mlx_string_put(data->mlx_ptr, data->mlx_win, WIN_W - 550, WIN_H - 30, 0xffffff, "use command to stop or run programm");
 	index = -1;
 	while (++index < data->mydata->param->players)
+	{
 		ft_print_champs(data, WIN_W - 550, 250 + 100 * (index), &(data->mydata->param->champs[index]), data->mydata->color[index + 1]);
-	ft_draw_str_big(data, 100, WIN_H - 150, data->mydata->param->champs[0].name);
+		ft_out_params(data, (t_win_par){WIN_W - 550, 250 + 100 * (index) + 45, 0xffffff, 0x00ff00, "proc_nbr:", data->mydata->param->player_proc_nbr[index]});
+	}
+
+	if (data->mydata->win >= 0)
+		ft_draw_str_big(data, 50, WIN_H - 450, data->mydata->param->champs[data->mydata->win].name);
 	return (1);
 }

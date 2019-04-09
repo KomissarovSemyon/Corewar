@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 07:03:09 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/08 14:14:54 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/09 14:22:29 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,10 @@ void
 	data->mydata->color[3] = 0xff0000;
 	data->mydata->color[4] = 0x00ff00;
 	data->mydata->color[5] = 0x00ffff;
+	data->mydata->color[6] = 0xc0c000;
+	data->mydata->color[7] = 0xc0c000;
+	data->mydata->color[8] = 0xc0c000;
+	data->mydata->color[9] = 0xc0c000;
 }
 
 void

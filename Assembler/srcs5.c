@@ -52,7 +52,10 @@ void	init_labels(char *file, t_asm *ch)
 			if (tmp[0] != COMMENT_CHAR)
 				i = is_label_correct(ch, tmp);
 			ft_strdel(&tmp);
+			ch->tmp = 1;
 		}
+		else
+			ch->tmp = 0;
 	}
 	check_end_symbol(ch);
 	close(ch->fd);

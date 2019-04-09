@@ -27,7 +27,7 @@ void	check_end_symbol(t_asm *ch)
 		close(ch->fd);
 		error_clear_exit(ch, "Ошибка считывания последнего символа.", 0, NULL);
 	}
-	if (c[0] != '\n')
+	if (c[0] != '\n' && ch->tmp != 0)
 	{
 		close(ch->fd);
 		error_clear_exit(ch,

@@ -36,6 +36,46 @@ test_asm_correct() {
 	done
 }
 
+test_asm_gen()
+{
+	CHAMPS=$(find ./champs/gen_champs -name '*.s')
+	ERROR=()
+	CORRECT=()
+	for CHAMP in $CHAMPS
+	do
+		OUTPUT=$(./asm_original $CHAMP | grep -i 'Error\|invalid')
+		if [ "$OUTPUT" ]
+		then
+			ERROR+=($CHAMP)
+		else
+			CORRECT+=($CHAMP)
+		fi
+		rm -rf ${CHAMP%.s}.cor
+	done
+	for CHAMP in ${ERROR[*]}
+	do
+		OUTPUT=$(./asm $CHAMP | grep -i 'error\|ошибка')
+		if [ -z "$OUTPUT" ]
+		then
+			printf "%s: \e[1;31mKO\e[0m\n" "$CHAMP"
+		else
+			printf "%s: \e[1;32mOK\e[0m\n" "$CHAMP"
+		fi
+		rm -rf ${CHAMP%.s}.cor
+	done
+	for CHAMP in ${CORRECT[*]}
+	do
+		OUTPUT=$(./asm $CHAMP | grep -i 'writing')
+		if [ -z "$OUTPUT" ]
+		then
+			printf "%s: \e[1;31mKO\e[0m\n" "$CHAMP"
+		else
+			printf "%s: \e[1;32mOK\e[0m\n" "$CHAMP"
+		fi
+		rm -rf ${CHAMP%.s}.cor
+	done
+}
+
 test_asm_valgrind()
 {
 	CHAMPS=$(find ./champs -name *.s)
@@ -67,6 +107,7 @@ if [ $1 = 'asm' ] ; then
 	make -C ../Assembler fclean > /dev/null
 	test_asm_error
 	test_asm_correct
+	test_asm_gen
 	rm -rf asm > /dev/null
 fi
 

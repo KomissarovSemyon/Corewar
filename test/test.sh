@@ -1,58 +1,79 @@
-test()
-{
-	RANDOM=$$
-	FAIL=0
-	CHAMPS=$(find ./ch -mindepth 1 -maxdepth 5 -name '*.s' | cut -c 3-)
-	for CHAMP1 in $CHAMPS
-	do
-		OUTPUT=$(./asm $CHAMP1 | grep -i 'error\|ошибка')
-		if [ -z "$OUtPUT" ]
-		then
-			for CHAMP2 in $CHAMPS
-			do
-				OUTPUT=$(./asm $CHAMP2 | grep -i 'error\|ошибка')
-				if [ -z "$OUTPUT" ]
-				then
-					DUMP=$RANDOM
-					./corewar_original -d $DUMP ${CHAMP1%.s}.cor ${CHAMP2%.s}.cor > output_original
-					./corewar -map -dump $DUMP ${CHAMP1%.s}.cor ${CHAMP2%.s}.cor > output
-					DIFF=$(diff output output_original)
-					if [ "$DIFF" ]
-					then
-						FAIL=$((FAIL+1))
-						printf "\e[1;31mKO\e[0m ./corewar -d %s %s %s\n" $DUMP ${CHAMP1%.s}.cor ${CHAMP2%.s}.cor
-						echo "./corewar -map -dump $DUMP ${CHAMP1%.s}.cor ${CHAMP2%.s}.cor" > $FAIL.diff
-						echo "./corewar_original -d $DUMP ${CHAMP1%.s}.cor ${CHAMP2%.s}.cor" >> $FAIL.diff
-						echo $DIFF >> $FAIL.diff
-					fi
-					rm -rf output output_original
-				fi
-				rm -rf ${CHAMP2%.s}.cor
-				# exit 0
-			done
+test_asm_error() {
+	CHAMPS=$(find ./champs/error_champ -name '*.s')
+	for CHAMP in $CHAMPS; do
+		OUTPUT=$(./asm $CHAMP | grep -i 'error\|ошибка')
+		if [ -z $CHAMP ]; then
+			printf "%s: \e[1;31mKO\e[0m\n" "$CHAMP"
+			rm -rf ${CHAMP%.s}.cor
+		else
+			printf "%s: \e[1;32mOK\e[0m\n" "$CHAMP"
 		fi
-		rm -rf ${CHAMP2%.s}.cor
 	done
-	echo "FAILED: $FAIL"
+	$(find ./champs/error_champ -name '*.cor' | xargs rm -rf)
+}
+
+test_asm_correct() {
+	CHAMPS=$(find ./champs/championships ./champs/examples -name '*.s')
+	for CHAMP in $CHAMPS; do
+		OUTPUT=$(./asm $CHAMP | grep -i 'error\|ошибка')
+		if [[ $OUTPUT ]]; then
+			printf "%s: \e[1;31mKO\e[0m\n" "$CHAMP"
+		else
+			mv ${CHAMP%.s}.cor tmp.cor
+			./asm_original $CHAMP > /dev/null
+			hexdump -Cv tmp.cor > our_tmp
+			hexdump -Cv ${CHAMP%.s}.cor > or_tmp
+			DIFF=$(diff -U 2 or_tmp our_tmp)
+			rm -rf tmp.cor ${CHAMP%.s}.cor or_tmp our_tmp
+			if [[ $OUTPUT ]]; then
+				printf "%s: \e[1;31mKO\e[0m\n" "$CHAMP"
+				echo $DIFF
+			else
+				printf "%s: \e[1;32mOK\e[0m\n" "$CHAMP"
+			fi
+		fi
+		rm -rf ${CHAMP%.s}.cor
+	done
+}
+
+test_asm_valgrind()
+{
+	CHAMPS=$(find ./champs -name *.s)
+	COUNT=0
+	CORRECT=$(echo "definitely lost: 0 bytes in 0 blocks\nindirectly lost: 0 bytes in 0 blocks")
+	CORRECT=$(echo "0\n0")
+	for CHAMP in $CHAMPS
+	do
+		OUTPUT=$(valgrind --leak-check=full --show-leak-kinds=all ./asm $CHAMP 2>&1 | grep -E "definitely|indirectly" | awk '{ print $4 }')
+		if test "$OUTPUT" != "$CORRECT"
+		then
+			printf "%s: \e[1;31mKO\e[0m\n" "$CHAMP"
+			COUNT=$(($COUNT + 1))
+		else
+			printf "%s: \e[1;32mOK\e[0m\n" "$CHAMP"
+		fi
+	done
+	echo $COUNT
 }
 
 if [[ $# -eq 0 ]] ; then
-    echo 'options: test, clean'
-    exit 0
+	echo 'options: asm, asm_valgrind, vm, disasm'
+	exit 0
 fi
 
-if [ $1 = 'test' ] ; then
-	test
+if [ $1 = 'asm' ] ; then
+	make -C ../Assembler re > /dev/null
+	cp ../Assembler/asm . > /dev/null
+	make -C ../Assembler fclean > /dev/null
+	test_asm_error
+	test_asm_correct
+	rm -rf asm > /dev/null
 fi
 
-if [ $1 = 'clean' ] ; then
-	rm -rf *.diff
+if [ $1 = 'asm_valgrind' ] ; then
+	make -C ../Assembler re > /dev/null
+	cp ../Assembler/asm . > /dev/null
+	make -C ../Assembler fclean > /dev/null
+	test_asm_valgrind
+	rm -rf asm > /dev/null
 fi
-# if [ $1 = 'error' ] ; then
-#     # coproc test_error 2> /dev/null
-#     test_error
-# fi
-
-# if [ $1 = 'correct' ] ; then
-#     test_correct
-# fi

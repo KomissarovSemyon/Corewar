@@ -188,7 +188,7 @@ test_vm_duo()
 		echo 'Incorrect file'
 		exit 0
 	fi
-	CHAMPS=$(find ./champs -name *.s)
+	CHAMPS=$(find ./champs/examples ./champs/championships -name *.s)
 	FAIL=0
 	for CHAMP in $CHAMPS; do
 		OUTPUT=$(./asm_original $CHAMP | grep -i 'writing')
@@ -196,9 +196,6 @@ test_vm_duo()
 			DUMP=$1
 			./corewar_original -d $DUMP ${CHAMP%.s}.cor ${CHAMP_0%.s}.cor > output_original
 			./corewar -dump $DUMP ${CHAMP%.s}.cor ${CHAMP_0%.s}.cor > output
-			# (./corewar_original -d $DUMP ${CHAMP%.s}.cor | tail -n +3) > output_original
-			# (./corewar -dump $DUMP ${CHAMP%.s}.cor | tail -n +5) > output
-			# sed -i '' -e '$ d' output
 			DIFF=$(diff -U 3 output output_original)
 			if [ "$DIFF" ]
 			then
@@ -209,7 +206,9 @@ test_vm_duo()
 				printf "\e[1;32mOK\e[0m ./corewar -dump %s %s %s\n" $DUMP ${CHAMP%.s}.cor ${CHAMP_0%.s}.cor
 			fi
 			rm -rf output output_original
-			rm -rf ${CHAMP%.s}.cor
+			if test "$CHAMP" != "$CHAMP_0"; then
+				rm -rf ${CHAMP%.s}.cor
+			fi
 		fi
 	done
 	echo $FAIL

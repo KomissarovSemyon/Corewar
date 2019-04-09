@@ -1,14 +1,14 @@
-#******************************************************************************#
+# **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ltuffleb <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/21 14:56:40 by ltuffleb          #+#    #+#              #
-#    Updated: 2018/12/12 13:39:46 by ltuffleb         ###   ########.fr        #
+#    Updated: 2019/04/09 20:44:55 by amerlon-         ###   ########.fr        #
 #                                                                              #
-#******************************************************************************#
+# **************************************************************************** #
 
 NAME_PROG = test
 NAME_MAIN_FILE = test.c
@@ -26,19 +26,19 @@ go:
 	./$(NAME_PROG)
 
 .c.o:
-	gcc $(FLAGS) -I $(LIB_FOLDER) -c $< -o $@
+	@gcc $(FLAGS) -I $(LIB_FOLDER) -c $< -o $@
 
 $(NAME): $(OBJS)
-	ar rc $(NAME) $(OBJS)
-	ranlib $(NAME)
+	@ar rc $(NAME) $(OBJS)
+	@ranlib $(NAME)
 
 $(NAME_PROG):
-	gcc $(NAME_MAIN_FILE) -Wall -Werror -Wextra -I $(LIB_FOLDER) -L. -$(NAME_LIB_SHORT) -o $(NAME_PROG)
+	@gcc $(NAME_MAIN_FILE) -Wall -Werror -Wextra -I $(LIB_FOLDER) -L. -$(NAME_LIB_SHORT) -o $(NAME_PROG)
 
 clean:
-	/bin/rm -f $(OBJS)
+	@/bin/rm -f $(OBJS)
 
 fclean: clean
-	/bin/rm -f $(NAME)
+	@/bin/rm -f $(NAME)
 
 re: fclean all

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: thgiraud <thgiraud@student.42.fr>          +#+  +:+       +#+         #
+#    By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/17 17:47:51 by thgiraud          #+#    #+#              #
-#    Updated: 2019/04/07 22:04:43 by jcorwin          ###   ########.fr        #
+#    Updated: 2019/04/09 20:40:30 by amerlon-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,20 +50,20 @@ INC		= $(addprefix $(INCDIR), $(INCLUDES))
 all: $(FT_LIB) $(SRC) $(NAME)
 
 $(NAME): $(INC) $(OBJ)
-	$(CC) $(OBJ) $(FT_LNK) -o $@
+	@$(CC) $(OBJ) $(FT_LNK) -o $@
 
 .c.o:
-	$(CC) -I $(INCDIR) -c $< -o $@
+	@$(CC) -I $(INCDIR) -c $< -o $@
 
 $(FT_LIB):
-	make -C $(FT_DIR)
+	@make -C $(FT_DIR)
 
 clean:
-	rm -rf $(OBJ)
-	make clean -C $(FT_DIR)
+	@rm -rf $(OBJ)
+	@make clean -C $(FT_DIR)
 
 fclean: clean
-	rm -rf $(NAME)
-	make clean -C $(FT_DIR) fclean
+	@rm -rf $(NAME)
+	@make clean -C $(FT_DIR) fclean
 
 re: fclean all

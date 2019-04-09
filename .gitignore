@@ -11,3 +11,4 @@ asm
 tmp*
 .DS_Store
 *.a
+disassemble

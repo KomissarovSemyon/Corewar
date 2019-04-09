@@ -6,7 +6,7 @@
 #    By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/21 17:58:27 by amerlon-          #+#    #+#              #
-#    Updated: 2019/03/22 23:15:22 by amerlon-         ###   ########.fr        #
+#    Updated: 2019/04/09 20:46:14 by amerlon-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,27 +27,22 @@ LIBFT		= $(LIBFT_DIR)/libft.a
 all: $(NAME)
 
 $(OBJ_DIR):
-	@echo "\033[33mMaking binaries\033[0m"
 	@mkdir -p $(OBJ_DIR)
 
 $(LIBFT):
 	@make -C libft
 
 $(NAME): $(LIBFT) $(OBJ_DIR) $(OBJS)
-	@echo "\033[33mCompiling ./disassemble\033[0m"
-	gcc $(LIBFT) $(FLAGS) $(OBJS) -o $(NAME)
-	@echo "\033[31mFinished building project\033[0m"
+	@gcc $(LIBFT) $(FLAGS) $(OBJS) -o $(NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	gcc $(FLAGS) -c $< $(INCLUDES) -o $@
+	@gcc $(FLAGS) -c $< $(INCLUDES) -o $@
 
 clean:
 	@rm -rf $(OBJ_DIR)
-	@echo "\033[33mDeleting project binaries\033[0m"
 	@make -C libft clean
 
 fclean: clean
-	@echo "\033[33mDeleting project\033[0m"
 	@make -C libft fclean
 
 re: fclean all

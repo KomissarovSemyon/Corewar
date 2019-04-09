@@ -1,20 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_close.c                                         :+:      :+:    :+:   */
+/*   ft_out_params.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/06 01:36:02 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/09 16:57:43 by rrhaenys         ###   ########.fr       */
+/*   Created: 2019/04/09 16:58:14 by rrhaenys          #+#    #+#             */
+/*   Updated: 2019/04/09 16:58:21 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-int
-	ft_close(t_data *data)
+void
+	ft_out_params(t_data *data, t_win_par par)
 {
-	exit(0);
-	return (0);
+	int		width;
+	char	*num;
+
+	mlx_string_put(data->mlx_ptr, data->mlx_win, par.x, par.y,
+	par.color_str, par.str);
+	width = ft_strlen(par.str);
+	num = ft_itoa(par.par);
+	mlx_string_put(data->mlx_ptr, data->mlx_win, par.x + width * 10 + 5, par.y,
+	par.color_num, num);
+	free(num);
 }

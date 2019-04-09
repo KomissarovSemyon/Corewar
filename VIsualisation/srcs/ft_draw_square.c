@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/13 16:03:32 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/03/18 01:11:47 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/09 16:15:02 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ void
 	{
 		dy = pos[1] - rad - 1;
 		while (++dy < (pos[1] + rad))
-		{
-			data->img->data[dy * WIN_W + dx] = color;
-		}
+			ft_draw_px(data, dx, dy, color);
 	}
 }

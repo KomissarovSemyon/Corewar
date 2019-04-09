@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 03:25:16 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/08 14:11:01 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/09 16:56:52 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int
 	else if (key == B_ESC)
 		ft_close(data);
 	data->mydata->first_proces +=
-	(key == 124 && data->mydata->first_proces < (data->mydata->process_count - 1)) -
+	(key == 124 &&
+	data->mydata->first_proces < (data->mydata->process_count - 1)) -
 	(key == 123 && data->mydata->first_proces > 0);
 	data->mydata->first_reg +=
 	(key == 125 && data->mydata->first_reg < (REG_NUMBER - 11)) -
@@ -39,11 +40,12 @@ int
 	return (1);
 }
 
-int				mouse_move(int x, int y, t_data *data)
+int
+	mouse_move(int x, int y, t_data *data)
 {
 	int		dx;
 
-	if (x >= 8 && x <= 1930 && y >= 990 && y<= 1291)
+	if (x >= 8 && x <= 1930 && y >= 990 && y <= 1291)
 		data->mydata->active_proces_line = (x - 13) / 125;
 	else
 		data->mydata->active_proces_line = -1;

@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/30 19:44:56 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/08 14:13:06 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/09 17:36:52 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,11 @@ void			ft_open_win(char *str, int argc, char **argv);
 int				ft_draw(t_data *data);
 void			ft_draw_px(t_data *data, int x, int y, int color);
 void			line_fast(t_data *env, double *p1, double *p2, int color);
-void			ft_linefast_int(t_data *data, int *p1, int *p2, int color);
 void			ft_draw_square(t_data *data, int *pos, int rad, int color);
 void			ft_clearwin(t_data *data);
 void			ft_draw_str_big(t_data *data, int x, int y, char *str);
+void			draw_cube_empty(t_data *data, double par[2][2], int color);
+void			ft_draw_back(t_data *data);
 
 int				key_press(int key, t_data *data);
 int				key_release(int key, t_data *data);
@@ -124,4 +125,17 @@ int				ft_close(t_data *data);
 
 char			*ft_rebase(unsigned long long n, int base);
 
+int				ft_get_reg(t_process *proc, int reg_num);
+
+void			ft_update_my_arr(t_data *data);
+
+void			ft_start_game(t_data *data, char *str, int argc, char **argv);
+
+void			ft_out_params(t_data *data, t_win_par par);
+
+
+void			ft_print_proces(t_data *data,
+								int x, int y, t_process *proc, int active);
+
+t_process		*ft_get_process_id(t_data *data, int id);
 #endif

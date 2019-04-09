@@ -6,7 +6,7 @@
 #    By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/17 00:42:52 by rrhaenys          #+#    #+#              #
-#    Updated: 2019/04/08 14:39:20 by rrhaenys         ###   ########.fr        #
+#    Updated: 2019/04/09 16:17:44 by rrhaenys         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,9 +53,8 @@ re: fclean all
 
 test: all
 	../Virtual_Machine/corewar ../Virtual_Machine/champs/beginner.cor ../Virtual_Machine/champs/beginner.cor
-	../Virtual_Machine/corewar ../Virtual_Machine/champs/beginner.cor ../Virtual_Machine/champs/beginner.cor -vis | ./visual
+	../Virtual_Machine/corewar ../Virtual_Machine/champs/beginner.cor ../Virtual_Machine/champs/beginner.cor -vis | ./$(NAME)
 
-retest: re
-	./test.out
+retest: re test
 
 .PHONY: clean fclean all re

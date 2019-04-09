@@ -6,258 +6,24 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 03:08:31 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/09 13:29:20 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/09 17:36:32 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
 void
-	line_fast(t_data *env, double *p1, double *p2, int color)
-{
-	int i;
-	int x[2];
-	int p[2];
-
-	x[0] = abs((int)(p2[Y_P] - p1[Y_P])) >> 1;
-	x[1] = abs((int)(p2[X_P] - p1[X_P])) >> 1;
-	ft_draw_px(env, (p[0] = p1[X_P]),
-				(p[1] = p1[Y_P]), color);
-	if (((i = -1) == -1) && abs((int)(p2[X_P] - p1[X_P])) >=
-		abs((int)(p2[Y_P] - p1[Y_P])))
-		while (++i < abs((int)(p2[X_P] - p1[X_P])))
-		{
-			BLOCK_2(x[1], abs((int)(p2[X_P] - p1[X_P])), p[1],
-			SGN(p2[Y_P] - p1[Y_P]), abs((int)(p2[Y_P] - p1[Y_P])));
-			ft_draw_px(env, (p[0] += SGN(p2[X_P] - p1[X_P])), p[1], color);
-		}
-	else
-		while (++i < abs((int)(p2[Y_P] - p1[Y_P])))
-		{
-			BLOCK_2(x[0], abs((int)(p2[Y_P] - p1[Y_P])), p[0],
-			SGN(p2[X_P] - p1[X_P]), abs((int)(p2[X_P] - p1[X_P])));
-			ft_draw_px(env, p[0], (p[1] += SGN(p2[Y_P] - p1[Y_P])), color);
-		}
-}
-
-void
-	ft_draw_px(t_data *data, int x, int y, int color)
-{
-	data->img->data[y * WIN_W + x] = color;
-}
-
-void
-	line_vertical(t_data *data, int x, int *y, int color)
-{
-	int	ind_y;
-
-	ind_y = y[0] - 1;
-	while (++ind_y <= y[1])
-		data->img->data[ind_y * WIN_H + x] = color;
-}
-
-void
-	ft_linefast_int(t_data *data, int *p1, int *p2, int color)
-{
-	double	f1[2];
-	double	f2[2];
-
-	f1[0] = p1[0];
-	f1[1] = p1[1];
-	f2[0] = p2[0];
-	f2[1] = p2[1];
-	line_fast(data, f1, f2, color);
-}
-
-void
-	draw_cube_size(t_data *data, int x, int y, int color, double size)
-{
-	int		pos[2];
-	int		colors[5];
-
-	colors[0] = 0xc0c0c0;
-	colors[1] = 0x0000ff;
-	colors[2] = 0x9932cc;
-	colors[3] = 0xff0000;
-	colors[4] = 0x00ff00;
-	pos[0] = 20 + x * 20;
-	pos[1] = 20 + y * 20;
-	while (size > 1)
-		size -= 1.0;
-	ft_draw_square(data, pos, 10, 0x008000);
-	ft_draw_square(data, pos, 9 * size, colors[color]);
-}
-
-void
-	draw_cube(t_data *data, int x, int y, int color)
-{
-	draw_cube_size(data, x, y, color, 1);
-}
-
-void
-	draw_cube_active(t_data *data, int x, int y, int color)
-{
-	int		pos[2];
-	int		colors[5];
-
-	colors[0] = 0xc0c0c0;
-	colors[1] = 0x0000ff;
-	colors[2] = 0x9932cc;
-	colors[3] = 0xff0000;
-	colors[4] = 0x00ff00;
-	pos[0] = 20 + x * 20;
-	pos[1] = 20 + y * 20;
-	ft_draw_square(data, pos, 10, 0xffff00);
-	ft_draw_square(data, pos, 8, colors[color]);
-}
-
-void
-	ft_update_my_arr(t_data *data)
-{
-	int			magic;
-	int			i;
-	char		*str;
-	int			rd;
-
-	if ((rd = read(0, &magic, sizeof(int))) < sizeof(int))
-		return ;
-	if (magic == VIS_STOP && data->mydata->win == -1)
-		data->mydata->win = 0;
-	if (data->mydata->win == 0)
-		return ;
-	if (magic != VIS_MAGIC)
-	{
-		ft_printf("VIS_MAGIC Error!!!\n");
-		exit(0);
-	}
-	if (data->mydata->param != NULL)
-		free(data->mydata->param);
-	data->mydata->param = (t_param *)malloc(sizeof(t_param));
-	if (read(0, data->mydata->param, sizeof(t_param)) < sizeof(t_param))
-		return ;
-	i = -1;
-	while (++i < MEM_SIZE)
-	{
-		free(data->mydata->arr[i].str);
-		data->mydata->arr[i].str = ft_rebase(data->mydata->param->map[i], 16);
-		if (ft_strlen(data->mydata->arr[i].str) == 1)
-		{
-			str = ft_strdup("00");
-			str[1] = data->mydata->arr[i].str[0];
-			free(data->mydata->arr[i].str);
-			data->mydata->arr[i].str = str;
-		}
-		data->mydata->arr[i].color = data->mydata->param->map_color[i];
-	}
-	if (data->mydata->process != NULL)
-		free(data->mydata->process);
-	data->mydata->process = (t_process *)malloc(sizeof(t_process) *
-	(data->mydata->param->proc_nbr));
-	data->mydata->process_count = data->mydata->param->proc_nbr;
-	i = -1;
-	while (++i < data->mydata->param->proc_nbr)
-		read(0, &(data->mydata->process[i]), sizeof(t_process));
-}
-
-void
-	ft_out_params(t_data *data, t_win_par par)
-{
-	int		width;
-	char	*num;
-
-	mlx_string_put(data->mlx_ptr, data->mlx_win, par.x, par.y,
-	par.color_str, par.str);
-	width = ft_strlen(par.str);
-	num = ft_itoa(par.par);
-	mlx_string_put(data->mlx_ptr, data->mlx_win, par.x + width * 10 + 5, par.y,
-	par.color_num, num);
-	free(num);
-}
-
-static long long
-	ft_get_value(unsigned char *ptr, int size)
-{
-	long long	res;
-	int			i;
-
-	res = 0;
-	i = -1;
-	while (++i < size)
-		res = (res << (8 * i)) + ptr[i];
-	return (res);
-}
-
-int
-	ft_get_reg(t_process *proc, int reg_num)
-{
-	int		reg;
-
-	reg = ft_get_value(proc->r[reg_num], REG_SIZE);
-	return (reg);
-}
-
-void	byte_to_str(char *str, int ch)
-{
-	str[0] = ((ch / 16) < 10) ? (ch / 16 + '0') : (ch / 16 - 10 + 'a');
-	str[1] = ((ch % 16) < 10) ? (ch % 16 + '0') : (ch % 16 - 10 + 'a');
-}
-
-void
-	ft_print_proces(t_data *data, int x, int y, t_process *proc, int active)
-{
-	char	*str;
-	int		index;
-
-	if (proc == NULL)
-		return ;
-	ft_out_params(data, (t_win_par){x, y, 0xffffff - active * 0x00ffff, 0xffffff, "ID:", proc->id});
-	ft_out_params(data, (t_win_par){x, y + 15, 0xffffff - active * 0x00ffff, 0xffffff, "Carry:", proc->carry});
-	ft_out_params(data, (t_win_par){x, y + 38, 0xffffff - active * 0x00ffff, 0xffffff, "Wait:", proc->wait});
-	ft_out_params(data, (t_win_par){x, y + 53, 0xffffff - active * 0x00ffff, 0xffffff, "Pos_y:", (proc->pc - proc->map) / 64});
-	ft_out_params(data, (t_win_par){x, y + 68, 0xffffff - active * 0x00ffff, 0xffffff, "Pos_x:", (proc->pc - proc->map) % 64});
-	ft_out_params(data, (t_win_par){x, y + 83, 0xffffff - active * 0x00ffff, 0xffffff, "Livin:", data->mydata->param->current_cycle - proc->livin});
-	mlx_string_put(data->mlx_ptr, data->mlx_win, x, y + 98, 0xffffff - active * 0x00ffff, "Comm:");
-	if (proc->op.id >= 0 && proc->op.id <= 16)
-		mlx_string_put(data->mlx_ptr, data->mlx_win, x + 50, y + 98, 0xffffff, g_op_tab[proc->op.id].name);
-	else
-		mlx_string_put(data->mlx_ptr, data->mlx_win, x + 50, y + 98, 0xffffff, "none");
-	mlx_string_put(data->mlx_ptr, data->mlx_win, x, y + 113, 0xffffff - active * 0x00ffff, "Reg:");
-	index = data->mydata->first_reg - 1;
-	while (++index < REG_NUMBER && index <= data->mydata->first_reg + 10)
-	{
-		str = ft_itoa(index);
-		mlx_string_put(data->mlx_ptr, data->mlx_win,
-		x, y + 133 + 15 * (index - data->mydata->first_reg), 0xffffff, str);
-		mlx_string_put(data->mlx_ptr, data->mlx_win,
-		x + 20, y + 133 + 15 * (index - data->mydata->first_reg), 0xffffff, ":");
-		free(str);
-		str = ft_strdup("00000000");
-		byte_to_str(str, proc->r[index][0]);
-		byte_to_str(&str[2], proc->r[index][1]);
-		byte_to_str(&str[4], proc->r[index][2]);
-		byte_to_str(&str[6], proc->r[index][3]);
-		mlx_string_put(data->mlx_ptr, data->mlx_win,
-		x + 30, y + 133 + 15 * (index - data->mydata->first_reg), 0xffffff, str);
-		free(str);
-	}
-}
-
-t_process
-	*ft_get_process_id(t_data *data, int id)
-{
-	if (id < data->mydata->process_count)
-		return (&data->mydata->process[data->mydata->process_count - 1 - id]);
-	return (NULL);
-}
-
-void
 	ft_print_champs(t_data *data, int x, int y, t_champ *champs, int color)
 {
 	mlx_string_put(data->mlx_ptr, data->mlx_win, x, y, 0xffffff, "Name:");
-	mlx_string_put(data->mlx_ptr, data->mlx_win, x + 80, y, color, champs->name);
-	mlx_string_put(data->mlx_ptr, data->mlx_win, x, y + 15, 0xffffff, "Comment:");
-	mlx_string_put(data->mlx_ptr, data->mlx_win, x + 80, y + 15, 0x00ff00, champs->comment);
-	ft_out_params(data, (t_win_par){x, y + 30, 0xffffff, 0x00ff00, "champ_size:", champs->champ_size});
+	mlx_string_put(data->mlx_ptr, data->mlx_win, x + 80, y, color,
+	champs->name);
+	mlx_string_put(data->mlx_ptr, data->mlx_win, x, y + 15, 0xffffff,
+	"Comment:");
+	mlx_string_put(data->mlx_ptr, data->mlx_win, x + 80, y + 15, 0x00ff00,
+	champs->comment);
+	ft_out_params(data, (t_win_par){x, y + 30, 0xffffff, 0x00ff00,
+	"champ_size:", champs->champ_size});
 }
 
 int
@@ -279,7 +45,7 @@ int
 	}
 	else
 		mlx_string_put(data->mlx_ptr, data->mlx_win,
-		WIN_W - 495, 20, 0xff0000, "< STOP >");	
+		WIN_W - 495, 20, 0xff0000, "< STOP >");
 	size = 64;
 	index = data->mydata->first_proces - 1;
 	mlx_string_put(data->mlx_ptr, data->mlx_win, WIN_W - 700, WIN_H - 300, 0xffffff, "Process");
@@ -332,7 +98,6 @@ int
 		ft_print_champs(data, WIN_W - 550, 250 + 100 * (index), &(data->mydata->param->champs[index]), data->mydata->color[index + 1]);
 		ft_out_params(data, (t_win_par){WIN_W - 550, 250 + 100 * (index) + 45, 0xffffff, 0x00ff00, "proc_nbr:", data->mydata->param->player_proc_nbr[index]});
 	}
-
 	if (data->mydata->win >= 0)
 		ft_draw_str_big(data, 50, WIN_H - 450, data->mydata->param->champs[data->mydata->param->winner - 1].name);
 	return (1);

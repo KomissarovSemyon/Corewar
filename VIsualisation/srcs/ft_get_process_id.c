@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_close.c                                         :+:      :+:    :+:   */
+/*   ft_get_process_id.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/06 01:36:02 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/09 16:57:43 by rrhaenys         ###   ########.fr       */
+/*   Created: 2019/04/09 17:22:18 by rrhaenys          #+#    #+#             */
+/*   Updated: 2019/04/09 17:22:28 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-int
-	ft_close(t_data *data)
+t_process
+	*ft_get_process_id(t_data *data, int id)
 {
-	exit(0);
-	return (0);
+	if (id < data->mydata->process_count)
+		return (&data->mydata->process[data->mydata->process_count - 1 - id]);
+	return (NULL);
 }

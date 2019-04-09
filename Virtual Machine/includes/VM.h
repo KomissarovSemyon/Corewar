@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:48:39 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/29 21:44:16 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/09 17:14:42 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define MOD(x) (x > 0 ? x : -x)
 
 # define VIS_MAGIC 0x1377713
+# define VIS_STOP 0x36663
 
 # define DEFAULT_MODE 0
 # define DUMP_MODE 1
@@ -66,6 +67,7 @@ typedef struct		s_op
 {
 	unsigned char	*ptr;
 	unsigned char	id;
+	unsigned char	next_id;
 	unsigned char	arg_type[3];
 	long long int	arg[3];
 }					t_op;
@@ -97,8 +99,9 @@ typedef	struct		s_flags
 	int		step;
 	int		cycle;
 	int		map;
-	int		param;
+	int		start;
 	int		process;
+	int		check;
 }					t_flags;
 
 /*основные параметры*/
@@ -107,9 +110,11 @@ typedef struct		s_param
 	int				champ_arg;
 	t_champ			champs[MAX_PLAYERS];
 	int				players;
+	int				player_proc_nbr[4];
 	t_flags			flag;
 	unsigned char	map[MEM_SIZE];
 	int				map_color[MEM_SIZE];
+	int				map_color_cycle[MEM_SIZE];
 	t_process		*process;
 	int				proc_nbr;
 	int				cycles_to_die;
@@ -137,8 +142,6 @@ typedef struct		s_funs
 int					read_args(t_param *p, int argc, char **argv);
 void				get_champ(char *str, t_param *p, int id);
 void				champ_err(int value, int f, char *str, int expect);
-int					champ_check(unsigned char *map,
-								unsigned char *start, int size);
 
 void				usage(void);
 void				help(void);
@@ -164,7 +167,7 @@ long long			get_value(unsigned char *map,
 											unsigned char *ptr, int size);
 void				set_value(unsigned char *map, unsigned char *dst,
 												long long src, int size);
-void				swap_champ(t_champ c1, t_champ c2);
+void				swap_champ(t_champ *c1, t_champ *c2);
 
 void				start_game(t_param *param);
 

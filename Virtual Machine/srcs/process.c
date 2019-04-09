@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 17:59:06 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/01 13:51:19 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/07 16:08:47 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ void			process_print(t_process *p)
 	ft_printf("wait - %d\n", p->wait);
 	ft_printf("livin - %d\n", p->livin);
 	ft_printf("op_id - %d\n", p->op.id);
-	ft_printf("op - %s\n", g_op_tab[p->op.id].name);
+	if (p->op.id < 15)
+		ft_printf("op - %s\n", g_op_tab[p->op.id].name);
+	else
+		ft_printf("op - step\n");
 	i = -1;
 	while (++i < 3)
 		ft_printf("arg[%d].type - %d\n", i, p->op.arg_type[i]);
@@ -37,6 +40,7 @@ t_process		*process_kill(t_param *p, t_process *die)
 	t_process	*tmp;
 
 	tmp = p->process;
+	--p->proc_nbr;
 	if (tmp == die)
 	{
 		p->process = p->process->next;
@@ -47,7 +51,6 @@ t_process		*process_kill(t_param *p, t_process *die)
 		tmp = tmp->next;
 	tmp->next = die->next;
 	free(die);
-	--p->proc_nbr;
 	return (tmp);
 }
 
@@ -56,10 +59,11 @@ static void		process_init(t_param *p, t_process *new, unsigned char *pc)
 	new->wait = -1;
 	new->map = p->map;
 	new->pc = pc;
-	new->op.id = *pc - 1;
+	new->op.ptr = pc;
+	new->op.next_id = *pc - 1;
+	new->op.id = new->op.next_id;
 	ft_bzero(new->r, REG_NUMBER * REG_SIZE);
 	set_value(NULL, new->r[0], -1 * new->id, REG_SIZE);
-//	new->r[0][REG_SIZE - 1] = -1 * new->id;
 }
 
 void			process_new(t_param *p, t_process *parent, unsigned char *pc)
@@ -69,8 +73,10 @@ void			process_new(t_param *p, t_process *parent, unsigned char *pc)
 	if (!(new = (t_process *)malloc(sizeof(t_process))))
 		malloc_err();
 	new->id = p->process ? p->process->id + 1 : 1;
+	if (!parent)
+		p->winner = new->id;
 	process_init(p, new, pc);
-	new->carry = parent ? parent->carry : 1;
+	new->carry = parent ? parent->carry : 0;
 	new->livin = parent ? parent->livin : 0;
 	new->next = p->process;
 	if (parent)

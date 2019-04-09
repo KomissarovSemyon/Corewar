@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:47:41 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/01 13:02:07 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/09 17:15:31 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,16 @@ static void		param_init(t_param *p)
 	p->flag.step = 0;
 	p->flag.dump = 0;
 	p->flag.vis = 0;
+	p->flag.vis = 0;
 	p->flag.help = 0;
 	p->flag.cycle = 0;
 	p->flag.map = 0;
-	p->flag.param = 0;
+	p->flag.start = 0;
 	p->flag.process = 0;
 	p->flag.oper = 0;
+	p->flag.check = 0;
 	p->proc_nbr = 0;
+	p->winner = 1;
 	i = -1;
 	while (++i < MAX_PLAYERS)
 	{
@@ -70,7 +73,7 @@ static void		intro(t_param *p)
 int				main(int argc, char **argv)
 {
 	t_param		p;
-	int			i;
+	int			magic;
 	char		s[4];
 
 	param_init(&p);
@@ -84,6 +87,11 @@ int				main(int argc, char **argv)
 	if (!p.flag.vis)
 		intro(&p);
 	start_game(&p);
-	ft_printf("Contestant %d, \"%s\", has won !\n", p.winner + 1, p.champs[p.winner].name);
+	if (p.flag.vis)
+	{
+		magic = VIS_STOP;
+		write(1, &magic, sizeof(int));
+	}
+	ft_printf("Contestant %d, \"%s\", has won !\n", p.winner, p.champs[p.winner - 1].name);
 	return (0);
 }

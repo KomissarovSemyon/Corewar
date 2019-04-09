@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 17:08:46 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/29 21:44:40 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/09 18:58:12 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,13 @@ void			set_color(t_param *p, int place, int size, int color)
 {
 	while (size--)
 	{
-		p->map_color[(place + size) % MEM_SIZE] =
-									color < 4 && color > 0 ? color : 0;
-//	ft_printf("%d\n", p->map_color[(place + size) % MEM_SIZE]);
+		if (color <= p->players && color > 0)
+		{
+			p->map_color[(place + size) % MEM_SIZE] = color + 4;
+			p->map_color_cycle[(place + size) % MEM_SIZE] = 10;
+		}
+		else
+			p->map_color[(place + size) % MEM_SIZE] = 0;
 	}
 }
 
@@ -54,8 +58,6 @@ static void		print_bytes(t_param *p, unsigned char *str, int len)
 			ft_printf("0");
 			ft_printf("%hhx ", *str++);
 	}
-	if (!p->flag.vis)
-		ft_printf("\n");
 }
 
 static void		print_color(t_param *p)
@@ -71,9 +73,20 @@ void			vis_print(t_param *p)
 {
 	 t_process	*tmp;
 	 int		magic;
+	 int		i;
+	 long long	val;
 
 	magic = VIS_MAGIC;
 	write(1, &magic, sizeof(int));
+	tmp = p->process;
+	ft_bzero(&p->player_proc_nbr, sizeof(int) * 4);
+	while (tmp)
+	{
+		val = get_signed_value(NULL, tmp->r[0], REG_SIZE);
+		if (val < 0 && val >= -p->players)
+			p->player_proc_nbr[-val - 1] += 1;
+		tmp = tmp->next;
+	}
 	write(1, p, sizeof(t_param));
 	tmp = p->process;
 	while (tmp)
@@ -81,6 +94,11 @@ void			vis_print(t_param *p)
 		write(1, tmp, sizeof(t_process));
 		tmp = tmp->next;
 	}
+	i = -1;
+	while (++i < MEM_SIZE)
+		if (p->map_color[i] > 4 && p->map_color[i] < 9)
+			if (!(--p->map_color_cycle[i]))
+				p->map_color[i] -= 4;
 }
 
 void			map_print(t_param *p)
@@ -89,14 +107,15 @@ void			map_print(t_param *p)
 	t_process	*tmp;
 
 	line = 0;
-	if (p->flag.param)
+	if (p->current_cycle != p->flag.dump)
 	{
-		ft_printf("current cycle - %d\n", p->current_cycle);
-		ft_printf("cycles to die - %d\n", p->cycles_to_die);
-		ft_printf("last check - %d\n", p->last_check);
-		ft_printf("number of live - %d\n", p->live_nbr);
+		if (!p->flag.cycle && p->flag.process)
+			 ft_printf("%{02:00}cycle - %d%{99:99}\n\n", p->current_cycle);
+		else if (!p->flag.cycle && (p->flag.map || p->flag.oper))
+			ft_printf("cycle - %d\n\n", p->current_cycle);
 	}
 	if (p->flag.map)
+	{
 		while (line < MEM_SIZE)
 		{
 			if (line == 0)
@@ -104,7 +123,9 @@ void			map_print(t_param *p)
 			ft_printf("%#.4x : ", line);
 			print_bytes(p, &p->map[line], 64);
 			line += 64;
+			ft_printf("\n");
 		}
+	}
 	tmp = p->process;
 	if (p->flag.process)
 		while (tmp)

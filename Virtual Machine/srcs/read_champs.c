@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 20:15:37 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/03/29 21:44:43 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/07 23:59:20 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void			champ_err(int value, int f, char *str, int expect)
 		ft_printf("There are only %d players\n", value);
 	else if (f == 4)
 		ft_printf("Duplicate player id\n", value);
+	else if (f == 5)
+		ft_printf("%s has invalid operations\n", str);
 	else if (value == -1)
 		ft_printf("  can't read %s\n", str);
 	else if (value < expect)
@@ -55,6 +57,34 @@ static void		rev_bits(char *str, int len)
 	}
 }
 
+static void		print_bytes(t_param *p, unsigned char *str, int len)
+{
+	while (len--)
+	{
+		if (*str < 16)
+			ft_printf("0");
+			ft_printf("%hhx ", *str++);
+	}
+	ft_printf("\n");
+}
+
+static int		champ_check(unsigned char *start, int size)
+{
+	t_process	proc;
+
+	proc.pc = start;
+	proc.map = start;
+	while (proc.pc < start + size)
+	{
+		proc.op.id = *proc.pc - 1;
+		op_args(&proc);
+		if (!op_check(&proc))
+			return (1);
+		proc.pc = proc.op.ptr;
+	}
+	return (proc.pc == start + size ? 0 : 1);
+}
+
 static void		get_champ2(int f, char *str, t_param *p, int id)
 {
 	if (p->champs[id].champ_size > CHAMP_MAX_SIZE)
@@ -68,7 +98,9 @@ static void		get_champ2(int f, char *str, t_param *p, int id)
 			p->champs[id].champ_size), 0, str,
 									p->champs[id].champ_size);
 	p->champs[id].champ[p->champs[id].champ_size] = '\0';
-
+	if (champ_check((unsigned char *)p->champs[id].champ,
+										p->champs[id].champ_size))
+		champ_err(0, 5, str, 0);
 }
 
 void			get_champ(char *str, t_param *p, int id)

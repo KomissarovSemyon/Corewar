@@ -6,36 +6,65 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/17 01:25:13 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/01 17:20:13 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/09 17:51:55 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
 
+static void		op_show(t_process *process)
+{
+	unsigned char	*ptr;
+	int				i;
+	long long		value;
+
+	ft_printf("process %d:\n", process->id);
+	ptr = process->pc;
+	i = -1;
+	while (++i < 16)
+	{
+		ft_printf("%02hhx ", *ptr);
+		ptr = get_step(process->map, ptr, 1);
+	}
+	ft_printf("\n");
+	ft_printf("%s ", g_op_tab[process->op.id].name);
+	i = 0;
+	while (i < 3 && process->op.arg_type[i])
+	{
+//		ft_printf("%d\n", i);
+		if (process->op.arg_type[i] == DIR_CODE)
+			ft_printf("%ld (%d) ", process->op.arg[i], process->op.arg[i] % IDX_MOD);
+		else if (process->op.arg_type[i] == IND_CODE)
+			ft_printf("%ld ", process->op.arg[i] - (long)process->pc);
+		else
+			ft_printf("r%ld ", process->op.arg[i] + 1);
+		++i;
+	}
+	ft_printf("\n");
+}
+
 static void		do_op(t_param *param, t_process *process)
 {
 	op_args(process);
-//	if (process->id == 84)
-//	{
-//		ft_fprintf(2, "%d\n", process->id);
-//		process_print(process);
-//	}
-	if (param->flag.oper)
-		ft_printf("cycle - %d\n", param->current_cycle);
+//	if (param->flag.oper && !param->flag.cycle)
+//		ft_printf("cycle - %d\n", param->current_cycle);
+	if (param->flag.oper && param->current_cycle > param->flag.start)
+		op_show(process);
 	if (op_check(process))
 	{
-//		if (process->id == 84)
-//			ft_fprintf(2, "check - ok\n");
-		if (param->flag.oper)
-			ft_printf("process %d executing %s\n", process->id,
-												g_op_tab[process->op.id].name);
+//		if (param->flag.oper)
+//			ft_printf("process %d executing %s\n", process->id,
+//												g_op_tab[process->op.id].name);
+		
 		g_op_tab[process->op.id].f_do(param, process);
 	}
-	else if (param->flag.oper)
-		ft_printf("process %d failed %s\n", process->id,
+	else if (param->flag.oper && param->current_cycle > param->flag.start)
+		ft_printf("process %d invalid args for  %s\n", process->id,
 												g_op_tab[process->op.id].name);
-	if (param->flag.oper)
-		ft_printf("moving to %d\n\n", process->op.ptr - process->map);
+	if (param->flag.oper && param->current_cycle > param->flag.start)
+		ft_printf("step on %d to %02hhx\n\n", 
+			process->op.ptr > process->pc ? process->op.ptr - process->pc :
+			MEM_SIZE - (long)process->pc + (long)process->op.ptr, *process->op.ptr);
 	if (!(process->op.id == ZJMP && process->carry && op_check(process)))
 		process->pc = process->op.ptr;
 }
@@ -47,10 +76,8 @@ static void		process_act(t_param *param, t_process *process)
 		process->op.id = *process->pc - 1;
 		if (process->op.id > 15)
 			process->wait = 0;
-		else// if (op_check(process))
+		else
 			process->wait = g_op_tab[process->op.id].cycles - 1;
-//		else
-//			process->wait = 1;
 	}
 	if (process->wait == 0)
 	{
@@ -67,25 +94,63 @@ static int		check_cycle(t_param *param)
 {
 	t_process	*pr;
 
-	if (++param->current_cycle > param->last_check + CYCLE_TO_DIE)
+//	if (param->flag.check && (!param->flag.step ||
+//			!(param->current_cycle % param->flag.step)))
+//	{
+//		ft_printf("last check was at %d\n", param->last_check);
+//		ft_printf("current cycle is %d\n", param->current_cycle);
+//		ft_printf("number of live %d\n", param->live_nbr);
+//		ft_printf("next check at %d\n", param->last_check + param->cycles_to_die);
+//		pr = param->process;
+//		while (pr)
+//		{
+//			ft_printf("process %d last live at %d\n", pr->id, pr->livin);
+//			pr = pr->next;
+//		}
+//		ft_printf("\n");
+//	}
+	if (param->current_cycle >= param->last_check + param->cycles_to_die)
 	{
+		if (!param->flag.cycle && param->flag.check &&
+				param->current_cycle > param->flag.start)
+			ft_printf("current cycle is %d\n", param->current_cycle);
+		if (param->flag.check && param->current_cycle > param->flag.start)
+		{
+			ft_printf("last check was at %d\n", param->last_check);
+			ft_printf("cycles to die is  %d\n", param->cycles_to_die);
+		}
 		param->last_check = param->current_cycle;
 		pr = param->process;
 		while (pr)
 		{
-			if (pr->livin <= param->current_cycle - CYCLE_TO_DIE)
+			if (param->flag.check && param->current_cycle > param->flag.start)
+				ft_printf("process %d last live at %d\n", pr->id, pr->livin);
+			if (pr->livin <= param->current_cycle - param->cycles_to_die)
+			{
+				if (param->flag.check && param->current_cycle > param->flag.start)
+					ft_printf("kill process %d\n", pr->id);
 				pr = process_kill(param, pr);
+			}
 			else
 				pr = pr->next;
 		}
+		if (param->flag.check && param->current_cycle > param->flag.start)
+		{
+			ft_printf("current_check is %d\n", ++param->checks);
+			ft_printf("number of live %d\n", param->live_nbr);
+		}
 		if (!param->process)
 			return (0);
-		if (++param->checks == MAX_CHECKS || param->live_nbr >= NBR_LIVE)
+		if (param->checks == MAX_CHECKS || param->live_nbr >= NBR_LIVE)
 		{
 			param->cycles_to_die -= CYCLE_DELTA;
+			if (param->flag.check)
+				ft_printf("cycles to die is now %d\n", param->cycles_to_die);
 			param->checks = 0;
 		}
 		param->live_nbr = 0;
+		if (param->flag.check && param->current_cycle > param->flag.start)
+			ft_printf("\n");
 	}
 	return (1);
 }
@@ -94,31 +159,43 @@ void			start_game(t_param *param)
 {
 	t_process	*tmp;
 	char		c = 0;
+	int			flag;
 
-	while (check_cycle(param))
+	flag = 1;
+	while (flag)
 	{
+		++param->current_cycle;
 		tmp = param->process;
-		if (param->flag.cycle)
+		if (param->flag.cycle && param->current_cycle > param->flag.start)
 			ft_printf("cycle - %d\n", param->current_cycle);
 		while (tmp)
 		{
 			process_act(param, tmp);
 			tmp = tmp->next;
 		}
-		if (param->flag.vis && (param->current_cycle > 14000))
-			vis_print(param);
+		if (param->flag.vis)
+		{	
+			if (param->current_cycle > param->flag.start ||
+						param->current_cycle == 1)
+				vis_print(param);
+		}
 		else
 		{
-			if (param->current_cycle == param->flag.dump)
+			if (param->flag.dump &&
+					param->current_cycle == param->flag.dump)
 			{
 				param->flag.map = 1;
 				map_print(param);
 				exit(0);
 			}
-			if (param->flag.step && !(param->current_cycle % param->flag.step))
+			else if (param->current_cycle > param->flag.start)
 				map_print(param);
 		}
 		c = 0;
+		if (param->flag.step && !(param->current_cycle % param->flag.step))
+			while (c != '\n')
+				read(0, &c, 1);
+		flag = check_cycle(param);
 	}
 //	if (param->current_cycle == param->flag.dump)
 //	{

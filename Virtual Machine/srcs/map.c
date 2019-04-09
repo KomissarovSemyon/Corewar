@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 17:08:46 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/09 17:57:05 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/09 18:58:12 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ static void		print_bytes(t_param *p, unsigned char *str, int len)
 			ft_printf("0");
 			ft_printf("%hhx ", *str++);
 	}
-	if (!p->flag.vis)
-		ft_printf("\n");
 }
 
 static void		print_color(t_param *p)
@@ -109,10 +107,13 @@ void			map_print(t_param *p)
 	t_process	*tmp;
 
 	line = 0;
-	if (!p->flag.cycle && p->flag.process)
-		 ft_printf("%{02:00}cycle - %d%{99:99}\n\n", p->current_cycle);
-	else if (!p->flag.cycle && (p->flag.map || p->flag.oper))
-		ft_printf("cycle - %d\n\n", p->current_cycle);
+	if (p->current_cycle != p->flag.dump)
+	{
+		if (!p->flag.cycle && p->flag.process)
+			 ft_printf("%{02:00}cycle - %d%{99:99}\n\n", p->current_cycle);
+		else if (!p->flag.cycle && (p->flag.map || p->flag.oper))
+			ft_printf("cycle - %d\n\n", p->current_cycle);
+	}
 	if (p->flag.map)
 	{
 		while (line < MEM_SIZE)
@@ -122,8 +123,8 @@ void			map_print(t_param *p)
 			ft_printf("%#.4x : ", line);
 			print_bytes(p, &p->map[line], 64);
 			line += 64;
+			ft_printf("\n");
 		}
-		ft_printf("\n");
 	}
 	tmp = p->process;
 	if (p->flag.process)

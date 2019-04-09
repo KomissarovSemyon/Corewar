@@ -34,16 +34,16 @@ run_two()
 	CHAMPS=$(find ./ch -name '*.cor' | cut -c 3-)
 	for CHAMP1 in $CHAMPS
 	do
-		for CHAMP2 in $CHAMPS
-		do
-			for CHAMP3 in $CHAMPS
-			do
-				for CHAMP4 in $CHAMPS
-				do
+#		for CHAMP2 in $CHAMPS
+#		do
+#			for CHAMP3 in $CHAMPS
+#			do
+#				for CHAMP4 in $CHAMPS
+#				do
 					run $1 $CHAMP1 $CHAMP2 $CHAMP3 $CHAMP4
-				done
-			done
-		done
+#				done
+#			done
+#		done
 	done
 }
 

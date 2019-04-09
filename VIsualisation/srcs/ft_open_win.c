@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 07:03:09 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/09 16:30:44 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/09 20:15:52 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void
 		((data.img = (t_img *)malloc(sizeof(t_img))) == NULL) ||
 		((data.mydata = (t_mydata *)malloc(sizeof(t_mydata))) == NULL))
 		return ;
-	mlx_do_key_autorepeaton(data.mlx_ptr);
 	mlx_loop_hook(data.mlx_ptr, ft_draw, &data);
 	mlx_hook(data.mlx_win, 2, 1L << 2, key_press, &data);
 	mlx_hook(data.mlx_win, 3, 1L << 3, key_release, &data);

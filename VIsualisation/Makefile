@@ -6,7 +6,7 @@
 #    By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/17 00:42:52 by rrhaenys          #+#    #+#              #
-#    Updated: 2019/04/09 16:17:44 by rrhaenys         ###   ########.fr        #
+#    Updated: 2019/04/09 20:14:54 by rrhaenys         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,8 +52,8 @@ fclean: clean
 re: fclean all
 
 test: all
-	../Virtual_Machine/corewar ../Virtual_Machine/champs/beginner.cor ../Virtual_Machine/champs/beginner.cor
-	../Virtual_Machine/corewar ../Virtual_Machine/champs/beginner.cor ../Virtual_Machine/champs/beginner.cor -vis | ./$(NAME)
+	../Virtual_Machine/corewar ../Virtual_Machine/champs/championships/2017/jaustry/mise_a_jour_windows95.cor ../Virtual_Machine/champs/championships/2017/adenis/Explosive_Kitty.cor
+	../Virtual_Machine/corewar ../Virtual_Machine/champs/championships/2017/jaustry/mise_a_jour_windows95.cor ../Virtual_Machine/champs/championships/2017/adenis/Explosive_Kitty.cor -vis | ./$(NAME)
 
 retest: re test
 

@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 03:08:31 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/08 15:11:07 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/09 13:29:20 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,13 +121,15 @@ void
 
 	if ((rd = read(0, &magic, sizeof(int))) < sizeof(int))
 		return ;
-	if (magic != VIS_MAGIC && magic != VIS_STOP)
+	if (magic == VIS_STOP && data->mydata->win == -1)
+		data->mydata->win = 0;
+	if (data->mydata->win == 0)
+		return ;
+	if (magic != VIS_MAGIC)
 	{
 		ft_printf("VIS_MAGIC Error!!!\n");
 		exit(0);
 	}
-	if (magic == VIS_STOP && data->mydata->win == -1)
-		data->mydata->win = 0;
 	if (data->mydata->param != NULL)
 		free(data->mydata->param);
 	data->mydata->param = (t_param *)malloc(sizeof(t_param));

@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:47:41 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/09 14:03:50 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/09 17:15:31 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void		param_init(t_param *p)
 	p->flag.help = 0;
 	p->flag.cycle = 0;
 	p->flag.map = 0;
-	p->flag.param = 0;
+	p->flag.start = 0;
 	p->flag.process = 0;
 	p->flag.oper = 0;
 	p->flag.check = 0;

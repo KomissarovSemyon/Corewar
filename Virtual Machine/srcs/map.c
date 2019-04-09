@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 17:08:46 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/09 16:15:42 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/09 17:57:05 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void			map_print(t_param *p)
 	t_process	*tmp;
 
 	line = 0;
-	if (!p->flag.cycle && !p->flag.map && p->flag.process)
+	if (!p->flag.cycle && p->flag.process)
 		 ft_printf("%{02:00}cycle - %d%{99:99}\n\n", p->current_cycle);
 	else if (!p->flag.cycle && (p->flag.map || p->flag.oper))
 		ft_printf("cycle - %d\n\n", p->current_cycle);

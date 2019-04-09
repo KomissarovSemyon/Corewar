@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:48:39 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/09 14:57:59 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/09 17:14:42 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ typedef	struct		s_flags
 	int		step;
 	int		cycle;
 	int		map;
-	int		param;
+	int		start;
 	int		process;
 	int		check;
 }					t_flags;

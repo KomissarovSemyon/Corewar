@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/17 01:25:13 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/09 16:31:01 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/09 17:51:55 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void		do_op(t_param *param, t_process *process)
 	op_args(process);
 //	if (param->flag.oper && !param->flag.cycle)
 //		ft_printf("cycle - %d\n", param->current_cycle);
-	if (param->flag.oper)
+	if (param->flag.oper && param->current_cycle > param->flag.start)
 		op_show(process);
 	if (op_check(process))
 	{
@@ -58,10 +58,10 @@ static void		do_op(t_param *param, t_process *process)
 		
 		g_op_tab[process->op.id].f_do(param, process);
 	}
-	else if (param->flag.oper)
+	else if (param->flag.oper && param->current_cycle > param->flag.start)
 		ft_printf("process %d invalid args for  %s\n", process->id,
 												g_op_tab[process->op.id].name);
-	if (param->flag.oper)
+	if (param->flag.oper && param->current_cycle > param->flag.start)
 		ft_printf("step on %d to %02hhx\n\n", 
 			process->op.ptr > process->pc ? process->op.ptr - process->pc :
 			MEM_SIZE - (long)process->pc + (long)process->op.ptr, *process->op.ptr);
@@ -111,9 +111,10 @@ static int		check_cycle(t_param *param)
 //	}
 	if (param->current_cycle >= param->last_check + param->cycles_to_die)
 	{
-		if (!param->flag.cycle && param->flag.check)
+		if (!param->flag.cycle && param->flag.check &&
+				param->current_cycle > param->flag.start)
 			ft_printf("current cycle is %d\n", param->current_cycle);
-		if (param->flag.check)
+		if (param->flag.check && param->current_cycle > param->flag.start)
 		{
 			ft_printf("last check was at %d\n", param->last_check);
 			ft_printf("cycles to die is  %d\n", param->cycles_to_die);
@@ -122,18 +123,18 @@ static int		check_cycle(t_param *param)
 		pr = param->process;
 		while (pr)
 		{
-			if (param->flag.check)
+			if (param->flag.check && param->current_cycle > param->flag.start)
 				ft_printf("process %d last live at %d\n", pr->id, pr->livin);
 			if (pr->livin <= param->current_cycle - param->cycles_to_die)
 			{
-				if (param->flag.check)
+				if (param->flag.check && param->current_cycle > param->flag.start)
 					ft_printf("kill process %d\n", pr->id);
 				pr = process_kill(param, pr);
 			}
 			else
 				pr = pr->next;
 		}
-		if (param->flag.check)
+		if (param->flag.check && param->current_cycle > param->flag.start)
 		{
 			ft_printf("current_check is %d\n", ++param->checks);
 			ft_printf("number of live %d\n", param->live_nbr);
@@ -148,7 +149,7 @@ static int		check_cycle(t_param *param)
 			param->checks = 0;
 		}
 		param->live_nbr = 0;
-		if (param->flag.check)
+		if (param->flag.check && param->current_cycle > param->flag.start)
 			ft_printf("\n");
 	}
 	return (1);
@@ -165,7 +166,7 @@ void			start_game(t_param *param)
 	{
 		++param->current_cycle;
 		tmp = param->process;
-		if (param->flag.cycle)
+		if (param->flag.cycle && param->current_cycle > param->flag.start)
 			ft_printf("cycle - %d\n", param->current_cycle);
 		while (tmp)
 		{
@@ -174,23 +175,20 @@ void			start_game(t_param *param)
 		}
 		if (param->flag.vis)
 		{	
-			if (param->current_cycle == 1 ||
-					(param->current_cycle >= param->flag.param))
+			if (param->current_cycle > param->flag.start ||
+						param->current_cycle == 1)
 				vis_print(param);
 		}
 		else
 		{
-			if (param->flag.dump)
+			if (param->flag.dump &&
+					param->current_cycle == param->flag.dump)
 			{
-				if (param->current_cycle == param->flag.dump)
-				{
-					param->flag.map = 1;
-					map_print(param);
-					exit(0);
-				}
+				param->flag.map = 1;
+				map_print(param);
+				exit(0);
 			}
-			else if (!param->flag.step || (param->flag.step &&
-					!(param->current_cycle % param->flag.step)))
+			else if (param->current_cycle > param->flag.start)
 				map_print(param);
 		}
 		c = 0;

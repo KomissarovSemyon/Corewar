@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:47:41 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/07 16:09:08 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/09 14:03:50 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static void		param_init(t_param *p)
 	p->checks = 0;
 	p->flag.step = 0;
 	p->flag.dump = 0;
+	p->flag.vis = 0;
 	p->flag.vis = 0;
 	p->flag.help = 0;
 	p->flag.cycle = 0;
@@ -89,7 +90,7 @@ int				main(int argc, char **argv)
 	if (p.flag.vis)
 	{
 		magic = VIS_STOP;
-		write(1, &magic, sizeof(int));;
+		write(1, &magic, sizeof(int));
 	}
 	ft_printf("Contestant %d, \"%s\", has won !\n", p.winner, p.champs[p.winner - 1].name);
 	return (0);

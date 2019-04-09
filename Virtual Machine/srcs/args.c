@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 16:51:42 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/09 03:44:59 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/09 16:32:25 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,14 @@ static void		arg_num(int i, t_param *p, int argc, char **argv)
 {
 	if (i >= argc)
 		usage();
+	if (!ft_isdigit(*argv[i]))
+		usage();
 	if (!ft_strcmp(argv[i - 1], "-dump"))
 		p->flag.dump = ft_atoi(argv[i]);
 	else if (!ft_strcmp(argv[i - 1], "-step"))
 		p->flag.step = ft_atoi(argv[i]);
+	else if (!ft_strcmp(argv[i - 1], "-vis_start"))
+		p->flag.param = ft_atoi(argv[i]);
 }
 
 static int		arg1(int i, t_param *p, int argc, char **argv)
@@ -50,14 +54,16 @@ static int		arg1(int i, t_param *p, int argc, char **argv)
 		p->flag.cycle = 1;
 	else if (!ft_strcmp(argv[i], "-map"))
 		p->flag.map = 1;
-	else if (!ft_strcmp(argv[i], "-param"))
-		p->flag.param = 1;
+//	else if (!ft_strcmp(argv[i], "-param"))
+//		p->flag.param = p->flag.param ? p->flag.param : 1;
 	else if (!ft_strcmp(argv[i], "-process"))
 		p->flag.process = 1;
 	else if (!ft_strcmp(argv[i], "-oper"))
 		p->flag.oper = 1;
 	else if (!ft_strcmp(argv[i], "-check"))
 		p->flag.check = 1;
+	else if (!ft_strcmp(argv[i], "-vis_start"))
+		arg_num(++i, p, argc, argv);
 	else
 		usage();
 	return (i);

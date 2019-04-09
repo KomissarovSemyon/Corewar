@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 17:08:46 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/07 17:03:57 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/09 16:15:42 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void			vis_print(t_param *p)
 	while (tmp)
 	{
 		val = get_signed_value(NULL, tmp->r[0], REG_SIZE);
-		if (val && val >= -p->players)
+		if (val < 0 && val >= -p->players)
 			p->player_proc_nbr[-val - 1] += 1;
 		tmp = tmp->next;
 	}
@@ -109,14 +109,12 @@ void			map_print(t_param *p)
 	t_process	*tmp;
 
 	line = 0;
-	if (p->flag.param)
-	{
-		ft_printf("current cycle - %d\n", p->current_cycle);
-		ft_printf("cycles to die - %d\n", p->cycles_to_die);
-		ft_printf("last check - %d\n", p->last_check);
-		ft_printf("number of live - %d\n", p->live_nbr);
-	}
+	if (!p->flag.cycle && !p->flag.map && p->flag.process)
+		 ft_printf("%{02:00}cycle - %d%{99:99}\n\n", p->current_cycle);
+	else if (!p->flag.cycle && (p->flag.map || p->flag.oper))
+		ft_printf("cycle - %d\n\n", p->current_cycle);
 	if (p->flag.map)
+	{
 		while (line < MEM_SIZE)
 		{
 			if (line == 0)
@@ -125,6 +123,8 @@ void			map_print(t_param *p)
 			print_bytes(p, &p->map[line], 64);
 			line += 64;
 		}
+		ft_printf("\n");
+	}
 	tmp = p->process;
 	if (p->flag.process)
 		while (tmp)

@@ -259,7 +259,11 @@ if [ $1 = 'vm_solo' ]; then
 		echo 'Pleas enter dump value as 2nd argument'
 		exit 0
 	else
+		make -C ../Virtual\ Machine re > /dev/null
+		cp ../Virtual\ Machine/corewar . > /dev/null
+		make -C ../Virtual\ Machine fclean > /dev/null
 		test_vm_solo $2
+		rm -rf corewar
 	fi
 fi
 
@@ -271,6 +275,10 @@ if [ $1 = 'vm_duo' ]; then
 		echo 'Pleas enter champion name as 3rd argument'
 		exit 0
 	else
+		make -C ../Virtual\ Machine re > /dev/null
+		cp ../Virtual\ Machine/corewar . > /dev/null
+		make -C ../Virtual\ Machine fclean > /dev/null
 		test_vm_duo $2 $3
+		rm -rf corewar
 	fi
 fi

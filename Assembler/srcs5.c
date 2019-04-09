@@ -54,6 +54,7 @@ void	init_labels(char *file, t_asm *ch)
 			ft_strdel(&tmp);
 		}
 	}
+	check_end_symbol(ch);
 	close(ch->fd);
 }
 

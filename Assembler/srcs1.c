@@ -15,14 +15,17 @@
 void		error_clear_exit(t_asm *ch, char *msg, int clear, char *s)
 {
 	if (ch)
-		ft_printf("%s\t[%s]\tСтрока:%d\n", msg, s, ch->row);
+	{
+		if (clear == 1)
+			ft_printf("%s\t[%s]\tСтрока:%d\n", msg, s, ch->row);
+		else
+			ft_printf("%s\n", msg);
+		free(ch);
+	}
 	else
 		ft_printf("%s\t%s\n", msg, s);
 	if (clear == 1)
-	{
 		ft_strdel(&s);
-	}
-	free(ch);
 	exit(0);
 }
 

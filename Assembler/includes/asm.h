@@ -132,4 +132,5 @@ void					check_name_inner(t_asm *ch, char *line, int i,
 							int *start);
 void					ldi_check_inner(t_asm *ch);
 void					sti_check_inner(t_asm *ch);
+void					check_end_symbol(t_asm *ch);
 #endif

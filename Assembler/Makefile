@@ -16,7 +16,7 @@ NAME_LIB_SHORT		=	lft
 NAME_LIB_PRINTF		=	lftprintf
 
 SRCS				=	asm.c srcs1.c srcs2.c srcs3.c srcs4.c srcs5.c srcs6.c srcs7.c srcs8.c		\
-						 srcs9.c srcs10.c srcs11.c srcs12.c srcs13.c
+						 srcs9.c srcs10.c srcs11.c srcs12.c srcs13.c srcs14.c
 GNL_SRCS			=	get_next_line.c
 
 SRCS_PATH			=	srcs

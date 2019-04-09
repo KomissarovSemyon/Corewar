@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   asm.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ltuffleb <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 14:54:18 by ltuffleb          #+#    #+#             */
-/*   Updated: 2019/03/11 14:54:19 by ltuffleb         ###   ########.fr       */
+/*   Updated: 2019/04/09 14:17:31 by amerlon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ struct					s_asm
 	int					row_index;
 	int					tmp;
 	int					row;
-	header_t			header;
+	t_header			header;
 	int					fd;
 	char				*for_del;
 };

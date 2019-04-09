@@ -151,8 +151,73 @@ test_disasm_valgrind()
 	echo $COUNT
 }
 
+test_vm_solo()
+{
+	CHAMPS=$(find ./champs -name *.s)
+	FAIL=0
+	for CHAMP in $CHAMPS; do
+		OUTPUT=$(./asm_original $CHAMP | grep -i 'writing')
+		if [ "$OUTPUT" ]; then
+			DUMP=$1
+			./corewar_original -d $DUMP ${CHAMP%.s}.cor > output_original
+			./corewar -dump $DUMP ${CHAMP%.s}.cor > output
+			# (./corewar_original -d $DUMP ${CHAMP%.s}.cor | tail -n +3) > output_original
+			# (./corewar -dump $DUMP ${CHAMP%.s}.cor | tail -n +5) > output
+			# sed -i '' -e '$ d' output
+			DIFF=$(diff -U 3 output output_original)
+			if [ "$DIFF" ]
+			then
+				FAIL=$((FAIL+1))
+				printf "\e[1;31mKO\e[0m ./corewar -dump %s %s\n" $DUMP ${CHAMP%.s}.cor
+				echo $DIFF
+			else
+				printf "\e[1;32mOK\e[0m ./corewar -dump %s %s\n" $DUMP ${CHAMP%.s}.cor
+			fi
+			rm -rf output output_original
+			rm -rf ${CHAMP%.s}.cor
+		fi
+	done
+	echo $FAIL
+}
+
+test_vm_duo()
+{
+	CHAMP_0=$2
+	OUTPUT=$(./asm_original $CHAMP_0 | grep -i 'writing')
+	if [ -z "$OUTPUT" ]; then
+		echo 'Incorrect file'
+		exit 0
+	fi
+	CHAMPS=$(find ./champs -name *.s)
+	FAIL=0
+	for CHAMP in $CHAMPS; do
+		OUTPUT=$(./asm_original $CHAMP | grep -i 'writing')
+		if [ "$OUTPUT" ]; then
+			DUMP=$1
+			./corewar_original -d $DUMP ${CHAMP%.s}.cor ${CHAMP_0%.s}.cor > output_original
+			./corewar -dump $DUMP ${CHAMP%.s}.cor ${CHAMP_0%.s}.cor > output
+			# (./corewar_original -d $DUMP ${CHAMP%.s}.cor | tail -n +3) > output_original
+			# (./corewar -dump $DUMP ${CHAMP%.s}.cor | tail -n +5) > output
+			# sed -i '' -e '$ d' output
+			DIFF=$(diff -U 3 output output_original)
+			if [ "$DIFF" ]
+			then
+				FAIL=$((FAIL+1))
+				printf "\e[1;31mKO\e[0m ./corewar -dump %s %s %s\n" $DUMP ${CHAMP%.s}.cor ${CHAMP_0%.s}.cor
+				echo $DIFF
+			else
+				printf "\e[1;32mOK\e[0m ./corewar -dump %s %s %s\n" $DUMP ${CHAMP%.s}.cor ${CHAMP_0%.s}.cor
+			fi
+			rm -rf output output_original
+			rm -rf ${CHAMP%.s}.cor
+		fi
+	done
+	echo $FAIL
+	rm -rf ${CHAMP_0%.s}.cor
+}
+
 if [[ $# -eq 0 ]]; then
-	echo 'options: asm, asm_valgrind, vm, disasm, disasm_valgrind'
+	echo 'options: asm, asm_valgrind, vm_solo, vm_duo, disasm, disasm_valgrind'
 	exit 0
 fi
 
@@ -188,4 +253,25 @@ if [ $1 = 'disasm_valgrind' ] ; then
 	make -C ../Disassembler fclean > /dev/null
 	test_disasm_valgrind
 	rm -rf disassemble > /dev/null
+fi
+
+if [ $1 = 'vm_solo' ]; then
+	if [ -z $2 ]; then
+		echo 'Pleas enter dump value as 2nd argument'
+		exit 0
+	else
+		test_vm_solo $2
+	fi
+fi
+
+if [ $1 = 'vm_duo' ]; then
+	if [ -z $2 ]; then
+		echo 'Pleas enter dump value as 2nd argument'
+		exit 0
+	elif [ -z $3 ]; then
+		echo 'Pleas enter champion name as 3rd argument'
+		exit 0
+	else
+		test_vm_duo $2 $3
+	fi
 fi

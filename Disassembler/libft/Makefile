@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: semyonkomissarov <semyonkomissarov@stud    +#+  +:+       +#+         #
+#    By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/21 20:02:14 by amerlon-          #+#    #+#              #
-#    Updated: 2019/02/27 13:52:43 by semyonkomis      ###   ########.fr        #
+#    Updated: 2019/04/09 20:46:29 by amerlon-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -109,9 +109,7 @@ $(OBJ_DIR):
 
 $(NAME): $(OBJS) 
 	@ar rcs $(NAME) $(OBJS)
-	@echo "\033[34mBuildin library\033[0m"
 	@ranlib $(NAME)
-	@echo "\033[34mIndexing library\033[0m"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@gcc -g -Wall -Werror -Wextra -c $< -I$(INC_DIR) -o $@
@@ -121,7 +119,6 @@ clean:
 
 fclean: clean
 	@rm -f $(NAME)
-	@echo "\033[34mDeleting library\033[0m"
 
 re: fclean all
 

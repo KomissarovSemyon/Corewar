@@ -6,36 +6,55 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/17 01:25:13 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/01 17:20:13 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/10 07:47:29 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
 
+static void		op_show(t_process *process)
+{
+	unsigned char	*ptr;
+	int				i;
+
+	ft_printf("process %d:\n", process->id);
+	ptr = process->pc;
+	i = -1;
+	while (++i < 16)
+	{
+		ft_printf("%02hhx ", *ptr);
+		ptr = get_step(process->map, ptr, 1);
+	}
+	ft_printf("\n%s ", g_op_tab[process->op.id].name);
+	i = 0;
+	while (i < 3 && process->op.arg_type[i])
+	{
+		if (process->op.arg_type[i] == DIR_CODE)
+			ft_printf("%ld (%d) ", process->op.arg[i],
+										process->op.arg[i] % IDX_MOD);
+		else if (process->op.arg_type[i] == IND_CODE)
+			ft_printf("%ld ", process->op.arg[i] - (long)process->pc);
+		else
+			ft_printf("r%ld ", process->op.arg[i] + 1);
+		++i;
+	}
+	ft_printf("\n");
+}
+
 static void		do_op(t_param *param, t_process *process)
 {
 	op_args(process);
-//	if (process->id == 84)
-//	{
-//		ft_fprintf(2, "%d\n", process->id);
-//		process_print(process);
-//	}
-	if (param->flag.oper)
-		ft_printf("cycle - %d\n", param->current_cycle);
+	if (param->flag.oper && param->current_cycle > param->flag.start)
+		op_show(process);
 	if (op_check(process))
-	{
-//		if (process->id == 84)
-//			ft_fprintf(2, "check - ok\n");
-		if (param->flag.oper)
-			ft_printf("process %d executing %s\n", process->id,
-												g_op_tab[process->op.id].name);
 		g_op_tab[process->op.id].f_do(param, process);
-	}
-	else if (param->flag.oper)
-		ft_printf("process %d failed %s\n", process->id,
-												g_op_tab[process->op.id].name);
-	if (param->flag.oper)
-		ft_printf("moving to %d\n\n", process->op.ptr - process->map);
+	else if (param->flag.oper && param->current_cycle > param->flag.start)
+		ft_printf("process %d invalid args for  %s\n", process->id,
+											g_op_tab[process->op.id].name);
+	if (param->flag.oper && param->current_cycle > param->flag.start)
+		ft_printf("step on %d to %02hhx\n\n", process->op.ptr > process->pc ?
+		process->op.ptr - process->pc :
+		MEM_SIZE - (long)process->pc + (long)process->op.ptr, *process->op.ptr);
 	if (!(process->op.id == ZJMP && process->carry && op_check(process)))
 		process->pc = process->op.ptr;
 }
@@ -47,14 +66,11 @@ static void		process_act(t_param *param, t_process *process)
 		process->op.id = *process->pc - 1;
 		if (process->op.id > 15)
 			process->wait = 0;
-		else// if (op_check(process))
+		else
 			process->wait = g_op_tab[process->op.id].cycles - 1;
-//		else
-//			process->wait = 1;
 	}
 	if (process->wait == 0)
 	{
-//		ft_fprintf(2, "sega posle pid %d\n", process->id);
 		if (process->op.id < 16)
 			do_op(param, process);
 		else
@@ -63,66 +79,48 @@ static void		process_act(t_param *param, t_process *process)
 	--process->wait;
 }
 
-static int		check_cycle(t_param *param)
+static void		game_output(t_param *param)
 {
-	t_process	*pr;
-
-	if (++param->current_cycle > param->last_check + CYCLE_TO_DIE)
+	if (param->flag.vis)
 	{
-		param->last_check = param->current_cycle;
-		pr = param->process;
-		while (pr)
-		{
-			if (pr->livin <= param->current_cycle - CYCLE_TO_DIE)
-				pr = process_kill(param, pr);
-			else
-				pr = pr->next;
-		}
-		if (!param->process)
-			return (0);
-		if (++param->checks == MAX_CHECKS || param->live_nbr >= NBR_LIVE)
-		{
-			param->cycles_to_die -= CYCLE_DELTA;
-			param->checks = 0;
-		}
-		param->live_nbr = 0;
+		if (param->current_cycle > param->flag.start ||
+					param->current_cycle == 1)
+			vis_print(param);
 	}
-	return (1);
+	else if (param->flag.dump &&
+				param->current_cycle == param->flag.dump)
+	{
+		param->flag.map = 1;
+		map_print(param);
+		exit(0);
+	}
+	else if (param->current_cycle > param->flag.start)
+		map_print(param);
 }
 
 void			start_game(t_param *param)
 {
 	t_process	*tmp;
-	char		c = 0;
+	char		c;
+	int			flag;
 
-	while (check_cycle(param))
+	flag = 1;
+	while (flag)
 	{
+		++param->current_cycle;
 		tmp = param->process;
-		if (param->flag.cycle)
+		if (param->flag.cycle && param->current_cycle > param->flag.start)
 			ft_printf("cycle - %d\n", param->current_cycle);
 		while (tmp)
 		{
 			process_act(param, tmp);
 			tmp = tmp->next;
 		}
-		if (param->flag.vis && (param->current_cycle > 14000))
-			vis_print(param);
-		else
-		{
-			if (param->current_cycle == param->flag.dump)
-			{
-				param->flag.map = 1;
-				map_print(param);
-				exit(0);
-			}
-			if (param->flag.step && !(param->current_cycle % param->flag.step))
-				map_print(param);
-		}
+		game_output(param);
 		c = 0;
+		if (param->flag.step && !(param->current_cycle % param->flag.step))
+			while (c != '\n')
+				read(0, &c, 1);
+		flag = check_cycle(param);
 	}
-//	if (param->current_cycle == param->flag.dump)
-//	{
-//		param->flag.map = 1;
-//		map_print(param);
-//	}
 }

@@ -1,14 +1,14 @@
-#******************************************************************************#
+# **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ltuffleb <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/19 17:33:12 by ltuffleb          #+#    #+#              #
-#    Updated: 2019/02/03 15:54:54 by ltuffleb         ###   ########.fr        #
+#    Updated: 2019/04/09 20:42:26 by amerlon-         ###   ########.fr        #
 #                                                                              #
-#******************************************************************************#
+# **************************************************************************** #
 
 NAME				=	asm
 NAME_MAIN_FILE		=	main.c
@@ -38,25 +38,25 @@ OBJS				=	$(ALL_SRCS:.c=.o)
 all: $(NAME)
 
 .c.o:
-	gcc $(FLAGS) -I. -I $(PRINTF_PATH)$(LIB_FOLDER) -I $(LIB_FOLDER) -I $(LIBFT_PATH)$(LIB_FOLDER) -I $(GNL_PATH)$(LIB_FOLDER) -c $< -o $@
+	@gcc $(FLAGS) -I. -I $(PRINTF_PATH)$(LIB_FOLDER) -I $(LIB_FOLDER) -I $(LIBFT_PATH)$(LIB_FOLDER) -I $(GNL_PATH)$(LIB_FOLDER) -c $< -o $@
 
 $(NAME): $(OBJS)
-	make -C $(LIBFT_PATH) all
-	make -C $(PRINTF_PATH) all
-	gcc $(FLAGS) -O3 -I $(LIBFT_PATH)$(LIB_FOLDER) -I $(LIB_FOLDER)									\
+	@make -C $(LIBFT_PATH) all
+	@make -C $(PRINTF_PATH) all
+	@gcc $(FLAGS) -O3 -I $(LIBFT_PATH)$(LIB_FOLDER) -I $(LIB_FOLDER)									\
 		-I $(GNL_PATH)$(LIB_FOLDER) -L $(LIBFT_PATH) -$(NAME_LIB_SHORT) 							\
 		-I $(PRINTF_PATH)$(LIB_FOLDER) -L $(PRINTF_PATH) -$(NAME_LIB_PRINTF) 						\
 		-o $(NAME) $(OBJS)
 
 clean:
-	make -C $(LIBFT_PATH) clean
-	make -C $(PRINTF_PATH) clean
-	/bin/rm -f $(OBJS)
+	@make -C $(LIBFT_PATH) clean
+	@make -C $(PRINTF_PATH) clean
+	@rm -f $(OBJS)
 
 fclean: clean
-	/bin/rm -f $(NAME)
-	make -C $(LIBFT_PATH) fclean
-	make -C $(PRINTF_PATH) fclean
+	@rm -f $(NAME)
+	@make -C $(LIBFT_PATH) fclean
+	@make -C $(PRINTF_PATH) fclean
 
 go:
 	./$(NAME) < map.map

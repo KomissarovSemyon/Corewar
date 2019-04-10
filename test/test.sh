@@ -161,9 +161,6 @@ test_vm_solo()
 			DUMP=$1
 			./corewar_original -d $DUMP ${CHAMP%.s}.cor > output_original
 			./corewar -dump $DUMP ${CHAMP%.s}.cor > output
-			# (./corewar_original -d $DUMP ${CHAMP%.s}.cor | tail -n +3) > output_original
-			# (./corewar -dump $DUMP ${CHAMP%.s}.cor | tail -n +5) > output
-			# sed -i '' -e '$ d' output
 			DIFF=$(diff -U 3 output output_original)
 			if [ "$DIFF" ]
 			then
@@ -259,7 +256,13 @@ if [ $1 = 'vm_solo' ]; then
 		echo 'Pleas enter dump value as 2nd argument'
 		exit 0
 	else
+		cp ../Virtual\ Machine/srcs/original_output/*.c ../Virtual\ Machine/srcs/
+		make -C ../Virtual\ Machine re > /dev/null
+		cp ../Virtual\ Machine/corewar . > /dev/null
+		make -C ../Virtual\ Machine fclean > /dev/null
 		test_vm_solo $2
+		rm -rf corewar
+		cp ../Virtual\ Machine/srcs/subject_output/*.c ../Virtual\ Machine/srcs/
 	fi
 fi
 
@@ -271,6 +274,12 @@ if [ $1 = 'vm_duo' ]; then
 		echo 'Pleas enter champion name as 3rd argument'
 		exit 0
 	else
+		cp ../Virtual\ Machine/srcs/original_output/*.c ../Virtual\ Machine/srcs/
+		make -C ../Virtual\ Machine re > /dev/null
+		cp ../Virtual\ Machine/corewar . > /dev/null
+		make -C ../Virtual\ Machine fclean > /dev/null
 		test_vm_duo $2 $3
+		rm -rf corewar
+		cp ../Virtual\ Machine/srcs/subject_output/*.c ../Virtual\ Machine/srcs/
 	fi
 fi

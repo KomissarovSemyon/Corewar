@@ -32,19 +32,19 @@ INC = $(addprefix $(INCDIR), $(INCLUDES))
 all: $(NAME)
 
 $(NAME): $(INC) $(OBJ)
-	ar rcs $(NAME) $(OBJ)
+	@ar rcs $(NAME) $(OBJ)
 
 #$(OBJ): $(SRC)
 #	gcc $(CFLAGS) -I $(INCDIR) $(SRC)
 
 .c.o:
-	gcc $(CFLAGS) -I $(INCDIR) -c $< -o $@
+	@gcc $(CFLAGS) -I $(INCDIR) -c $< -o $@
 
 clean:
-	rm -f $(OBJ)
+	@rm -f $(OBJ)
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 
 re: fclean all
 

@@ -1,14 +1,14 @@
-#******************************************************************************#
+# **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ltuffleb <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/19 17:33:12 by ltuffleb          #+#    #+#              #
-#    Updated: 2019/02/03 15:54:54 by ltuffleb         ###   ########.fr        #
+#    Updated: 2019/04/09 20:39:13 by amerlon-         ###   ########.fr        #
 #                                                                              #
-#******************************************************************************#
+# **************************************************************************** #
 
 NAME				=	libftprintf.a
 NAME_MAIN_FILE		=	main.c
@@ -64,17 +64,17 @@ OBJS				=	$(ALL_SRCS:.c=.o)
 all: $(NAME)
 
 .c.o:
-	gcc $(FLAGS) -I $(LIB_FOLDER) -I $(LIBFT_PATH)$(LIB_FOLDER) -c $< -o $@
+	@gcc $(FLAGS) -I $(LIB_FOLDER) -I $(LIBFT_PATH)$(LIB_FOLDER) -c $< -o $@
 
 $(NAME): $(OBJS)
-	ar rc $(NAME_LFT) $(OBJS)
-	ranlib $(NAME_LFT)
+	@ar rc $(NAME_LFT) $(OBJS)
+	@ranlib $(NAME_LFT)
 
 clean:
-	/bin/rm -f $(OBJS)
+	@/bin/rm -f $(OBJS)
 
 fclean: clean
-	/bin/rm -f $(NAME_LFT)
+	@/bin/rm -f $(NAME_LFT)
 
 go:
 	gcc -I $(LIBFT_PATH)$(LIB_FOLDER) -I $(LIB_FOLDER) -L. -$(NAME_LFT_SHORT) -o $(NAME) $(NAME_MAIN_FILE)

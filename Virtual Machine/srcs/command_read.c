@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_read.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 19:40:27 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/10 04:54:58 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/10 17:44:51 by amerlon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static void			op_type(t_process *p)
 
 static void			arg_ind(t_process *p, int i)
 {
-	unsigned char	*ptr;
 	long long		move;
 
 	move = get_signed_value(p->map, p->op.ptr, IND_SIZE);

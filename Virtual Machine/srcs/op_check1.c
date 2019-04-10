@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   op_check1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 06:44:00 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/10 07:00:45 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/10 17:48:32 by amerlon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int						check_reg(int reg)
 
 int						op_check(t_process *p)
 {
-	t_funs		*op;
 	int			codage;
 
 	codage = get_map_pos(p, (p->pc - p->map) + 1);
@@ -40,5 +39,6 @@ int						op_check(t_process *p)
 
 int						op_check_live(t_process *p)
 {
+	(void)p;
 	return (1);
 }

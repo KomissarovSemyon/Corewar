@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 05:00:08 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/10 05:00:57 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/10 17:46:46 by amerlon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void		op_sub(t_param *param, t_process *process)
 {
+	(void)param;
 	set_value(NULL, process->r[process->op.arg[2]],
 			get_value(NULL, process->r[process->op.arg[0]], REG_SIZE) -
 			get_value(NULL, process->r[process->op.arg[1]], REG_SIZE),
@@ -29,6 +30,7 @@ void		op_and(t_param *param, t_process *process)
 	long long	l[2];
 
 	i = -1;
+	(void)param;
 	while (++i < 2)
 		if (process->op.arg_type[i] == DIR_CODE)
 			l[i] = process->op.arg[i];
@@ -49,6 +51,7 @@ void		op_or(t_param *param, t_process *process)
 	long long	l[2];
 
 	i = -1;
+	(void)param;
 	while (++i < 2)
 		if (process->op.arg_type[i] == DIR_CODE)
 			l[i] = process->op.arg[i];
@@ -69,6 +72,7 @@ void		op_xor(t_param *param, t_process *process)
 	long long	l[2];
 
 	i = -1;
+	(void)param;
 	while (++i < 2)
 		if (process->op.arg_type[i] == DIR_CODE)
 			l[i] = process->op.arg[i];
@@ -85,9 +89,7 @@ void		op_xor(t_param *param, t_process *process)
 
 void		op_zjmp(t_param *param, t_process *process)
 {
-	unsigned char	reg[REG_SIZE];
-	long long		res;
-
+	(void)param;
 	if (process->carry)
 		process->pc = get_step(process->map, process->pc,
 				process->op.arg[0] % IDX_MOD);

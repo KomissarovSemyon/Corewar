@@ -6,7 +6,7 @@
 #    By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/17 17:47:51 by thgiraud          #+#    #+#              #
-#    Updated: 2019/04/10 17:19:00 by amerlon-         ###   ########.fr        #
+#    Updated: 2019/04/10 17:32:48 by amerlon-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,8 +22,8 @@ LIBFT_NAME	=	$(LIBFT_DIR)/libft.a
 SRC			=	main.c \
 				read_champs.c \
 				usage.c \
-				map.c \
 				command_read.c \
+				map.c \
 				commands.c \
 				commands1.c \
 				commands2.c \

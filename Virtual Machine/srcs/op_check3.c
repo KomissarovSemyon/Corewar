@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   op_check3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 06:54:35 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/10 06:55:59 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/10 17:48:49 by amerlon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,6 @@ int						op_check_sub(t_process *p)
 
 int						op_check_zjmp(t_process *p)
 {
+	(void)p;
 	return (1);
 }

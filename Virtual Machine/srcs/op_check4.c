@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   op_check4.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 06:56:13 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/10 06:59:42 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/10 17:49:11 by amerlon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int						op_check_lldi(t_process *p)
 
 int						op_check_sti(t_process *p)
 {
-	unsigned char	reg;
 	int				codage;
 	int				size;
 

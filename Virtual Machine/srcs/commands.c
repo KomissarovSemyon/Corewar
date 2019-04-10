@@ -6,7 +6,7 @@
 /*   By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 10:05:03 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/10 17:19:22 by amerlon-         ###   ########.fr       */
+/*   Updated: 2019/04/10 17:45:30 by amerlon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ void		op_aff(t_param *param, t_process *process)
 {
 	char	c;
 
+	(void)param;
 	c = (char)get_value(NULL, process->r[process->op.arg[0]], REG_SIZE);
 }

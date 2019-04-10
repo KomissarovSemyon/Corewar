@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 05:01:27 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/10 05:02:32 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/10 17:47:05 by amerlon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void		op_ldi(t_param *param, t_process *process)
 	unsigned char	*ptr;
 	long long		value;
 
+	(void)param;
 	i = -1;
 	while (++i < 2)
 		if (process->op.arg_type[i] == DIR_CODE)
@@ -62,6 +63,7 @@ void		op_lldi(t_param *param, t_process *process)
 	long long	l[2];
 	int			i;
 
+	(void)param;
 	i = -1;
 	while (++i < 2)
 		if (process->op.arg_type[i] == DIR_CODE)

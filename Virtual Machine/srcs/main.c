@@ -6,7 +6,7 @@
 /*   By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:47:41 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/10 17:20:15 by amerlon-         ###   ########.fr       */
+/*   Updated: 2019/04/10 17:44:25 by amerlon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void				print_bytes(t_param *p, unsigned char *str, int len)
 {
+	(void)p;
 	if (len == 0)
 		len = ft_strlen((const char *)str);
 	while (len--)
@@ -82,7 +83,6 @@ int					main(int argc, char **argv)
 {
 	t_param		p;
 	int			magic;
-	char		s[4];
 
 	ft_bzero((void *)&p, sizeof(t_param));
 	read_args(&p, argc, argv);

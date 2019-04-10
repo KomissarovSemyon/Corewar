@@ -6,7 +6,7 @@
 /*   By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/16 23:23:48 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/10 17:21:01 by amerlon-         ###   ########.fr       */
+/*   Updated: 2019/04/10 17:48:00 by amerlon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,19 @@ int						op_check_lld(t_process *p)
 
 int						op_check_fork(t_process *p)
 {
+	(void)p;
 	return (1);
 }
 
 int						op_check_lfork(t_process *p)
 {
+	(void)p;
 	return (1);
 }
 
 int						op_check_aff(t_process *p)
 {
-	unsigned char	reg;
 	int				codage;
-	int				size;
 
 	codage = get_map_pos(p, (p->pc - p->map) + 1);
 	if (codage == 64)

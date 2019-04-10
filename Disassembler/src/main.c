@@ -6,11 +6,12 @@
 /*   By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 18:16:49 by amerlon-          #+#    #+#             */
-/*   Updated: 2019/04/09 21:24:53 by amerlon-         ###   ########.fr       */
+/*   Updated: 2019/04/10 23:00:48 by amerlon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "disassemble.h"
+#include "vm.h"
 
 void	start(int fd, char *argv)
 {
@@ -33,18 +34,38 @@ void	start(int fd, char *argv)
 	ft_strdel(&name);
 }
 
+static void	ft_printf(char *str, char *str2)
+{
+	ft_putstr(str);
+	ft_putendl(str2);
+}
+
+void		champ_err(int value, int f, char *str, int expect)
+{
+	if (f == 1)
+		ft_printf("  can't open ", str);
+	else if (f == 2)
+		ft_printf(str, " is not champion");
+	else if (f == 5)
+		ft_printf(str, " has invalid operations");
+	else if (value == -1)
+		ft_printf("  can't read ", str);
+	else if (value < expect)
+		ft_printf("Invalid champion ", str);
+	else
+		return ;
+	exit(0);
+}
+
 int		main(int argc, char **argv)
 {
 	int		fd;
+	t_param	p;
 
 	if (argc > 1)
 	{
+		get_champ(argv[1], &p, 1);
 		fd = open(argv[1], O_RDONLY);
-		if (fd < 0)
-		{
-			ft_putstr("File error\n");
-			return (0);
-		}
 		start(fd, argv[1]);
 	}
 	else

@@ -6,7 +6,7 @@
 #    By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/21 17:58:27 by amerlon-          #+#    #+#              #
-#    Updated: 2019/04/09 20:46:14 by amerlon-         ###   ########.fr        #
+#    Updated: 2019/04/10 23:09:18 by amerlon-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,14 @@ INCLUDES	=	-Iincludes -Ilibft/inc
 SRC			=	main.c \
 				disassemble.c \
 				add_args.c \
+				help.c \
+				op_check.c \
+				op_check1.c \
+				op_check2.c \
+				op_check3.c \
+				op_check4.c \
+				read_champs.c \
+				command_read.c \
 
 OBJS		= $(addprefix $(OBJ_DIR)/,$(SRC:%.c=%.o))
 LIBFT		= $(LIBFT_DIR)/libft.a

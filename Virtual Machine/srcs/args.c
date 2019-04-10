@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 16:51:42 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/09 17:25:40 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/10 04:28:47 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static void		players_id(t_param *p)
 				champ_err(p->players, 3, p->champs[i].name, 0);
 			if (p->champs[p->champs[i].n - 1].n == p->champs[i].n)
 				champ_err(p->champs[i].n + 1, 4, 0, 0);
-			swap_champ(&p->champs[i],  &p->champs[p->champs[i].n - 1]);
+			swap_champ(&p->champs[i], &p->champs[p->champs[i].n - 1]);
 		}
 		else
 			++i;
@@ -88,10 +88,9 @@ static void		players_id(t_param *p)
 	while (++i < p->players)
 		if (p->champs[i].n == 0)
 			p->champs[i].n = i;
-
 }
 
-int				read_args(t_param *p, int argc, char **argv)
+void			read_args(t_param *p, int argc, char **argv)
 {
 	int		i;
 
@@ -111,15 +110,11 @@ int				read_args(t_param *p, int argc, char **argv)
 				help();
 		}
 		else if (arg_champ(argv[i]) == 2)
-		{
-			p->champs[p->players].n = 0;
 			get_champ(argv[i], p, p->players++);
-		}
 		else
 			i = arg1(i, p, argc, argv);
 		if (p->players > MAX_PLAYERS)
 			help();
 	}
 	players_id(p);
-	return (0);
 }

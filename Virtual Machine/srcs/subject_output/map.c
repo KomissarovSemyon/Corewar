@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 17:08:46 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/10 07:48:37 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/10 07:37:18 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,9 @@ static void		map_dump(t_param *p)
 		if (line == 0)
 			ft_printf("0x");
 		ft_printf("%#.4x : ", line);
-		print_bytes(p, &p->map[line], 64);
-		line += 64;
+		print_bytes(p, &p->map[line], 32);
+		line += 32;
+		ft_printf("\n");
 	}
 }
 

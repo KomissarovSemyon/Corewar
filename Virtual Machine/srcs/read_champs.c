@@ -6,32 +6,11 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/06 20:15:37 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/07 23:59:20 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/10 06:40:06 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
-
-void			champ_err(int value, int f, char *str, int expect)
-{
-	if (f == 1)
-		ft_printf("  can't open %s\n", str);
-	else if (f == 2)
-		ft_printf("%s is not champion\n", str);
-	else if (f == 3)
-		ft_printf("There are only %d players\n", value);
-	else if (f == 4)
-		ft_printf("Duplicate player id\n", value);
-	else if (f == 5)
-		ft_printf("%s has invalid operations\n", str);
-	else if (value == -1)
-		ft_printf("  can't read %s\n", str);
-	else if (value < expect)
-		ft_printf("Invalid champion %s\n", str);
-	else
-		return ;
-	exit(0);
-}
 
 static void		check_null(char *nul, char *str)
 {
@@ -55,17 +34,6 @@ static void		rev_bits(char *str, int len)
 		str[i] = str[--len];
 		str[len] = tmp;
 	}
-}
-
-static void		print_bytes(t_param *p, unsigned char *str, int len)
-{
-	while (len--)
-	{
-		if (*str < 16)
-			ft_printf("0");
-			ft_printf("%hhx ", *str++);
-	}
-	ft_printf("\n");
 }
 
 static int		champ_check(unsigned char *start, int size)

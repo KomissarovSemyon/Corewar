@@ -6,7 +6,7 @@
 #    By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/17 17:47:51 by thgiraud          #+#    #+#              #
-#    Updated: 2019/04/09 20:40:30 by amerlon-         ###   ########.fr        #
+#    Updated: 2019/04/10 07:22:44 by jcorwin          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,10 +20,18 @@ SOURCES	= main.c \
 		  map.c \
 		  command_read.c \
 		  commands.c \
+		  commands1.c \
+		  commands2.c \
+		  commands3.c \
 		  help.c \
 		  process.c \
+		  check_cycle.c \
 		  game.c \
 		  op_check.c \
+		  op_check1.c \
+		  op_check2.c \
+		  op_check3.c \
+		  op_check4.c \
 		  args.c \
 
 INCLUDES= libft.h \

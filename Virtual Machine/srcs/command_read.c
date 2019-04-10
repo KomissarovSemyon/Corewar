@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/15 19:40:27 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/05 02:11:07 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/10 04:54:58 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static void			op_type(t_process *p)
 	}
 	else
 	{
-//		ft_printf("%d\n", p->op.arg_type[0]);
 		p->op.arg_type[0] = DIR_CODE;
 		p->op.arg_type[1] = 0;
 		p->op.arg_type[2] = 0;
@@ -46,6 +45,12 @@ static void			arg_ind(t_process *p, int i)
 	p->op.ptr = get_step(p->map, p->op.ptr, IND_SIZE);
 }
 
+static void			reg_step(t_process *p, int i)
+{
+	p->op.arg[i] = *p->op.ptr - 1;
+	p->op.ptr = get_step(p->map, p->op.ptr, 1);
+}
+
 void				op_args(t_process *p)
 {
 	int		i;
@@ -57,10 +62,7 @@ void				op_args(t_process *p)
 		if (g_op_tab[p->op.id].params_type[i] == 0)
 			break ;
 		if (p->op.arg_type[i] == REG_CODE)
-		{
-			p->op.arg[i] = *p->op.ptr - 1;
-			p->op.ptr = get_step(p->map, p->op.ptr, 1);
-		}
+			reg_step(p, i);
 		else if (p->op.arg_type[i] == DIR_CODE)
 		{
 			if (g_op_tab[p->op.id].codage && p->op.id != LDI &&
@@ -72,7 +74,6 @@ void				op_args(t_process *p)
 									g_op_tab[p->op.id].label_size);
 			p->op.ptr = get_step(p->map, p->op.ptr,
 									g_op_tab[p->op.id].label_size);
-
 		}
 		else if (p->op.arg_type[i] == IND_CODE)
 			arg_ind(p, i);

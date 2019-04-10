@@ -6,57 +6,64 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:47:41 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/09 17:15:31 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/10 06:36:56 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vm.h"
 
+void				print_bytes(t_param *p, unsigned char *str, int len)
+{
+	if (len == 0)
+		len = ft_strlen((const char *)str);
+	while (len--)
+	{
+		if (*str < 16)
+			ft_printf("0");
+		ft_printf("%hhx ", *str++);
+	}
+	ft_printf("\n");
+}
 
-static void		param_init(t_param *p)
+static void			map_init(t_param *p)
 {
 	int		i;
+	int		step;
 
-	p->champ_arg = 0;
-	p->players = 0;
-	p->flag.comment = 0;
-	p->process = NULL;
-	p->cycles_to_die = CYCLE_TO_DIE;
-	p->current_cycle = 0;
-	p->last_check = 0;
-	p->live_nbr = 0;
-	p->checks = 0;
-	p->flag.step = 0;
-	p->flag.dump = 0;
-	p->flag.vis = 0;
-	p->flag.vis = 0;
-	p->flag.help = 0;
-	p->flag.cycle = 0;
-	p->flag.map = 0;
-	p->flag.start = 0;
-	p->flag.process = 0;
-	p->flag.oper = 0;
-	p->flag.check = 0;
-	p->proc_nbr = 0;
-	p->winner = 1;
 	i = -1;
-	while (++i < MAX_PLAYERS)
+	while (++i <= MEM_SIZE)
 	{
-		p->champs[i].file = NULL;
-		p->champs[i].n = 0;
+		p->map[i] = 0;
+		p->map_color[i] = 0;
+	}
+	step = MEM_SIZE / p->players;
+	i = -1;
+	while (++i < p->players)
+	{
+		ft_memcpy(&p->map[i * step], p->champs[i].champ,
+											p->champs[i].champ_size);
+		set_color(p, i * step, p->champs[i].champ_size, i + 1);
+		process_new(p, NULL, &p->map[i * step]);
 	}
 }
 
-static void		param_vis(t_param *p)
+static void			param_init(t_param *p)
 {
-//	p->flag.cycle = 1;
-//	p->flag.map = 1;
-//	p->flag.param = 1;
-//	p->flag.process = 1;
-//	p->flag.step = 1;
+	int		tmp;
+
+	p->cycles_to_die = CYCLE_TO_DIE;
+	p->winner = p->players - 1;
+	if (p->flag.vis)
+	{
+		tmp = p->flag.start;
+		ft_bzero((void *)&p->flag, sizeof(t_flags));
+		p->flag.vis = 1;
+		p->flag.start = tmp;
+	}
+	map_init(p);
 }
 
-static void		intro(t_param *p)
+static void			intro(t_param *p)
 {
 	int		i;
 
@@ -65,25 +72,23 @@ static void		intro(t_param *p)
 	while (++i < p->players)
 	{
 		ft_printf("* Player %d, weighing ", i + 1);
-		ft_printf("%d bytes, \"%s\" ", p->champs[i].champ_size, p->champs[i].name);
+		ft_printf("%d bytes, \"%s\" ", p->champs[i].champ_size,
+													p->champs[i].name);
 		ft_printf("(\"%s\") !\n", p->champs[i].comment);
 	}
 }
 
-int				main(int argc, char **argv)
+int					main(int argc, char **argv)
 {
 	t_param		p;
 	int			magic;
 	char		s[4];
 
-	param_init(&p);
+	ft_bzero((void *)&p, sizeof(t_param));
 	read_args(&p, argc, argv);
-	p.winner = p.players - 1;
-	if (p.flag.vis)
-		param_vis(&p);
 	if (p.players == 0)
 		usage();
-	map_init(&p);
+	param_init(&p);
 	if (!p.flag.vis)
 		intro(&p);
 	start_game(&p);
@@ -92,6 +97,7 @@ int				main(int argc, char **argv)
 		magic = VIS_STOP;
 		write(1, &magic, sizeof(int));
 	}
-	ft_printf("Contestant %d, \"%s\", has won !\n", p.winner, p.champs[p.winner - 1].name);
+	ft_printf("Contestant %d, \"%s\", has won !\n", p.winner,
+											p.champs[p.winner - 1].name);
 	return (0);
 }

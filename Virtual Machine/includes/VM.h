@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/05 21:48:39 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/09 17:14:42 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/10 07:19:27 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@
 # define LFORK 14
 # define AFF 15
 
-/* чемпион */
 typedef struct		s_champ
 {
 	char			*file;
@@ -62,7 +61,6 @@ typedef struct		s_champ
 	int				color;
 }					t_champ;
 
-/*операция*/
 typedef struct		s_op
 {
 	unsigned char	*ptr;
@@ -72,7 +70,6 @@ typedef struct		s_op
 	long long int	arg[3];
 }					t_op;
 
-/*каретка*/
 typedef struct		s_process
 {
 	int					id;
@@ -88,7 +85,6 @@ typedef struct		s_process
 	struct s_process	*next;
 }					t_process;
 
-/*флаги программы*/
 typedef	struct		s_flags
 {
 	char	comment;
@@ -104,7 +100,6 @@ typedef	struct		s_flags
 	int		check;
 }					t_flags;
 
-/*основные параметры*/
 typedef struct		s_param
 {
 	int				champ_arg;
@@ -139,7 +134,8 @@ typedef struct		s_funs
 	void		(*f_do)(t_param *par, t_process *p);
 }					t_funs;
 
-int					read_args(t_param *p, int argc, char **argv);
+void				print_bytes(t_param *p, unsigned char *str, int len);
+void				read_args(t_param *p, int argc, char **argv);
 void				get_champ(char *str, t_param *p, int id);
 void				champ_err(int value, int f, char *str, int expect);
 
@@ -148,7 +144,6 @@ void				help(void);
 void				malloc_err(void);
 
 void				set_color(t_param *p, int place, int size, int color);
-void				map_init(t_param *p);
 void				map_print(t_param *p);
 void				vis_print(t_param *p);
 
@@ -160,6 +155,9 @@ void				process_new(t_param *p, t_process *parent,
 t_process			*process_kill(t_param *p, t_process *die);
 void				process_print(t_process *p);
 
+int					check_cycle(t_param *param);
+void				start_game(t_param *param);
+
 unsigned char		*get_step(unsigned char *map, unsigned char *ptr, int step);
 long long			get_signed_value(unsigned char *map,
 											unsigned char *ptr, int size);
@@ -168,8 +166,6 @@ long long			get_value(unsigned char *map,
 void				set_value(unsigned char *map, unsigned char *dst,
 												long long src, int size);
 void				swap_champ(t_champ *c1, t_champ *c2);
-
-void				start_game(t_param *param);
 
 void				op_live(t_param *param, t_process *process);
 void				op_ld(t_param *param, t_process *process);
@@ -188,6 +184,8 @@ void				op_fork(t_param *param, t_process *process);
 void				op_lfork(t_param *param, t_process *process);
 void				op_aff(t_param *param, t_process *process);
 
+char				get_map_pos(t_process *p, int pos);
+int					check_reg(int reg);
 int					op_check(t_process *p);
 int					op_check_live(t_process *p);
 int					op_check_ld(t_process *p);
@@ -210,13 +208,13 @@ static t_funs		g_op_tab[17] =
 {
 	{"live", 1, {T_DIR}, 1, 10, "alive", 0, 4, &op_check_live, &op_live},
 	{"ld", 2, {T_DIR | T_IND, T_REG}, 2, 5, "load", 1, 4,
-												&op_check_ld, &op_ld},
+		&op_check_ld, &op_ld},
 	{"st", 2, {T_REG, T_IND | T_REG}, 3, 5, "store", 1, 4,
-												&op_check_st, &op_st},
+		&op_check_st, &op_st},
 	{"add", 3, {T_REG, T_REG, T_REG}, 4, 10, "addition", 1, 4,
-												&op_check_add, &op_add},
+		&op_check_add, &op_add},
 	{"sub", 3, {T_REG, T_REG, T_REG}, 5, 10, "soustraction", 1, 4,
-												&op_check_sub, &op_sub},
+		&op_check_sub, &op_sub},
 	{"and", 3, {T_REG | T_DIR | T_IND, T_REG | T_IND | T_DIR, T_REG}, 6, 6,
 		"et (and  r1, r2, r3   r1&r2 -> r3", 1, 4, &op_check_and, &op_and},
 	{"or", 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 7, 6,
@@ -224,18 +222,18 @@ static t_funs		g_op_tab[17] =
 	{"xor", 3, {T_REG | T_IND | T_DIR, T_REG | T_IND | T_DIR, T_REG}, 8, 6,
 		"ou (xor  r1, r2, r3   r1^r2 -> r3", 1, 4, &op_check_xor, &op_xor},
 	{"zjmp", 1, {T_DIR}, 9, 20, "jump if zero", 0, 2,
-												&op_check_zjmp, &op_zjmp},
+		&op_check_zjmp, &op_zjmp},
 	{"ldi", 3, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 10, 25,
 		"load index", 1, 2, &op_check_ldi, &op_ldi},
 	{"sti", 3, {T_REG, T_REG | T_DIR | T_IND, T_DIR | T_REG}, 11, 25,
 		"store index", 1, 2, &op_check_sti, &op_sti},
 	{"fork", 1, {T_DIR}, 12, 800, "fork", 0, 2, &op_check_fork, &op_fork},
 	{"lld", 2, {T_DIR | T_IND, T_REG}, 13, 10, "long load", 1, 4,
-												&op_check_lld, &op_lld},
+		&op_check_lld, &op_lld},
 	{"lldi", 3, {T_REG | T_DIR | T_IND, T_DIR | T_REG, T_REG}, 14, 50,
 		"long load index", 1, 2, &op_check_lldi, &op_lldi},
 	{"lfork", 1, {T_DIR}, 15, 1000, "long fork", 0, 2,
-											&op_check_lfork, &op_lfork},
+		&op_check_lfork, &op_lfork},
 	{"aff", 1, {T_REG}, 16, 2, "aff", 1, 4, &op_check_aff, &op_aff},
 	{0, 0, {0}, 0, 1, 0, 0, 0, 0, 0}
 };

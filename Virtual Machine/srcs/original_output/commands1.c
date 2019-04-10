@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 04:58:19 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/10 04:59:21 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/10 22:08:21 by amerlon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void		op_live(t_param *param, t_process *process)
 
 void		op_ld(t_param *param, t_process *process)
 {
+	(void)param;
 	if (process->op.arg_type[0] == DIR_CODE)
 		set_value(NULL, process->r[process->op.arg[1]],
 									process->op.arg[0], REG_SIZE);
@@ -63,6 +64,7 @@ void		op_st(t_param *param, t_process *process)
 
 void		op_add(t_param *param, t_process *process)
 {
+	(void)param;
 	set_value(NULL, process->r[process->op.arg[2]],
 			get_value(NULL, process->r[process->op.arg[0]], REG_SIZE) +
 			get_value(NULL, process->r[process->op.arg[1]], REG_SIZE),

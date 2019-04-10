@@ -6,7 +6,7 @@
 /*   By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 17:08:46 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/10 22:11:30 by amerlon-         ###   ########.fr       */
+/*   Updated: 2019/04/11 02:22:51 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ static void		map_dump(t_param *p)
 		ft_printf("%#.4x : ", line);
 		print_bytes(p, &p->map[line], 32);
 		line += 32;
-		ft_printf("\n");
 	}
 }
 

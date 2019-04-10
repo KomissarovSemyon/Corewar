@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/14 17:59:06 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/07 16:08:47 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/11 02:43:58 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_process		*process_kill(t_param *p, t_process *die)
 		tmp = tmp->next;
 	tmp->next = die->next;
 	free(die);
-	return (tmp);
+	return (tmp->next);
 }
 
 static void		process_init(t_param *p, t_process *new, unsigned char *pc)

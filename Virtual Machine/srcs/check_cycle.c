@@ -6,7 +6,7 @@
 /*   By: jcorwin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 07:15:54 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/10 08:29:04 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/11 02:41:16 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ int				check_cycle(t_param *param)
 		do_check(param);
 		if (param->flag.check && param->current_cycle > param->flag.start)
 		{
-			ft_printf("current_check is %d\n", ++param->checks);
+			ft_printf("current_check is %d\n", 1 + param->checks);
 			ft_printf("number of live %d\n", param->live_nbr);
 		}
 		if (!param->process)
 			return (0);
-		if (param->checks == MAX_CHECKS || param->live_nbr >= NBR_LIVE)
+		if (++param->checks == MAX_CHECKS || param->live_nbr >= NBR_LIVE)
 		{
 			param->cycles_to_die -= CYCLE_DELTA;
 			if (param->flag.check)

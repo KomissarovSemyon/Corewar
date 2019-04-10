@@ -6,72 +6,63 @@
 #    By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/17 17:47:51 by thgiraud          #+#    #+#              #
-#    Updated: 2019/04/10 07:22:44 by jcorwin          ###   ########.fr        #
+#    Updated: 2019/04/10 12:39:24 by amerlon-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-%.c : %.o
+NAME		=	corewar
+CC			=	gcc
+FLAGS		=	-Wall -Wextra -Werror
+INCLUDES	=	-Iincludes
+SRC_DIR		=	./srcs
+OBJ_DIR		=	./obj
+LIBFT_DIR	=	./libft
+LIBFT_NAME	=	$(LIBFT_DIR)/libft.a
 
-NAME	= corewar
+SRC			=	main.c \
+				read_champs.c \
+				usage.c \
+				map.c \
+				command_read.c \
+				commands.c \
+				commands1.c \
+				commands2.c \
+				commands3.c \
+				help.c \
+				process.c \
+				check_cycle.c \
+				game.c \
+				op_check.c \
+				op_check1.c \
+				op_check2.c \
+				op_check3.c \
+				op_check4.c \
+				args.c \
 
-SOURCES	= main.c \
-		  read_champs.c \
-		  usage.c \
-		  map.c \
-		  command_read.c \
-		  commands.c \
-		  commands1.c \
-		  commands2.c \
-		  commands3.c \
-		  help.c \
-		  process.c \
-		  check_cycle.c \
-		  game.c \
-		  op_check.c \
-		  op_check1.c \
-		  op_check2.c \
-		  op_check3.c \
-		  op_check4.c \
-		  args.c \
+OBJS		= $(addprefix $(OBJ_DIR)/,$(SRC:%.c=%.o))
 
-INCLUDES= libft.h \
-		  vm.h \
-		  ft_printf.h
+all: $(NAME)
 
-# compiler
-CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
 
-# ft library
-FT_DIR	= ./libft/
-FT_LNK	= -L $(FT_DIR) -lft
-FT_LIB	= $(addprefix $(FT_DIR), libft.a)
+$(LIBFT_NAME):
+	@make -C libft
 
-# directories
-SRCDIR	= ./srcs/
-INCDIR	= ./includes/
+$(NAME): $(LIBFT_NAME) $(OBJ_DIR) $(OBJS)
+	@$(CC) $(LIBFT_NAME) $(FLAGS) $(OBJS) -o $(NAME)
 
-SRC		= $(addprefix $(SRCDIR), $(SOURCES))
-OBJ		= $(SRC:.c=.o)
-INC		= $(addprefix $(INCDIR), $(INCLUDES))
-
-all: $(FT_LIB) $(SRC) $(NAME)
-
-$(NAME): $(INC) $(OBJ)
-	@$(CC) $(OBJ) $(FT_LNK) -o $@
-
-.c.o:
-	@$(CC) -I $(INCDIR) -c $< -o $@
-
-$(FT_LIB):
-	@make -C $(FT_DIR)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@$(CC) $(FLAGS) -c $< $(INCLUDES) -o $@
 
 clean:
 	@rm -rf $(OBJ)
-	@make clean -C $(FT_DIR)
+	@make -C $(LIBFT_DIR) clean
 
 fclean: clean
 	@rm -rf $(NAME)
-	@make clean -C $(FT_DIR) fclean
+	@make -C $(LIBFT_DIR) fclean
 
 re: fclean all
+
+.PHONY: all clean fclean re

@@ -6,7 +6,7 @@
 #    By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/09 18:53:35 by amerlon-          #+#    #+#              #
-#    Updated: 2019/04/10 17:51:10 by amerlon-         ###   ########.fr        #
+#    Updated: 2019/04/10 22:24:19 by amerlon-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,20 +23,28 @@ VIS_DIR		=	./Visualisation
 all: $(ASM_NAME) $(DISASM_NAME) $(VM_NAME) $(VIS_NAME)
 
 $(ASM_NAME):
+	@echo "\033[31mCompiling ./asm\033[0m"
 	@make -C $(ASM_DIR)
 	@cp $(ASM_DIR)/$(ASM_NAME) .
+	@echo "\033[31mFinished compiling ./asm\033[0m"
 
 $(DISASM_NAME):
+	@echo "\033[32mCompiling ./disassemble\033[0m"
 	@make -C $(DISASM_DIR)
 	@cp $(DISASM_DIR)/$(DISASM_NAME) .
+	@echo "\033[32mFinished compiling ./disassemble\033[0m"
 
 $(VM_NAME):
+	@echo "\033[33mCompiling ./corewar\033[0m"
 	@make -C $(VM_DIR)
 	@cp $(VM_DIR)/$(VM_NAME) .
+	@echo "\033[33mFinished compiling ./corewar\033[0m"
 
 $(VIS_NAME):
+	@echo "\033[34mCompiling ./visual\033[0m"
 	@make -C $(VIS_DIR)
 	@cp $(VIS_DIR)/$(VIS_NAME) .
+	@echo "\033[34mFinished compiling ./visual\033[0m"
 
 clean:
 	@make -C $(ASM_DIR) clean

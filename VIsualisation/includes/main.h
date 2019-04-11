@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/30 19:44:56 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/11 03:57:26 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/11 05:55:20 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ t_process		*ft_get_process_id(t_data *data, int id);
 
 void			ft_print_process(t_data *data);
 
+int				get_color_big_str(int x, int y, int step);
 void			ft_win_won(t_data *data, char *name);
 
 #endif

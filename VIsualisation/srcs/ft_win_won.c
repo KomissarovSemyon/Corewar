@@ -6,21 +6,12 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 03:49:52 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/11 04:54:28 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/11 06:00:21 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 #include "const_str_big.h"
-
-int
-	get_color_big_str(int x, int y, int step)
-{
-	int		d;
-
-	d = (x + y + step) % (7 * 7);
-	return (g_colors[d / 7]);
-}
 
 static long
 	ft_get_ch(t_data *data, char str)
@@ -42,13 +33,11 @@ static long
 void
 	ft_draw_char_big(t_data *data, int pos[2], char str, int i)
 {
-	long	error;
 	char	*n_str;
 	int		index;
 	int		line;
 	long	ch;
 
-	error = 31;
 	ch = ft_get_ch(data, str);
 	n_str = (char *)malloc(sizeof(char) * 2);
 	n_str[1] = '\0';
@@ -61,55 +50,84 @@ void
 			n_str[0] = ((ch >> (34 - (index + line * 5))) & 1);
 			n_str[0] = ' ' * (n_str[0] == 0) + '#' * (n_str[0] != 0);
 			mlx_string_put(data->mlx_ptr, data->mlx_win, pos[0] + index * 10,
-			pos[1] + line * 15, get_color_big_str(index, line, i), n_str);
+			pos[1] + line * 15, g_colors[get_color_big_str(index, line, i)], n_str);
 			index++;
 		}
 	}
 	free(n_str);
 }
 
-void
-	ft_win_won(t_data *data, char *name)
+static void
+	get_pos_start(t_data *data, char *name, int pos[2], int vel[2])
+{
+	double		angle;
+
+	angle = rand() % 100 * (double)M_PI;
+	pos[0] = 19 + rand() % (1910 - ft_strlen(name) * 60);
+	pos[1] = 19 + rand() % 960;
+	vel[0] = 8 * cos(angle);
+	vel[1] = 8 * cos(angle);
+}
+
+static void
+	big_name(t_data *data, char *name, int pos[2])
+{
+	static double	start;
+	static double	delta;
+
+	if (delta == 0)
+		delta = -0.01;
+	start = start + delta;
+	if (start >= (ft_strlen(name) - 31))
+		delta = -delta;
+	if (start < -1)
+		delta = -delta;
+	pos[0] = 9 - start * 60;
+	pos[1] = 400;
+}
+
+static int
+	*get_pos(t_data *data, char *name)
 {
 	static int	pos[2];
 	static int	vel[2];
-	static int	step;
 	double		angle;
 
-	if (pos[0] == 0)
+	if ((ft_strlen(name) * 60) >= (1920 - 60))
 	{
-		angle = rand() % 360;
-		pos[0] = 9 + rand() % 1920;
-		pos[1] = 9 + rand() % 970;
-		vel[0] = 1 * cos(angle);
-		vel[1] = 1 * cos(angle);
+		big_name(data, name, pos);
+		return (pos);
 	}
+	if (pos[0] == 0)
+		get_pos_start(data, name, pos, vel);
 	pos[0] += vel[0];
 	pos[1] += vel[1];
-	ft_printf("ft_strlen = %d (%d) %d\n", ft_strlen(name), ft_strlen(name) * 60, 1930 - ft_strlen(name) * 60);
-	if ((ft_strlen(name) * 60) >= (1930 - 60))
-	{
-		pos[0] = 9;
-		pos[1] = 9;
-	}
-	else
-	{
-		if (pos[0] <= 8 || pos[0] >= (1930 - ft_strlen(name) * 60 - 10))
-			vel[0] = abs(vel[0]) * (1 - 2 * (pos[0] >= (1930 - ft_strlen(name) * 60 - 10)));
-		if (pos[1] <= 8 || pos[1] >= (980 - 100))
-			vel[1] = abs(vel[1]) * (1 - 2 * (pos[1] >= (980 - 100)));
-	}
+	if (pos[0] <= 18 || pos[0] >= (1920 - ft_strlen(name) * 60))
+		vel[0] =
+		abs(vel[0]) * (1 - 2 * (pos[0] >= (1920 - ft_strlen(name) * 60)));
+	if (pos[1] <= 18 || pos[1] >= (865))
+		vel[1] = abs(vel[1]) * (1 - 2 * (pos[1] >= (865)));
+	return (pos);
+}
+
+void
+	ft_win_won(t_data *data, char *name)
+{
 	int			index;
 	static int	delta;
 	int			shag;
+	int			*pos;
 
 	shag = 3;
 	if (delta >= 0 && delta <= 49 * shag)
 		++delta;
 	else
 		delta = 0;
+	pos = get_pos(data, name);
 	index = -1;
 	while (name[++index] != '\0')
-		ft_draw_char_big(data, (int[2]){pos[0] + index * 60, pos[1]},
-		name[index], index * 5 + (delta / shag));
+		if ((pos[0] + index * 60) < 1870 &&
+			(pos[0] + index * 60) > 8)
+			ft_draw_char_big(data, (int[2]){pos[0] + index * 60, pos[1]},
+			name[index], index * 5 + (delta / shag));
 }

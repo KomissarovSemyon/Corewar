@@ -6,7 +6,7 @@
 /*   By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 10:05:03 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/11 03:10:02 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/11 03:20:03 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,6 @@ void		op_aff(t_param *param, t_process *process)
 
 	(void)param;
 	c = (char)get_value(NULL, process->r[process->op.arg[0]], REG_SIZE);
-	if (param->flag.vis)
+	if (!param->flag.vis)
 		write(1, c > 31 && c < 127 ? &c : ".", 1);
 }

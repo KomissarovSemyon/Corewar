@@ -6,14 +6,14 @@
 /*   By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/21 18:16:49 by amerlon-          #+#    #+#             */
-/*   Updated: 2019/04/10 23:00:48 by amerlon-         ###   ########.fr       */
+/*   Updated: 2019/04/11 19:11:27 by amerlon-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "disassemble.h"
 #include "vm.h"
 
-void	start(int fd, char *argv)
+void		start(int fd, char *argv)
 {
 	int		fd_out;
 	int		i;
@@ -57,7 +57,7 @@ void		champ_err(int value, int f, char *str, int expect)
 	exit(0);
 }
 
-int		main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
 	int		fd;
 	t_param	p;

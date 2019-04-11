@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/30 19:44:56 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/09 20:19:22 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/11 03:57:26 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ void			ft_draw_px(t_data *data, int x, int y, int color);
 void			line_fast(t_data *env, double *p1, double *p2, int color);
 void			ft_draw_square(t_data *data, int *pos, int rad, int color);
 void			ft_clearwin(t_data *data);
-void			ft_draw_str_big(t_data *data, int x, int y, char *str);
 void			draw_cube_empty(t_data *data, double par[2][2], int color);
 void			ft_draw_back(t_data *data);
 
@@ -148,4 +147,7 @@ void			ft_print_champs(t_data *data, t_champ *champs);
 t_process		*ft_get_process_id(t_data *data, int id);
 
 void			ft_print_process(t_data *data);
+
+void			ft_win_won(t_data *data, char *name);
+
 #endif

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_draw_str_big.c                                  :+:      :+:    :+:   */
+/*   ft_win_won.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/07 13:24:00 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/09 16:55:58 by rrhaenys         ###   ########.fr       */
+/*   Created: 2019/04/11 03:49:52 by rrhaenys          #+#    #+#             */
+/*   Updated: 2019/04/11 04:54:28 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,36 @@ void
 }
 
 void
-	ft_draw_str_big(t_data *data, int x, int y, char *str)
+	ft_win_won(t_data *data, char *name)
 {
+	static int	pos[2];
+	static int	vel[2];
+	static int	step;
+	double		angle;
+
+	if (pos[0] == 0)
+	{
+		angle = rand() % 360;
+		pos[0] = 9 + rand() % 1920;
+		pos[1] = 9 + rand() % 970;
+		vel[0] = 1 * cos(angle);
+		vel[1] = 1 * cos(angle);
+	}
+	pos[0] += vel[0];
+	pos[1] += vel[1];
+	ft_printf("ft_strlen = %d (%d) %d\n", ft_strlen(name), ft_strlen(name) * 60, 1930 - ft_strlen(name) * 60);
+	if ((ft_strlen(name) * 60) >= (1930 - 60))
+	{
+		pos[0] = 9;
+		pos[1] = 9;
+	}
+	else
+	{
+		if (pos[0] <= 8 || pos[0] >= (1930 - ft_strlen(name) * 60 - 10))
+			vel[0] = abs(vel[0]) * (1 - 2 * (pos[0] >= (1930 - ft_strlen(name) * 60 - 10)));
+		if (pos[1] <= 8 || pos[1] >= (980 - 100))
+			vel[1] = abs(vel[1]) * (1 - 2 * (pos[1] >= (980 - 100)));
+	}
 	int			index;
 	static int	delta;
 	int			shag;
@@ -81,7 +109,7 @@ void
 	else
 		delta = 0;
 	index = -1;
-	while (str[++index] != '\0')
-		ft_draw_char_big(data, (int[2]){x + index * 60, y},
-		str[index], index * 5 + (delta / shag));
+	while (name[++index] != '\0')
+		ft_draw_char_big(data, (int[2]){pos[0] + index * 60, pos[1]},
+		name[index], index * 5 + (delta / shag));
 }

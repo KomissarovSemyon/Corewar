@@ -6,7 +6,7 @@
 /*   By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 10:05:03 by jcorwin           #+#    #+#             */
-/*   Updated: 2019/04/11 03:20:03 by jcorwin          ###   ########.fr       */
+/*   Updated: 2019/04/11 03:32:36 by jcorwin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ void		op_live(t_param *param, t_process *process)
 	if (val < 0 && val >= -param->players)
 	{
 		param->winner = -1 * val;
-		ft_printf("A process shows that player %d (%s) is alive\n",
-					param->winner, param->champs[param->winner - 1]);
+		if (!param->flag.vis)
+			ft_printf("A process shows that player %d (%s) is alive\n",
+							param->winner, param->champs[param->winner - 1]);
 	}
 	++param->live_nbr;
 }

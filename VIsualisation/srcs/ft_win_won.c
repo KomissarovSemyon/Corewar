@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 03:49:52 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/11 06:13:21 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/11 07:09:56 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ static void
 	static double	delta;
 
 	if (delta == 0)
-		delta = -0.01;
+		delta = -0.04;
 	start = start + delta;
-	if (start >= (ft_strlen(name) - 31))
+	if (start >= (ft_strlen(name) - 29))
 		delta = -delta;
-	if (start < -1)
+	if (start < -3)
 		delta = -delta;
 	pos[0] = 9 - start * 60;
 	pos[1] = 400;

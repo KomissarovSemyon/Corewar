@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 03:08:31 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/11 06:00:43 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/11 07:09:02 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,13 +102,11 @@ int
 		data->img->img_ptr, 0, 0);
 	ft_update(data);
 	ft_print_process(data);
-	if (data->mydata->win < 0)
+	if (data->mydata->win >= 0)
 		ft_draw_on_game(data);
 	else
-	{
 		ft_win_won(data,
 		data->mydata->param->champs[data->mydata->param->winner - 1].name);
-	}
 	ft_print_info(data);
 	ft_print_help(data);
 	ft_print_champs(data, data->mydata->param->champs);

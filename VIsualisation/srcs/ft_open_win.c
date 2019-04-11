@@ -6,14 +6,14 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/05 07:03:09 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/09 20:15:52 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/11 18:50:36 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
 void
-	ft_open_win(char *str, int argc, char **argv)
+	ft_open_win(char *str)
 {
 	t_data	data;
 
@@ -31,6 +31,6 @@ void
 	data.img->img_ptr = mlx_new_image(data.mlx_ptr, WIN_W, WIN_H);
 	data.img->data = (int *)mlx_get_data_addr(data.img->img_ptr,
 		&data.img->bpp, &data.img->size_l, &data.img->endian);
-	ft_start_game(&data, str, argc, argv);
+	ft_start_game(&data);
 	mlx_loop(data.mlx_ptr);
 }

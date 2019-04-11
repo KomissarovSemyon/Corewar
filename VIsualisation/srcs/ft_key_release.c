@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/19 03:25:16 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/09 16:56:52 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/11 18:46:29 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ int
 int
 	mouse_move(int x, int y, t_data *data)
 {
-	int		dx;
-
 	if (x >= 8 && x <= 1930 && y >= 990 && y <= 1291)
 		data->mydata->active_proces_line = (x - 13) / 125;
 	else

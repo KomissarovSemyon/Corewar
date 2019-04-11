@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 06:13:10 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/11 06:15:15 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/11 18:46:08 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "const_str_big.h"
 
 static long
-	ft_get_ch(t_data *data, char str)
+	ft_get_ch(char str)
 {
 	long	error;
 	long	ch;
@@ -38,7 +38,7 @@ void
 	int		line;
 	long	ch;
 
-	ch = ft_get_ch(data, str);
+	ch = ft_get_ch(str);
 	n_str = (char *)malloc(sizeof(char) * 2);
 	n_str[1] = '\0';
 	line = -1;

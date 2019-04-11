@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/09 18:36:31 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/09 20:16:20 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/11 18:47:27 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void
 	int		index;
 	int		x;
 	int		y;
-	char	*str;
 
 	x = WIN_W - 550;
 	index = -1;

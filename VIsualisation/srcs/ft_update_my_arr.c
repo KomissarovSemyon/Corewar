@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/09 16:22:41 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/09 16:43:29 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/11 19:00:29 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,8 @@ void
 {
 	int			magic;
 	int			i;
-	char		*str;
-	int			rd;
 
-	if (((rd = read(0, &magic, sizeof(int))) < sizeof(int)) ||
+	if (((unsigned long)read(0, &magic, sizeof(int)) < sizeof(int)) ||
 		ft_is_win(data, magic))
 		return ;
 	if (magic != VIS_MAGIC)
@@ -65,7 +63,8 @@ void
 	if (data->mydata->param != NULL)
 		free(data->mydata->param);
 	data->mydata->param = (t_param *)malloc(sizeof(t_param));
-	if (read(0, data->mydata->param, sizeof(t_param)) < sizeof(t_param))
+	if ((unsigned long)read(0, data->mydata->param, sizeof(t_param)) <
+		sizeof(t_param))
 		return ;
 	ft_read_str_and_color(data);
 	data->mydata->process = (t_process *)malloc(sizeof(t_process) *

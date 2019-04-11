@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/30 19:44:56 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/11 06:13:57 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/11 18:49:43 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ typedef struct	s_print_proces
 	int			active;
 }				t_print_proces;
 
-void			ft_open_win(char *str, int argc, char **argv);
+void			ft_open_win(char *str);
 
 int				ft_draw(t_data *data);
 void			ft_draw_px(t_data *data, int x, int y, int color);
@@ -136,7 +136,7 @@ int				ft_get_reg(t_process *proc, int reg_num);
 
 void			ft_update_my_arr(t_data *data);
 
-void			ft_start_game(t_data *data, char *str, int argc, char **argv);
+void			ft_start_game(t_data *data);
 
 void			ft_out_params(t_data *data, t_win_par par);
 

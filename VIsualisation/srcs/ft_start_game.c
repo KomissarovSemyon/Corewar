@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/09 16:29:58 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/09 16:32:32 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/11 18:49:01 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void
 }
 
 void
-	ft_start_game(t_data *data, char *str, int argc, char **argv)
+	ft_start_game(t_data *data)
 {
 	int		index;
 

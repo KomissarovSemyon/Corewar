@@ -6,12 +6,12 @@
 #    By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/03/17 00:42:52 by rrhaenys          #+#    #+#              #
-#    Updated: 2019/04/11 01:13:30 by rrhaenys         ###   ########.fr        #
+#    Updated: 2019/04/11 18:44:57 by rrhaenys         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 COMMAND = gcc
-FLAGS = #-Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror
 NAME = visual
 SRCS = $(addprefix  ./srcs/, $(shell ls srcs | grep -E ".+\.c"))
 OBJ	= $(SRCS:.c=.o)

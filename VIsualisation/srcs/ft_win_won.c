@@ -6,14 +6,14 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 03:49:52 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/11 07:09:56 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/11 18:54:01 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
 static void
-	get_pos_start(t_data *data, char *name, int pos[2], int vel[2])
+	get_pos_start(char *name, int pos[2], int vel[2])
 {
 	double		angle;
 
@@ -25,7 +25,7 @@ static void
 }
 
 static void
-	big_name(t_data *data, char *name, int pos[2])
+	big_name(char *name, int pos[2])
 {
 	static double	start;
 	static double	delta;
@@ -42,24 +42,23 @@ static void
 }
 
 static int
-	*get_pos(t_data *data, char *name)
+	*get_pos(char *name)
 {
 	static int	pos[2];
 	static int	vel[2];
-	double		angle;
 
 	if ((ft_strlen(name) * 60) >= (1920 - 60))
 	{
-		big_name(data, name, pos);
+		big_name(name, pos);
 		return (pos);
 	}
 	if (pos[0] == 0)
-		get_pos_start(data, name, pos, vel);
+		get_pos_start(name, pos, vel);
 	pos[0] += vel[0];
 	pos[1] += vel[1];
-	if (pos[0] <= 18 || pos[0] >= (1920 - ft_strlen(name) * 60))
+	if (pos[0] <= 18 || pos[0] >= (1920 - (int)ft_strlen(name) * 60))
 		vel[0] =
-		abs(vel[0]) * (1 - 2 * (pos[0] >= (1920 - ft_strlen(name) * 60)));
+		abs(vel[0]) * (1 - 2 * (pos[0] >= (1920 - (int)ft_strlen(name) * 60)));
 	if (pos[1] <= 18 || pos[1] >= (865))
 		vel[1] = abs(vel[1]) * (1 - 2 * (pos[1] >= (865)));
 	return (pos);
@@ -78,7 +77,7 @@ void
 		++delta;
 	else
 		delta = 0;
-	pos = get_pos(data, name);
+	pos = get_pos(name);
 	index = -1;
 	while (name[++index] != '\0')
 		if ((pos[0] + index * 60) < 1870 &&

@@ -6,7 +6,7 @@
 /*   By: rrhaenys <rrhaenys@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/09 16:59:00 by rrhaenys          #+#    #+#             */
-/*   Updated: 2019/04/09 20:16:40 by rrhaenys         ###   ########.fr       */
+/*   Updated: 2019/04/11 18:47:49 by rrhaenys         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static void
 void
 	ft_print_proces(t_data *data, t_print_proces o)
 {
-	int		index;
 	int		c1;
 	int		c2;
 	char	*str;

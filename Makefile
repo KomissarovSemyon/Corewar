@@ -6,7 +6,7 @@
 #    By: amerlon- <amerlon-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/09 18:53:35 by amerlon-          #+#    #+#              #
-#    Updated: 2019/04/10 22:24:19 by amerlon-         ###   ########.fr        #
+#    Updated: 2019/04/24 14:15:29 by amerlon-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,23 +40,24 @@ $(VM_NAME):
 	@cp $(VM_DIR)/$(VM_NAME) .
 	@echo "\033[33mFinished compiling ./corewar\033[0m"
 
-$(VIS_NAME):
-	@echo "\033[34mCompiling ./visual\033[0m"
-	@make -C $(VIS_DIR)
-	@cp $(VIS_DIR)/$(VIS_NAME) .
-	@echo "\033[34mFinished compiling ./visual\033[0m"
+# $(VIS_NAME):
+# 	@echo "\033[34mCompiling ./visual\033[0m"
+# 	@make -C $(VIS_DIR)
+# 	@cp $(VIS_DIR)/$(VIS_NAME) .
+# 	@echo "\033[34mFinished compiling ./visual\033[0m"
 
 clean:
 	@make -C $(ASM_DIR) clean
 	@make -C $(DISASM_DIR) clean
 	@make -C $(VM_DIR) clean
-	@make -C $(VIS_DIR) clean
+	# @make -C $(VIS_DIR) clean
 
 fclean:
 	@make -C $(ASM_DIR) fclean
 	@make -C $(DISASM_DIR) fclean
 	@make -C $(VM_DIR) fclean
-	@make -C $(VIS_DIR) fclean
-	@rm -rf $(ASM_NAME) $(DISASM_NAME) $(VM_NAME) $(VIS_NAME)
+	# @make -C $(VIS_DIR) fclean
+	# @rm -rf $(ASM_NAME) $(DISASM_NAME) $(VM_NAME) $(VIS_NAME)
+	@rm -rf $(ASM_NAME) $(DISASM_NAME) $(VM_NAME)
 
 re: fclean all
